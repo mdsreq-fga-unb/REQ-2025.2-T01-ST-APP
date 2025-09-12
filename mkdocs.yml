@@ -1,0 +1,36 @@
+site_name: Sanum
+site_name: Sanum
+site_description: Documentação oficial do projeto
+site_author: Equipe Sanum
+repo_url: https://github.com/mdsreq-fga-unb/REQ-2025.2-T01-ST-APP
+repo_name: REQ-2025.2-T01-ST-APP
+
+theme:
+  name: material
+  language: pt-BR
+  favicon: docs/assets/logounb.svg
+  logo: 
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: default
+      primary: purple
+      accent: brown
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Modo escuro
+    - scheme: slate
+      primary: purple
+      accent: brown
+      toggle:
+        icon: material/toggle-switch
+        name: Modo claro
+  features:
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - repo.icon
+
+nav:
+  - Início: index.md
