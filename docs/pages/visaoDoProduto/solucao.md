@@ -85,4 +85,4 @@ No conjunto, a solução contribui para a melhoria do clima organizacional, da s
 ## Histórico de Versão
 | Data     | Versão | Descrição             | Autor          |
 | -------- | ------ | --------------------- | -------------- |
-| 15/09/25 | 1.0    | Criação do Documento  | Pablo Cunha    |
+| 15/09/25 | 1.0    | Criação do Documento e documentação   | Pablo Cunha    |

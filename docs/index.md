@@ -1,5 +1,5 @@
 
-# Projeto Sanum
+# Projeto GenT
 
 Este projeto foi desenvolvido como parte da disciplina de **Requisitos de Software** do curso de Engenharia de Software, semestre **2025/2**, **Turma 1**, ministrada pelo docente George Marsciano Correa.
 
@@ -63,4 +63,4 @@ Este projeto foi desenvolvido como parte da disciplina de **Requisitos de Softwa
 
 | Data     | Versão | Descrição             | Autor              |
 | -------- | ------ | --------------------- | ------------------ |
-| 12/09/25 | 1.0    | Criação do Documento  | Pablo de Jesus     |
+| 12/09/25 | 1.0    | Criação do Documento e documentação   | Pablo de Jesus     |
