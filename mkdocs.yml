@@ -34,6 +34,8 @@ theme:
 
 nav:
   - Início: index.md
+  - Entregas: 
+    - Unidade 1: pages/entregas/entrega1.md
   - Visão do Produto e Projeto:
       - Cenario atual do cliente e do negócio: pages/visaoDoProduto/cenarioAtual.md
       - Solução Proposta: pages/visaoDoProduto/solucao.md
