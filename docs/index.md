@@ -3,15 +3,6 @@
 
 Este projeto foi desenvolvido como parte da disciplina de **Requisitos de Software** do curso de Engenharia de Software, semestre **2025/2**, **Turma 1**, ministrada pelo docente George Marsciano Correa.
 
-## Introdução
-
-
-## Objetivo Geral
-
-
-
-## Objetivos Específicos
-
 
 ## Integrantes do grupo
 
