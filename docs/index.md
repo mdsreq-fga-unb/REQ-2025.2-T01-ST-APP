@@ -55,7 +55,7 @@ Este projeto foi desenvolvido como parte da disciplina de **Requisitos de Softwa
   </div>
 </a>
 
-<a href="https://github.com/" style="text-decoration: none; color: inherit;">
+<a href="https://github.com/phenric26" style="text-decoration: none; color: inherit;">
   <div style="text-align: center; background: #f5f5f5; padding: 20px; border-radius: 10px;">
     <img src="assets/Team/pedro.jpg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #FFEC3D;">
     <h3>Pedro Henrique Gomes</h3>
