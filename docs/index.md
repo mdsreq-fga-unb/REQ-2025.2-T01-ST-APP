@@ -26,7 +26,7 @@ Este projeto foi desenvolvido como parte da disciplina de **Requisitos de Softwa
 <a href="https://github.com/GiovanniMateus" style="text-decoration: none; color: inherit;">
   <div style="text-align: center; background: #f5f5f5; padding: 20px; border-radius: 10px;">
     <img src="assets/Team/giovani.jpg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #FFEC3D;">
-    <h3>Giovanni</h3>
+    <h3>Giovanni Mateus</h3>
     <p style="color: #555;">Líder do grupo e Desenvolvedor</p>
   </div>
 </a>
@@ -43,6 +43,14 @@ Este projeto foi desenvolvido como parte da disciplina de **Requisitos de Softwa
   <div style="text-align: center; background: #f5f5f5; padding: 20px; border-radius: 10px;">
     <img src="assets/Team/ingrid.jpg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #FFEC3D;">
     <h3>Ingrid Alves</h3>
+    <p style="color: #555;">Desenvolvedor</p>
+  </div>
+</a>
+
+<a href="https://github.com/joaoepdro" style="text-decoration: none; color: inherit;">
+  <div style="text-align: center; background: #f5f5f5; padding: 20px; border-radius: 10px;">
+    <img src="assets/Team/joao.jpg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #FFEC3D;">
+    <h3>João Pedro</h3>
     <p style="color: #555;">Desenvolvedor</p>
   </div>
 </a>
