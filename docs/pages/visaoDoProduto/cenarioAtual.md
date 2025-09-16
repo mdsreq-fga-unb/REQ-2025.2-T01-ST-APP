@@ -19,7 +19,7 @@ As empresas enfrentam dificuldades em diagnosticar e agir sobre os fatores que a
 
 Esses problemas comprometem a experiência dos empregados e a sustentabilidade do negócio, desestimulando a imagem da empresa, sua capacidade de produção e seus lucros.
 
-![Diagrama de Ishikawa](../../assets/Diagrama%20de%20Ishikawa.jpg)
+![Diagrama de Ishikawa](../../assets/diagramacausaeefeito.jpg)
 
 ### Desafios do Projeto
 
