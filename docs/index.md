@@ -32,7 +32,7 @@ Este projeto foi desenvolvido como parte da disciplina de **Requisitos de Softwa
 
 <a href="https://github.com/alvesIngrid" style="text-decoration: none; color: inherit;">
   <div style="text-align: center; background: #f5f5f5; padding: 20px; border-radius: 10px;">
-    <img src="assets/Team/ingrid.jpg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #FFEC3D;">
+    <img src="assets/Team/ingridalves.jpg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #FFEC3D;">
     <h3>Ingrid Alves</h3>
     <p style="color: #555;">Desenvolvedor</p>
   </div>
