@@ -4,18 +4,23 @@
 
 | SPRINT | DURAÇÃO | OBJETIVOS | ENTREGAS | VALIDAÇÃO |
 | :--- | :--- | :--- | :--- | :--- |
-| **SPRINT 1** | 08/09 - 14/09 | Definição de abordagem, ciclo de vida, processo e framework | Documentação de projeto | Consentimento da equipe |
-| **SPRINT 2** | 15/09 - 21/09 | Configuração de ambiente, elicitar, registrar e ordenar requisitos + Backlog do produto | Reunião com cliente para confirmar requisitos | Observações do cliente quanto aos requisitos |
-| **SPRINT 3** | 22/09 - 28/09 | Implementação de páginas de login, cadastro e questionário, início de página de gerência + Estudos de produção | Início de documentação de MVP e o correto funcionamento das páginas feitas | Funcionamento validado pela equipe |
-| **SPRINT 4** | 29/09 - 05/10 | Finalização das páginas e requisitos referentes à gerência | Definição oficial do MVP | Aprovação do cliente |
-| **SPRINT 5** | 06/10 - 12/10 | MVP em produção | Entrega de protótipo | Validação através de uso rápido do cliente e relatório do usuário |
-| **SPRINT 6** | 13/10 - 19/10 | Estudo de possíveis melhorias + análise e consenso, registrar, atualizar e organizar requisitos | Atualizar documentação + início das novas implementações e refatoração | Consentimento da equipe e dos stakeholders |
-| **SPRINT 7** | 20/10 - 26/10 | Verificação de cadastro + refatoração de dashboard | Dashboard atualizado | Validação interna |
-| **SPRINT 8** | 27/10 - 02/11 | Sistema de notificação + configuração iOS e Android | Notificações ativas no app | Testes em dispositivos móveis |
-| **SPRINT 9** | 03/11 - 09/11 | Implementação de relatórios automáticos (PDF) | Relatórios exportáveis | Feedback do cliente e validação da equipe |
-| **SPRINT 10** | 10/11 - 16/11 | Implementação de planos de ação automáticos | Módulo de planos de ação | Validação de usabilidade com cliente |
-| **SPRINT 11** | 17/11 - 23/11 | Tratamento de erros, ajustes finais e testes de cobertura (90%) | Sistema refinado e estável | Testes técnicos + cliente |
-| **SPRINT 12** | 24/11 - 01/12 | Versão final em produção | Entrega final do projeto | Validação final com stakeholders para dar feedbacks em relação à aplicação |
+| **SPRINT 1** | 08/09 – 21/09 | Definição de abordagem, ciclo de vida, processo e framework. Configuração de ambiente, elicitação, registro e ordenação de requisitos + Backlog do produto | Documentação de projeto inicial + Backlog priorizado | Consentimento da equipe + reunião com cliente para confirmar requisitos |
+| **SPRINT 2** | 22/09 - 05/10 | Implementação de páginas de login, cadastro e questionário. Início da página de gerência. Estudos de produção. Início da documentação do MVP | Páginas funcionais validadas internamente + documentação parcial do MVP | Validação da equipe |
+| **SPRINT 3** | 06/10 - 19/10 | Finalização das páginas e requisitos de gerência. Definição oficial do MVP. MVP em produção inicial (protótipo) | Protótipo do MVP disponível | Aprovação do cliente + feedback de uso inicial |
+| **SPRINT 4** | 20/10 - 02/11 | Estudo de melhorias, análise de requisitos, atualização de documentação. Verificação de cadastro + refatoração de dashboard. Sistema de notificações + configuração iOS e Android | Dashboard atualizado + notificações ativas no app | Consentimento da equipe + testes em dispositivos móveis |
+| **SPRINT 5** | 3/11 - 16/11 | Implementação de relatórios automáticos (PDF). Implementação de planos de ação automáticos | Relatórios exportáveis + módulo de planos de ação | Feedback do cliente + validação de usabilidade |
+| **SPRINT 6** | 17/11 - 01/12 | Tratamento de erros, ajustes finais, testes de cobertura (90%). Versão final em produção | Entrega final do sistema estável | Testes técnicos + validação final com stakeholders |
+
+
+
+**Observação**
+
+Em cada sprint, a equipe seguirá o ciclo do Scrum, com eventos distribuídos da seguinte forma:
+
+* **Sprint Planning** (quartas-feiras iniciais) para definir metas e tarefas.
+* **Daily Scrums** (reuniões rápidas diárias) para acompanhamento.
+* **Sprint Review** (segundas-feiras finais) para apresentar resultados ao cliente e coletar feedback.
+* **Sprint Retrospective** (quartas-feiras finais) para identificar melhorias antes da sprint seguinte.
 
 
 ---
@@ -23,3 +28,4 @@
 | Data     | Versão | Descrição                                | Autor        |
 | -------- | ------ | ---------------------------------------- | ------------ |
 | 15/09/25 | 1.0    | Criação do Documento e documentação                      | Pablo Cunha  |
+| 25/09/25 | 1.1    | Alterações no documento             | Pablo Cunha        |

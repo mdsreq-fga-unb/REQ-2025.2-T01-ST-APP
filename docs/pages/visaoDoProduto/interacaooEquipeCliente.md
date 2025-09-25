@@ -2,14 +2,14 @@
 
 ## Composição da Equipe
 
-| PAPEL | DESCRIÇÃO | RESPONSÁVEL |
-| :--- | :--- | :--- |
-| **QA** | Responsável por planejar, executar e documentar os testes de software, garantindo que cada entrega esteja de acordo com os requisitos e padrões de qualidade definidos. Atua na identificação de falhas, propondo melhorias e assegurando a confiabilidade do sistema. | Pablo Cunha De Jesus|
-| **Analista de requisitos** | Responsável por elicitar, documentar e gerenciar os requisitos do sistema, traduzindo as necessidades do cliente em funcionalidades claras e compreensíveis para a equipe de desenvolvimento. Atua como ponte entre os stakeholders e os desenvolvedores. | Ingrid Alves Rocha |
-| **Front** | Responsável pela implementação da interface do usuário (aplicativo Flutter), assegurando usabilidade, acessibilidade e boa experiência de uso. Trabalha junto com o analista de requisitos e o QA para validar as telas com o cliente. | João Pedro Silveira dos Santos |
-| **Gerente de projeto** | Responsável por coordenar a equipe, organizar o cronograma, definir prioridades e garantir que o projeto seja entregue dentro do prazo e escopo estabelecidos. Atua como facilitador da comunicação entre equipe e cliente. | Giovanni Mateus de Mendonça Leles |
-| **Back** | Responsável pelo desenvolvimento da lógica de negócio e integração do sistema, utilizando Python e PostgreSQL. Atua na criação da API, segurança de dados e suporte à camada de front-end. | Pedro Henrique Gomes |
-| **Product Owner** | Representa os interesses do cliente dentro do time, priorizando funcionalidades no backlog e garantindo que o produto desenvolvido atenda às necessidades do negócio. É o elo direto entre a cliente e a equipe. | Giovanni Mateus de Mendonça Leles|
+| PAPEL | DESCRIÇÃO | RESPONSÁVEL | Participantes |
+| :--- | :--- | :--- | :--- |
+| QA | Responsável por planejar, executar e documentar os testes de software, garantindo que cada entrega esteja de acordo com os requisitos e padrões de qualidade definidos. Atua na identificação de falhas, propondo melhorias e assegurando a confiabilidade do sistema. | Pablo Cunha | Pablo Cunha de Jesus |
+| Analista de requisitos | Responsável por elicitar, documentar e gerenciar os requisitos do sistema, traduzindo as necessidades do cliente em funcionalidades claras e compreensíveis para a equipe de desenvolvimento. Atua como ponte entre os stakeholders e os desenvolvedores. | Ingrid Alves Rocha | Ingrid Alves Rocha, Pedro Henrique Gomes |
+| Front | Responsável pela implementação da interface do usuário (aplicativo Flutter), assegurando usabilidade, acessibilidade e boa experiência de uso. Trabalha junto com o analista de requisitos e o QA para validar as telas com o cliente. | João Pedro Silveira dos Santos | Giovanni Mateus de Mendonça Leles, Pablo Cunha De Jesus |
+| Gerente de projeto | Responsável por coordenar a equipe, organizar o cronograma, definir prioridades e garantir que o projeto seja entregue dentro do prazo e escopo estabelecidos. Atua como facilitador da comunicação entre equipe e cliente. | Giovanni Mateus de Mendonça Leles | Giovanni Mateus de Mendonça Leles |
+| Back | Responsável pelo desenvolvimento da lógica de negócio e integração do sistema, utilizando Python e PostgreSQL. Atua na criação da API, segurança de dados e suporte à camada de front-end. | Pedro Henrique Gomes | Pedro Henrique Gomes, Ingrid Alves Rocha |
+| Product Owner | Representa os interesses do cliente dentro do time, priorizando funcionalidades no backlog e garantindo que o produto desenvolvido atenda às necessidades do negócio. É o elo direto entre a cliente e a equipe. | Giovanni Mateus De Mendonça Leles | Giovanni Mateus De Mendonça Leles |
 
 ## Comunicação
 
@@ -43,3 +43,4 @@ A validação do produto ocorrerá de forma incremental e contínua ao longo dos
 | Data     | Versão | Descrição                           | Autor              |
 | -------- | ------ | ----------------------------------- | ------------------ |
 | 15/09/25 | 1.0    | Criação do Documento e documentação | Pablo Cunha        |
+| 25/09/25 | 1.1    | Alterações no documento             | Pablo Cunha        |

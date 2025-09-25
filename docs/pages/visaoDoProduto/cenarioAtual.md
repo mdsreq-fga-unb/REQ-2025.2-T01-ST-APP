@@ -19,7 +19,7 @@ As empresas enfrentam dificuldades em diagnosticar e agir sobre os fatores que a
 
 Esses problemas comprometem a experiência dos empregados e a sustentabilidade do negócio, desestimulando a imagem da empresa, sua capacidade de produção e seus lucros.
 
-![Diagrama de Ishikawa](../../assets/diagramacausaeefeito.jpg)
+![Diagrama de Ishikawa](../../assets/DiagramaIshikawa.jpg)
 
 ### Desafios do Projeto
 
@@ -50,3 +50,4 @@ Pretende-se atender quatro principais diferentes perfis de clientes:
 | Data     | Versão | Descrição               | Autor              |
 | -------- | ------ | ----------------------- | ------------------ |
 | 15/09/25 | 1.0    | Criação do Documento e documentação     | Pablo Cunha        |
+| 25/09/25 | 1.1    | Alterações no documento             | Pablo Cunha        |
