@@ -36,6 +36,7 @@ nav:
   - Início: index.md
   - Entregas: 
     - Unidade 1: pages/entregas/entrega1.md
+    - Unidade 2: pages/entregas/entrega2.md
   - Visão do Produto e Projeto:
       - Cenario atual do cliente e do negócio: pages/visaoDoProduto/cenarioAtual.md
       - Solução Proposta: pages/visaoDoProduto/solucao.md
@@ -43,3 +44,6 @@ nav:
       - Cronogramas e Entregas: pages/visaoDoProduto/cronogramasEntregas.md
       - Interação da Equipe com o Cliente: pages/visaoDoProduto/interacaooEquipeCliente.md
       - Lições Aprendidas: pages/visaoDoProduto/licoesAprendidas.md
+  - Backlog:
+      - Requisitos: pages/backlog/requisitos.md
+      - Backlog do Produto: pages/backlog/backlog.md
