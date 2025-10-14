@@ -8,9 +8,7 @@ A maneira como os requisitos são documentados e detalhados é inspirada em meto
 
 No núcleo do backlog estão as Histórias de Usuário, que traduzem as necessidades dos usuários em descrições simples e focadas em valor. Cada história é construída para responder a três questões essenciais: quem se beneficia, qual ação necessita realizar e qual o propósito dessa ação. Essa abordagem garante que o foco permaneça na perspectiva do usuário final.
 
-Para gerenciar requisitos de grande escala, utilizamos os Épicos. Um épico é uma história de usuário de alto nível que encapsula uma funcionalidade extensa ou um conjunto de requisitos interligados. Para viabilizar seu desenvolvimento, ele é dividido em histórias menores e mais específicas, o que torna o escopo mais claro e o trabalho mais fácil de estimar e priorizar.
 
-Adicionalmente, o backlog é organizado por Temas, que funcionam como rótulos estratégicos para agrupar épicos e histórias que compartilham um objetivo comum ou pertencem à mesma área do sistema. Os temas proporcionam uma visão de alto nível da estrutura do produto, facilitando a organização lógica do trabalho e a priorização de grandes blocos de funcionalidades.
 
 #### Tabela de Priorização dos Requisitos
 
