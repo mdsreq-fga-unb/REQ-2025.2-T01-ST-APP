@@ -10,7 +10,7 @@ Um requisito é considerado "Ready" quando atende aos seguintes critérios:
 
 * Critérios de Aceite Claros: O requisito possui critérios de aceitação objetivos e, se necessário, exemplos práticos que descrevem o comportamento esperado. Isso garante que todos saibam como a funcionalidade deve funcionar e como ela será validada.
 
-* Tamanho Adequado: O requisito foi dimensionado para ser pequeno o suficiente para ser concluído confortavelmente dentro de uma única Sprint.
+* Tamanho Adequado: O requisito foi dimensionado para ser pequeno o suficiente para ser concluído dentro de uma única Sprint.
 
 * Interface Mapeada: Caso o requisito envolva uma interface de usuário, os mockups ou wireframes necessários já estão definidos e disponíveis para consulta.
 ### Definition of Done (DoD) 
@@ -21,7 +21,7 @@ Um requisito é considerado "Done" quando atende aos seguintes critérios:
 
 * Critérios de Aceite Atendidos: Todos os critérios de aceitação definidos na história de usuário foram completamente satisfeitos e validados.
 
-* Código Implementado e Integrado: O desenvolvimento da funcionalidade foi concluído e o código foi integrado à base principal do projeto.
+* Código Implementado e Integrado: O desenvolvimento da funcionalidade foi concluído e o código foi integrado à base principal do projeto. // especificar 
 
 * Aderente aos Padrões de Codificação: O código segue os padrões de desenvolvimento e as boas práticas estabelecidas pela equipe, garantindo qualidade e consistência.
 
@@ -35,4 +35,4 @@ Um requisito é considerado "Done" quando atende aos seguintes critérios:
 
 * Documentação Atualizada: Toda a documentação impactada pela funcionalidade foi devidamente criada ou atualizada.
 
-* Aceite do Product Owner: O Product Owner revisou a funcionalidade e confirmou que ela atende às expectativas e está pronta para ser entregue.
+* Aceite do Product Owner: O Product Owner revisou a funcionalidade e confirmou que ela atende às expectativas e está pronta para ser entregue. //depois da aplicação do dod

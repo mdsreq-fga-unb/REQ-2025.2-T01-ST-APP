@@ -46,3 +46,4 @@ Requisitos não funcionais descrevem como o sistema do software deve operar, gar
 | Data     | Versão | Descrição                            | Autor        |
 | -------- | ------ | ------------------------------------ | ------------ |
 | 13/10/25 | 1.0    | Criação do Documento e adição dos RF/RNF | Pablo Cunha   |
+
