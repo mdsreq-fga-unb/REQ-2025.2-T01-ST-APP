@@ -3,6 +3,7 @@ Esta seção estabelece os acordos de trabalho da equipe para a Definition of Re
 ### Definition of Ready (DoR) 
 A DoR é um acordo entre a equipe e o Product Owner (PO) que define os critérios mínimos para um requisito ser considerado pronto para ser selecionado em uma Sprint. Isso garante que a equipe de desenvolvimento possa trabalhar de forma eficiente e sem ambiguidades.
 Um requisito é considerado "Ready" quando atende aos seguintes critérios:
+
 * Informação Suficiente: O requisito possui todos os detalhes necessários para que a equipe de desenvolvimento entenda o que precisa ser feito, sem margem para dúvidas ou interpretações vagas.
 
 * Formato de História de Usuário: O requisito está descrito no formato de uma história de usuário, facilitando a compreensão do valor que será entregue ao usuário final.
