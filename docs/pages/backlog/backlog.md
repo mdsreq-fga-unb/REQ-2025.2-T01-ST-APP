@@ -59,24 +59,6 @@ O backlog geral contém todas as funcionalidades planejadas para o software, org
 | US08 | RF09 | Gerenciar Perfis de Acesso | Must have | X |
 | US09 | RF08 | Acesso para Diagnóstico de Consultores | Should have | |
 
-### Requisitos Não Funcionais
-
-| ID    | Título                                | Descrição                                                                                                                                      | MoSCoW | MVP |
-| :---- | :------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------- | :----- | :-- |
-| RNF01 | Usabilidade da Interface              | A interface do sistema deve ser projetada de forma intuitiva, com usabilidade simples e clara para todos os perfis de usuários.                  | Must   | SIM |
-| RNF02 | Design Responsivo                     | A aplicação deve ser responsiva, garantindo adaptação automática a diferentes dispositivos mobile.                                             | Must   | SIM |
-| RNF03 | Segurança da Comunicação              | Todas as comunicações devem ser criptografadas (HTTPS/TLS), assegurando a confidencialidade e integridade dos dados.                             | Must   | SIM |
-| RNF04 | Privacidade e Conformidade com a LGPD | Os dados armazenados devem estar de acordo com as diretrizes da LGPD, contemplando gestão de consentimento e direitos de acesso/exclusão.        | Must   | SIM |
-| RNF05 | Capacidade Multi-empresa              | A solução deve ser capaz de suportar múltiplas empresas (pequeno, médio e grande porte) de forma simultânea, com isolamento lógico dos dados.   | Should | NÃO |
-| RNF06 | Desempenho e Tempo de Resposta        | O tempo de resposta da aplicação não deve ultrapassar 3 segundos em operações comuns (carregamento de dashboards, submissão de questionários).   | Could  | NÃO |
-| RNF07 | Disponibilidade e Confiabilidade      | O sistema deve oferecer disponibilidade mínima de 99% ao mês (SLA), de forma monitorada e documentada.                                          | Could  | NÃO |
-| RNF08 | Backup e Recuperação de Dados         | Deve haver mecanismos de backup automático dos dados diariamente, com processos de recuperação que garantam a restauração após falhas.           | Could  | NÃO |
-| RNF09 | Padrões de Desenvolvimento            | O desenvolvimento deve seguir boas práticas de engenharia de software (versionamento, testes automatizados, documentação).                      | Must   | SIM |
-| RNF10 | Extensibilidade do Sistema            | O sistema deve permitir a inclusão de novos módulos (ex.: novos tipos de questionários, métricas) sem impacto na operação existente.             | Should | NÃO |
-| RNF11 | Arquitetura Modular                   | A solução deve adotar arquitetura modular, possibilitando a fácil substituição ou evolução de componentes individuais.                         | Should | NÃO |
-| RNF12 | Registro de Logs                      | Registrar logs de acesso e ações realizadas na plataforma.                                                                                     | Must   | NÃO |
-| RNF13 | Processamento Automático de Dados     | O sistema deve processar automaticamente os dados coletados, transformando-os em indicadores objetivos (positivo ou negativo).               | Must   | SIM |
-| RNF14 | Anonimato das Respostas               | Garantir que as respostas aos questionários sejam anônimas, sem possibilidade de rastreamento individual.                                      | Must   | SIM |
 
 
 
