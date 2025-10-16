@@ -18,7 +18,6 @@
 Em cada sprint, a equipe seguirá o ciclo do Scrum, com eventos distribuídos da seguinte forma:
 
 * **Sprint Planning** (quartas-feiras iniciais) para definir metas e tarefas.
-* **Daily Scrums** (reuniões rápidas diárias) para acompanhamento.
 * **Sprint Review** (segundas-feiras finais) para apresentar resultados ao cliente e coletar feedback.
 * **Sprint Retrospective** (quartas-feiras finais) para identificar melhorias antes da sprint seguinte.
 

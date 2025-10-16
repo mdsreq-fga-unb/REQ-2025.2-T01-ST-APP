@@ -4,7 +4,8 @@
 
 Objetivo geral:
 
-* Promover ambientes laborais mais saudáveis por meio de uma plataforma digital que possibilite a coleta, análise e apresentação de dados sobre o bem-estar organizacional.
+* Desenvolver uma plataforma digital que possibilite o monitoramento contínuo e confiável de indicadores de saúde ocupacional e clima organizacional, apoiando gestores, RH e consultores na tomada de decisão baseada em dados.
+
 
 Objetivos específicos:
 

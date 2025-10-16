@@ -8,24 +8,56 @@ A maneira como os requisitos são documentados e detalhados é inspirada em meto
 
 No núcleo do backlog estão as Histórias de Usuário, que traduzem as necessidades dos usuários em descrições simples e focadas em valor. Cada história é construída para responder a três questões essenciais: quem se beneficia, qual ação necessita realizar e qual o propósito dessa ação. Essa abordagem garante que o foco permaneça na perspectiva do usuário final.
 
+### 9.1 Backlog Geral
+
+O backlog geral contém todas as funcionalidades planejadas para o software, organizadas em Épicos e detalhadas como Histórias de Usuário (User Stories) para garantir uma visão clara do que será desenvolvido ao longo do projeto.
+
+#### ÉPICO 1: Engajamento e Coleta de Percepções do Colaborador
+*Foco na experiência do colaborador, garantindo um canal seguro e prático para feedback.*
+
+| ID | História de Usuário (User Story) | Critérios de Aceitação |
+| :--- | :--- | :--- |
+| **US01** | Como um colaborador, quero responder a um questionário simples com perguntas de "sim" ou "não", para que eu possa compartilhar minha percepção de forma rápida e anônima. (RF01) | - O questionário deve ser acessível via aplicativo móvel.<br>- As respostas devem ser enviadas sem identificação pessoal.<br>- O tempo de resposta não deve exceder 2 minutos.<br>- O sistema deve confirmar o recebimento após o envio. |
+| **US02** | Como um colaborador, quero receber notificações no meu celular, para ser lembrado de responder aos questionários pendentes e me manter engajado. (RF02) | - A notificação deve ser enviada no início do período de resposta.<br>- O clique na notificação deve direcionar para o questionário.<br>- Deve haver uma opção para desativar as notificações. |
+| **US03** | Como um colaborador, quero receber dicas de autocuidado baseadas nas minhas respostas, para que eu possa ter acesso a recursos práticos para meu bem-estar. (RF07) | - As dicas devem ser exibidas após a submissão do questionário.<br>- O conteúdo das dicas deve ser relevante para as dimensões abordadas. |
+
+#### ÉPICO 2: Análise e Gestão de Indicadores Organizacionais
+*Foco na experiência do Gestor e RH, entregando ferramentas para análise e tomada de decisão.*
+
+| ID | História de Usuário (User Story) | Critérios de Aceitação |
+| :--- | :--- | :--- |
+| **US04** | Como um gestor, quero visualizar um dashboard com os principais indicadores de saúde ocupacional, para monitorar o clima organizacional de forma consolidada. (RF03) | - O dashboard deve exibir gráficos consolidados por dimensão.<br>- Os dados devem ser atualizados em tempo real.<br>- O acesso deve ser restrito a perfis de Gestor e RH. |
+| **US05** | Como um gestor, quero filtrar os dados do dashboard por período e setor, para comparar resultados e identificar tendências. (RF05) | - O dashboard deve conter filtros de data e setor.<br>- Os gráficos devem ser atualizados dinamicamente.<br>- O sistema deve exibir uma linha de tendência ao comparar períodos. |
+| **US06** | Como um profissional de RH, quero exportar os dados do dashboard para um relatório em PDF, para apresentar os resultados em reuniões. (RF04) | - Deve haver um botão "Exportar PDF" visível na tela.<br>- O PDF gerado deve conter todos os gráficos e dados do painel. |
+| **US07** | Como um gestor, quero receber sugestões de planos de ação com base nos indicadores mais críticos, para ter um ponto de partida para implementar melhorias. (RF06) | - O sistema deve destacar a dimensão com o pior desempenho.<br>- O sistema deve exibir de 2 a 3 sugestões de ações genéricas. |
+
+#### ÉPICO 3: Administração e Acesso Especializado
+*Cobre a gestão de usuários e funcionalidades para consultores externos.*
+
+| ID | História de Usuário (User Story) | Critérios de Aceitação |
+| :--- | :--- | :--- |
+| **US08** | Como um administrador, quero cadastrar e gerenciar diferentes perfis de usuário (Colaborador, Gestor, etc.), para que cada um tenha acesso apenas ao seu papel. (RF09) | - O sistema deve ter uma tela de login que direcione o usuário corretamente.<br>- Colaboradores não podem acessar dashboards gerenciais.<br>- Apenas administradores podem criar ou editar perfis. |
+| **US09** | Como um consultor, quero ter acesso aos relatórios e ao histórico de dados, para utilizar essas informações em diagnósticos técnicos. (RF08) | - O perfil "Consultor" deve ter permissão de visualização dos dashboards e relatórios.<br>- O acesso de um consultor deve ser concedido por um administrador da empresa. |
 
 
-#### Tabela de Priorização dos Requisitos
-
-### Requisitos Funcionais
 
 
-| ID   | Título                             | Descrição                                                                                                                                                                 | MoSCoW | MVP |
-| :--- | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----- | :-- |
-| RF01 | Responder Questionários Binários   | Permitir que colaboradores respondam a questionários semanais e/ou quinzenais sobre saúde física, mental, ergonomia e relações interpessoais.                               | MUST   | SIM |
-| RF02 | Enviar Notificações de Lembrete    | Enviar notificações automáticas para lembrar os colaboradores de responder aos questionários.                                                                             | SHOULD | NÃO |
-| RF03 | Gerar Dashboards Interativos       | Gerar dashboards interativos que permitam a filtragem por períodos e por tipo de indicadores com métricas de qualidade de vida, engajamento e histórico.                  | MUST   | SIM |
-| RF04 | Disponibilizar Relatório Gerencial | Disponibilizar relatório gerencial sob demanda do gestor, sobre todos os aspectos presentes nos questionários com exportação em PDF.                                        | SHOULD | NÃO |
-| RF05 | Fornecer Comparativos de Períodos  | Fornecer comparativos entre diferentes períodos (quinzenal, mensal e anual) e setores da empresa.                                                                           | SHOULD | SIM |
-| RF06 | Sugerir Planos de Ação             | Sugerir automaticamente planos de ação práticos com base nos dados coletados para apoiar a implementação de melhorias.                                                        | COULD  | NÃO |
-| RF07 | Oferecer Recomendações de Autocuidado | Oferecer recomendações de autocuidado personalizadas aos colaboradores, geradas a partir das respostas dos questionários.                                                     | SHOULD | NÃO |
-| RF08 | Acessar Relatórios de Diagnóstico  | Permitir que consultores e psicólogos acessem relatórios estruturados para fundamentar diagnósticos, mediante autorização dos gestores.                                       | SHOULD | NÃO |
-| RF09 | Gerenciar Perfis de Acesso         | Possibilitar o cadastro e login de usuários em diferentes perfis (gestores, RH, etc.), garantindo que cada perfil visualize apenas as informações pertinentes ao seu papel. | MUST   | SIM |
+
+### Product Backlog Priorizado(MVP)
+
+
+
+| ID | Requisito Associado | Descrição | Prioridade (MoSCoW) | MVP |
+| :--- | :--- | :--- | :--- | :-- |
+| US01 | RF01 | Responder Questionários | Must have | X |
+| US02 | RF02 | Receber Notificações de Lembrete | Should have | |
+| US03 | RF07 | Receber Dicas de Autocuidado | Should have | |
+| US04 | RF03 | Visualizar Dashboard de Indicadores | Must have | X |
+| US05 | RF05 | Filtrar e Comparar Dados no Dashboard | Should have | X |
+| US06 | RF04 | Exportar Relatório em PDF | Should have | |
+| US07 | RF06 | Sugerir Planos de Ação | Could have | |
+| US08 | RF09 | Gerenciar Perfis de Acesso | Must have | X |
+| US09 | RF08 | Acesso para Diagnóstico de Consultores | Should have | |
 
 ### Requisitos Não Funcionais
 
