@@ -10,8 +10,6 @@
 
 * **Priorização MoSCoW:** Será utilizada para priorizar as funcionalidades mais críticas para a plataforma GenT, a exemplo do canal de feedback anônimo e dos dashboards de monitoramento de indicadores. A técnica ajudará a classificar cada requisito em Must have (deve ter), Should have (deveria ter), Could have (poderia ter) e Won't have (não terá), garantindo foco no que é essencial para o produto.
 
-* **Priorização ICE:** A priorização também será apoiada pelo método ICE, que atribui valores de Impacto (o quanto a funcionalidade contribui para o monitoramento do bem-estar), Confiança (a certeza sobre a estimativa de impacto) e Facilidade de implementação a cada requisito da plataforma GenT. Esse método fornecerá uma base objetiva e numérica que facilitará o consenso entre a equipe de desenvolvimento e os stakeholders na definição das prioridades.
-
 * **Entrevistas:** Serão conduzidas entrevistas com a stakeholder do projeto para compreender as reais necessidades de monitoramento da saúde ocupacional. O objetivo é aprofundar o conhecimento sobre os desafios enfrentados atualmente, como a ausência de métricas confiáveis sobre o clima organizacional, fornecendo a base de requisitos para a priorização.
 
 * **Análise de Domínio:** A análise do domínio de saúde ocupacional e bem-estar corporativo será feita para compreender os conceitos, métricas e regulamentações da área. O objetivo é garantir que os requisitos da plataforma GenT sejam tecnicamente precisos e alinhados com as melhores práticas do setor, facilitando o consenso entre a equipe e os stakeholders especialistas.
@@ -75,7 +73,7 @@
 | Fases do ScrumXP | Atividades de Engenharia de Requisitos (ER) | Prática | Técnica | Resultado Esperados |
 | :--- | :--- | :--- | :--- | :--- |
 | **Planejamento da Release** | Elicitação e Descoberta | Levantamento inicial das necessidade do cliente | Workshop de Requisitos, Entrevistas, Brainstorming | Visão do produto, entendimento compartilhado e lista preliminar de épicos. |
-| **Planejamento da Release** | Análise e Consenso | Priorização dos Requisitos | MoSCoW, ICE, Análise de Domínio, Análise de Custo/Benefício | Requisitos priorizados, com viabilidade inicial compreendida e alinhados ao negócio. |
+| **Planejamento da Release** | Análise e Consenso | Priorização dos Requisitos | MoSCoW, Análise de Domínio, Análise de Custo/Benefício | Requisitos priorizados, com viabilidade inicial compreendida e alinhados ao negócio. |
 | **Planejamento da Release** | Declaração | Estruturação inicial do Backlog do Produto | Temas, Épicos e User Stories | Backlog inicial estruturado com os principais épicos e histórias de usuário. |
 | **Planejamento de Sprint** | Análise e Consenso | Discussão de viabilidade técnica | Análise de domínio de requisitos / Análise de Custo/Benefício | Requisitos acordados de forma viável para implementação |
 | **Planejamento de Sprint** | Declaração | Detalhamento e Refinamento das User Stories | User Stories com Critérios de Aceitação | Histórias de usuário prontas para desenvolvimento (Ready), com comportamento esperado claro. |

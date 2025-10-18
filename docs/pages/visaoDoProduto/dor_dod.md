@@ -22,7 +22,7 @@ Um requisito é considerado "Done" quando atende aos seguintes critérios:
 
 * Critérios de Aceite Atendidos: Todos os critérios de aceitação definidos na história de usuário foram completamente satisfeitos e validados.
 
-* Código Implementado e Integrado: O desenvolvimento da funcionalidade foi concluído e o código foi integrado à base principal do projeto.
+* Código Implementado e Integrado: O desenvolvimento da funcionalidade foi concluído e o código foi integrado à branch main do projeto.
 
 * Aderente aos Padrões de Codificação:O código segue os padrões de qualidade e consistência da equipe, o que significa que ele adere ao guia de estilo da linguagem, utiliza nomes de constantes e variáveis em português e não contém código 'morto' (linhas comentadas) antes do merge.
 
