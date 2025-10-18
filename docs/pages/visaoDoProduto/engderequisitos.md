@@ -38,6 +38,8 @@
 
 * **Workshop de Requisitos:** Serão realizadas sessões de trabalho estruturadas e colaborativas com os principais stakeholders. O objetivo é validar em grupo um conjunto de requisitos ou protótipos, resolver ambiguidades em tempo real e garantir que as soluções propostas atendam de forma coesa às necessidades do negócio.
 
+* **Revisão do Backlog DEEP:** Para garantir que nosso backlog seja sempre uma ferramenta eficaz, vamos mantê-lo DEEP. Isso significa que os itens no topo da lista estarão sempre detalhados, estimados pela equipe e priorizados por valor, enquanto o backlog como um todo permanece emergente e flexível para se adaptar a novas informações.
+
 * **Definition of Ready (DoR):** Antes que um requisito entre em desenvolvimento, ele precisa estar "pronto". Isso significa que ele deve ser claro, bem detalhado e ter exemplos suficientes para que a equipe possa começar a trabalhar sem dúvidas.
 
 * **Definition of Done (DoD):** Para que uma funcionalidade seja considerada "concluída", não basta apenas programar. A DoD definirá os critérios que precisam ser cumpridos, como: o código foi testado, a funcionalidade foi aprovada e tudo está integrado ao sistema. Isso garante a entrega de incrementos de alta qualidade.
@@ -49,7 +51,7 @@
 
 * **Refinamento do Backlog (Grooming):** Refinar o backlog continuamente com a equipe e os stakeholders da GenT garante que todos os requisitos sejam bem compreendidos e priorizados antes do início da sprint, alinhando o desenvolvimento com os objetivos de monitoramento de saúde ocupacional da plataforma.
 
-* **Revisão do Backlog DEEP:** Para garantir que nosso backlog seja sempre uma ferramenta eficaz, vamos mantê-lo DEEP. Isso significa que os itens no topo da lista estarão sempre detalhados, estimados pela equipe e priorizados por valor, enquanto o backlog como um todo permanece emergente e flexível para se adaptar a novas informações.
+
 
 
 
@@ -77,14 +79,15 @@
 | **Planejamento da Release** | Declaração | Estruturação inicial do Backlog do Produto | Temas, Épicos e User Stories | Backlog inicial estruturado com os principais épicos e histórias de usuário. |
 | **Planejamento de Sprint** | Análise e Consenso | Discussão de viabilidade técnica | Análise de domínio de requisitos / Análise de Custo/Benefício | Requisitos acordados de forma viável para implementação |
 | **Planejamento de Sprint** | Declaração | Detalhamento e Refinamento das User Stories | User Stories com Critérios de Aceitação | Histórias de usuário prontas para desenvolvimento (Ready), com comportamento esperado claro. |
+| **Planejamento de Sprint** | Verificação e Validação | Garantia de prontidão dos requisitos | Definition of Ready (DoR), Revisão do Backlog DEEP | Itens do backlog validados (conforme checklist DoR) e verificados conforme padrão DEEP. |
 | **Planejamento de Sprint** | Organização e Atualização | Seleção e Refinamento | Refinamento do Backlog (Grooming) | Sprint Backlog definido e priorizado pela equipe. |
 | **Execução da Sprint** | Representação | Criação de representação visual da interface | Mockups e Protótipos de Alta Fidelidade |Telas e fluxos de usuário para guiar o desenvolvimento e validar o design. |
 | **Execução da Sprint** | Verificação e Validação | Garantia de qualidade dos requisitos implementados |Checklist, Walkthroughs, Definition of Done (DoD) | Funcionalidades desenvolvidas, testadas e validadas conforme os critérios de aceite. |
-| **Execução da Sprint** | Organização e Atualização | Manutenção do Product Backlog | Refinamento do Backlog (Grooming), Manutenção DEEP | Product Backlog preparado para a próxima Sprint, garantindo que seja DEEP (Detalhado, Emergente, Estimável e Priorizado). |
+| **Execução da Sprint** | Organização e Atualização | Manutenção do Product Backlog | Refinamento do Backlog (Grooming)| Product Backlog preparado para a próxima Sprint. |
 | **Revisão da Sprint** | Verificação e Validação | Validação das entregas com o cliente | Coleta de Feedback,Workshop de Requisitos | Incrementos validados e novos ajustes identificados |
 | **Retrospectiva da Sprint** | Análise e Consenso | Discussão sobre o processo de desenvolvimento | Brainstorming e Análise de Causas | Identificação de pontos fortes e possíveis melhorias |
 | **Retrospectiva da Sprint**| Organização e Atualização | Revisão e ajuste do processo de ER | Revisão e ajuste do processo de ER | Processo otimizado e plano de ação definido para próxima sprint |
 | **Planejamento da próxima Release** | Elicitação e Descoberta | Possível identificação de novos requisitos e melhorias | Entrevista, Brainstorming e Workshop de Requisitos | Novos requisitos |
 | **Planejamento da próxima Release** | Análise e Consenso | Priorização estratégica para a próxima release | Entrevista / Análise de domínio de requisitos / Análise de Custo/Benefício | Funcionalidades futuras priorizadas conforme valor de negócio |
 | **Planejamento da próxima Release** | Declaração | Definição dos Épicos e User Stories | Temas, Épicos e User Stories | Épicos e user stories da próxima release definidos e com objetivos claros. |
-| **Planejamento da próxima Release** | Organização e Atualização | Revisão geral e preparação do Backlog | Refinamento do Backlog (Grooming), Manutenção DEEP | Backlog preparado para novo ciclo de desenvolvimento |
+| **Planejamento da próxima Release** | Organização e Atualização | Revisão geral e preparação do Backlog | Refinamento do Backlog (Grooming)| Backlog preparado para novo ciclo de desenvolvimento |

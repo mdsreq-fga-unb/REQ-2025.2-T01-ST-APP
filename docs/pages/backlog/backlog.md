@@ -47,18 +47,19 @@ O backlog geral contém todas as funcionalidades planejadas para o software, org
 
 
 
-| ID | Requisito Associado | Descrição | Prioridade (MoSCoW) | MVP |
-| :--- | :--- | :--- | :--- | :-- |
-| US01 | RF01 | Responder Questionários | Must have | X |
-| US02 | RF02 | Receber Notificações de Lembrete | Should have | |
-| US03 | RF07 | Receber Dicas de Autocuidado | Should have | |
-| US04 | RF03 | Visualizar Dashboard de Indicadores | Must have | X |
-| US05 | RF05 | Filtrar e Comparar Dados no Dashboard | Should have | X |
-| US06 | RF04 | Exportar Relatório em PDF | Should have | |
-| US07 | RF06 | Sugerir Planos de Ação | Could have | |
-| US08 | RF09 | Gerenciar Perfis de Acesso | Must have | X |
-| US09 | RF08 | Acesso para Diagnóstico de Consultores | Should have | |
+### Product Backlog Priorizado (MVP)
 
+| ID | Requisito Associado | Objetivo Específico | Descrição | Prioridade (MoSCoW) | Valor x Complexidade | MVP |
+| :--- | :--- | :--- | :--- | :--- | :-- | :-- |
+| US01 | RF01 | OE1 | Responder Questionários | Must have |Quadrante 1 | X |
+| US02 | RF02 | OE5 | Receber Notificações de Lembrete | Should have | Quadrante 3 | |
+| US03 | RF07 | OE5 | Receber Dicas de Autocuidado | Should have | Quadrante 4 | |
+| US04 | RF03 | OE1 | Visualizar Dashboard de Indicadores | Must have | Quadrante 2| X |
+| US05 | RF05 | OE2 | Filtrar e Comparar Dados no Dashboard | Should have | Quadrante 1 | X |
+| US06 | RF04 | OE6 | Exportar Relatório em PDF | Should have | Quadrante 2 | |
+| US07 | RF06 | OE4 | Sugerir Planos de Ação | Could have |Quadrante 2 | |
+| US08 | RF09 | OE3 | Gerenciar Perfis de Acesso | Must have | Quadrante 1 | X |
+| US09 | RF08 | OE6 | Acesso para Diagnóstico de Consultores | Should have | Quadrante 2 | X |
 
 
 

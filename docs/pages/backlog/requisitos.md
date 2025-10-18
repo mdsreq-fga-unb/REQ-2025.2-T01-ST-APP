@@ -22,28 +22,23 @@ Requisitos funcionais são especificações que descrevem o que o sistema deve f
 
 Requisitos não funcionais descrevem como o sistema do software deve operar, garantindo qualidade, usabilidade e desempenho adequados à experiência dos usuários e à administração eficiente da plataforma.
 
-| ID | Descrição | Classificação URPS+ | Classificação Sommerville |
-| :--- | :--- | :--- | :--- |
-| **RNF01** | A interface deve ser intuitiva e simples para usuários com diferentes níveis de familiaridade tecnológica. | Usability (Usabilidade) | Requisitos do Produto (Usabilidade) |
-| **RNF02** | A aplicação deve ser responsiva, funcionando em smartphones e tablets. | Usability (Usabilidade) | Requisitos do Produto (Usabilidade) |
-| **RNF03** | Todas as comunicações devem ser criptografadas (HTTPS/TLS). | Requisitos de Interface | Requisitos do Produto (Segurança da Informação) |
-| **RNF04** | Os dados armazenados devem ser anonimizados em conformidade com a LGPD. | Requisitos de Implementação | Requisitos Externos (Legislativos / Éticos) |
-| **RNF05** | O sistema deve suportar múltiplas empresas simultaneamente, sem queda de desempenho. | Restrições de Design | Requisitos do Produto |
-| **RNF06** | O tempo de resposta da aplicação não deve exceder 3 segundos em operações comuns. | Performance (Desempenho) | Requisitos do Produto (Eficiência / Desempenho) |
-| **RNF07** | A solução deve ser escalável horizontalmente para atender empresas de pequeno, médio e grande porte. | Supportability (Suportabilidade) | Requisitos do Produto (Eficiência / Desempenho) |
-| **RNF08** | O sistema deve ter disponibilidade mínima de 99% (SLA). | Reliability (Confiabilidade) | Requisitos do Produto (Dependabilidade) |
-| **RNF09** | Deve haver mecanismos de backup automático dos dados diariamente. | Supportability (Suportabilidade) | Requisitos Organizacionais (Operacionais) |
-| **RNF10** | O código deve seguir boas práticas de desenvolvimento (testes, versionamento, documentação). | Requisitos de Implementação | Requisitos Organizacionais (Desenvolvimento) |
-| **RNF11** | O sistema deve permitir a inclusão de novos módulos sem impacto na operação existente. | Supportability (Suportabilidade) | Requisitos do Produto |
-| **RNF12** | O software deve ser desenvolvido com arquitetura modular para facilitar atualizações e manutenção. | Restrições de Design | Requisitos do Produto |
-| **RNF13** | Registrar logs de acesso e ações realizadas na plataforma. | Supportability (Suportabilidade) | Requisitos Organizacionais (Operacionais) |
-| **RNF14** | Processar os dados coletados e transformá-los em indicadores objetivos. | Performance (Desempenho) | Requisitos Organizacionais (Operacionais) |
+| ID | Descrição | Classificação |
+| :--- | :--- | :--- |
+| **RNF01** | A interface deve ser intuitiva e simples para usuários com diferentes níveis de familiaridade tecnológica. | Usability (Usabilidade) |
+| **RNF02** | A aplicação deve ser responsiva, funcionando em smartphones e tablets. | Usability (Usabilidade) |
+| **RNF03** | Todas as comunicações devem ser criptografadas (HTTPS/TLS). | Requisitos de Interface |
+| **RNF04** | Os dados armazenados devem ser anonimizados em conformidade com a LGPD. | Requisitos Externos (Legislativos / Éticos) |
+| **RNF05** | O sistema deve suportar múltiplas empresas simultaneamente, sem queda de desempenho. | Restrições de Design |
+| **RNF06** | O tempo de resposta da aplicação não deve exceder 3 segundos em operações comuns. | Performance (Desempenho) |
+| **RNF07** | A solução deve ser escalável horizontalmente para atender empresas de pequeno, médio e grande porte. | Supportability (Suportabilidade) |
+| **RNF08** | O sistema deve ter disponibilidade mínima de 99% (SLA). | Reliability (Confiabilidade) |
+| **RNF09** | Deve haver mecanismos de backup automático dos dados diariamente. | Requisitos Organizacionais (Operacionais) |
+| **RNF10** | O código deve seguir boas práticas de desenvolvimento (testes, versionamento, documentação). | Requisitos Organizacionais (Desenvolvimento) |
+| **RNF11** | O sistema deve permitir a inclusão de novos módulos sem impacto na operação existente. | Supportability (Suportabilidade) |
+| **RNF12** | O software deve ser desenvolvido com arquitetura modular para facilitar atualizações e manutenção. | Restrições de Design |
+| **RNF13** | Registrar logs de acesso e ações realizadas na plataforma. | Requisitos Organizacionais (Operacionais) |
+| **RNF14** | Processar os dados coletados e transformá-los em indicadores objetivos. | Requisitos Organizacionais (Operacionais) |
 
 ---
 
-## Histórico de Versão
-
-| Data     | Versão | Descrição                            | Autor        |
-| -------- | ------ | ------------------------------------ | ------------ |
-| 13/10/25 | 1.0    | Criação do Documento e adição dos RF/RNF | Pablo Cunha   |
 
