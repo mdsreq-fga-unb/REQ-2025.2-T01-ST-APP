@@ -43,11 +43,47 @@ O backlog geral contém todas as funcionalidades planejadas para o software, org
 
 
 
-### Product Backlog Priorizado(MVP)
-
-
-
 ### Product Backlog Priorizado (MVP)
+
+As funcionalidades do backlog foram priorizadas usando o método **MoSCoW** para definir o escopo do MVP (Minimum Viable Product) e guiar o planejamento das releases. A classificação de cada item é definida da seguinte forma, dentro do contexto da plataforma:
+
+#### Definição da Prioridade (MoSCoW)
+
+* **Must Have (M):**
+    * Itens que formam o ciclo central da solução: coletar dados (OE1) e exibi-los (OE1), garantindo a segurança de acesso (OE3).
+    * *Exemplos:* `Responder Questionários (US01)`, `Visualizar Dashboard (US04)`, `Gerenciar Perfis (US08)`.
+
+* **Should Have (S):**
+   
+    * Funcionalidades que tornam os dados mais úteis e acionáveis (OE2, OE6) ou que melhoram o engajamento (OE5).
+    * *Exemplos:* `Filtrar e Comparar Dados (US05)`, `Acesso de Consultores (US09)`.
+
+* **Could Have (C):**
+
+    * Itens que representam um nível a mais de inteligência ou automação, mas que podem ser substituídos por processos manuais em um primeiro momento (OE4).
+    * *Exemplo:* `Sugerir Planos de Ação (US07)`.
+
+
+A coluna **Valor x Complexidade** na tabela abaixo utiliza uma matriz de priorização que classifica cada funcionalidade com base nas seguintes definições de "Valor" e "Complexidade":
+
+#### Definição de Valor (Impacto no Projeto)
+
+Mede o impacto direto da funcionalidade nos objetivos de negócio (OEs), na garantia da segurança (LGPD) e na usabilidade para os perfis-chave (Gestor, Colaborador, RH).
+
+* **Alto Valor (Quadrantes 1 e 2):** Funcionalidades essenciais para a proposta central do produto.
+    * *Exemplos:* Coleta de dados (OE1), geração de dashboards para gestores (OE1, OE2), e garantia de anonimato e perfis de acesso (OE3).
+* **Baixo Valor (Quadrantes 3 e 4):** Funcionalidades de suporte que melhoram a experiência, mas não são vitais para o ciclo principal de coleta e análise.
+    * *Exemplos:* Recursos de engajamento secundário (OE5), como notificações ou dicas de autocuidado.
+
+#### Definição de Complexidade (Esforço de Implementação)
+
+Mede o esforço, o tempo e o risco técnico necessários para implementar a funcionalidade, considerando os desafios do projeto (LGPD, processamento de dados, múltiplos perfis).
+
+* **Baixa Complexidade (aprox. 1 Sprint):** Funcionalidades com lógica direta ou que reutilizam componentes existentes.
+    * *Exemplos:* Implementação do questionário (US01), gerenciamento de perfis (US08), ou adição de filtros a um dashboard existente (US05).
+* **Alta Complexidade (aprox. 2+ Sprints):** Funcionalidades que exigem novas arquiteturas, regras de negócio complexas, lógica de agregação de dados ou garantia rigorosa de segurança.
+    * *Exemplos:* Criação do primeiro módulo de dashboard interativo (US04), sistemas de exportação de PDF (US06) ou lógicas de recomendação (US03).
+
 
 | ID | Requisito Associado | Objetivo Específico | Descrição | Prioridade (MoSCoW) | Valor x Complexidade | MVP |
 | :--- | :--- | :--- | :--- | :--- | :-- | :-- |

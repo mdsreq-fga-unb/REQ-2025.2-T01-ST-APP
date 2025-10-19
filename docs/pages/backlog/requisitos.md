@@ -7,7 +7,7 @@ Requisitos funcionais são especificações que descrevem o que o sistema deve f
 
 | ID | Requisito Funcional | Descrição |
 | :--- | :--- | :--- |
-| **RF01** | Responder Questionários | Permitir que colaboradores respondam a questionários periódicos sobre saúde física, mental, ergonomia e relações interpessoais. |
+| **RF01** | Responder Questionários | Permitir que colaboradores respondam a questionários periódicos sobre saúde física, mental, ergonomia e relações interpessoais. Para cada afirmação apresentada, o colaborador deve expressar seu nível de concordância utilizando uma escala Likert de 5 pontos. |
 | **RF02** | Enviar Notificações de Lembrete | Notificar colaboradores sobre questionários que precisam ser respondidos. |
 | **RF03** | Gerar Dashboards Interativos | Apresentar um dashboard principal que exiba uma visão geral e consolidada dos indicadores-chave de saúde ocupacional, como Qualidade de Vida no Trabalho e Nível de Engajamento. |
 | **RF04** | Disponibilizar Relatório Gerencial | Permitir que gestores e consultores gerem relatórios estruturados a qualquer momento, contendo um resumo, análises detalhadas, tabelas e gráficos de um período selecionado. |
