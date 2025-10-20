@@ -17,7 +17,7 @@ O backlog geral contém todas as funcionalidades planejadas para o software, org
 
 | ID | História de Usuário (User Story) | Critérios de Aceitação |
 | :--- | :--- | :--- |
-| **US01** | Como um colaborador, quero responder a um questionário simples com perguntas de "sim" ou "não", para que eu possa compartilhar minha percepção de forma rápida e anônima. (RF01) | - O questionário deve ser acessível via aplicativo móvel.<br>- As respostas devem ser enviadas sem identificação pessoal.<br>- O tempo de resposta não deve exceder 2 minutos.<br>- O sistema deve confirmar o recebimento após o envio. |
+| **US01** | Como um colaborador, quero responder a um questionário simples e anônimo com perguntas de nível de concordância, para que eu possa compartilhar minha percepção de forma rápida. (RF01) | - O questionário deve ser acessível via aplicativo móvel.<br>- As respostas devem ser enviadas sem identificação pessoal.<br>- O tempo de resposta não deve exceder 2 minutos.<br>- O sistema deve confirmar o recebimento após o envio. |
 | **US02** | Como um colaborador, quero receber notificações no meu celular, para ser lembrado de responder aos questionários pendentes e me manter engajado. (RF02) | - A notificação deve ser enviada no início do período de resposta.<br>- O clique na notificação deve direcionar para o questionário.<br>- Deve haver uma opção para desativar as notificações. |
 | **US03** | Como um colaborador, quero receber dicas de autocuidado baseadas nas minhas respostas, para que eu possa ter acesso a recursos práticos para meu bem-estar. (RF07) | - As dicas devem ser exibidas após a submissão do questionário.<br>- O conteúdo das dicas deve ser relevante para as dimensões abordadas. |
 
