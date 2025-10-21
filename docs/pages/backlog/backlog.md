@@ -77,10 +77,10 @@ Mede o impacto direto da funcionalidade nos objetivos de negócio (OEs), na gara
 
 Mede o esforço, o tempo e o risco técnico necessários para implementar a funcionalidade, considerando os desafios do projeto (LGPD, processamento de dados, múltiplos perfis).
 
-* **Baixa Complexidade (aprox. 1 Sprint):** Funcionalidades com lógica direta ou que reutilizam componentes existentes.
-    * *Exemplos:* Implementação do questionário (US01), gerenciamento de perfis (US08), ou adição de filtros a um dashboard existente (US05).
-* **Alta Complexidade (aprox. 2+ Sprints):** Funcionalidades que exigem novas arquiteturas, regras de negócio complexas, lógica de agregação de dados ou garantia rigorosa de segurança.
-    * *Exemplos:* Criação do primeiro módulo de dashboard interativo (US04), sistemas de exportação de PDF (US06) ou lógicas de recomendação (US03).
+* **Baixa Complexidade (aprox. 0.5 Sprint):** Funcionalidades com lógica direta ou que reutilizam componentes existentes.
+   
+* **Alta Complexidade (aprox. 1 Sprint):** Funcionalidades que exigem novas arquiteturas, regras de negócio complexas, lógica de agregação de dados ou garantia rigorosa de segurança.
+   
 
 
 | ID | Requisito Associado | Objetivo Específico | Descrição | Prioridade (MoSCoW) | Valor x Complexidade | MVP |
@@ -88,12 +88,12 @@ Mede o esforço, o tempo e o risco técnico necessários para implementar a func
 | US01 | RF01 | OE1 | Responder Questionários | Must have |Quadrante 1 | X |
 | US02 | RF02 | OE5 | Receber Notificações de Lembrete | Should have | Quadrante 3 | |
 | US03 | RF07 | OE5 | Receber Dicas de Autocuidado | Should have | Quadrante 4 | |
-| US04 | RF03 | OE1 | Visualizar Dashboard de Indicadores | Must have | Quadrante 2| X |
-| US05 | RF05 | OE2 | Filtrar e Comparar Dados no Dashboard | Should have | Quadrante 1 | X |
+| US04 | RF03 | OE1 | Visualizar Dashboard de Indicadores | Must have | Quadrante 1| X |
+| US05 | RF05 | OE2 | Filtrar e Comparar Dados no Dashboard | Must have | Quadrante 1 | X |
 | US06 | RF04 | OE6 | Exportar Relatório em PDF | Should have | Quadrante 2 | |
 | US07 | RF06 | OE4 | Sugerir Planos de Ação | Could have |Quadrante 2 | |
 | US08 | RF09 | OE3 | Gerenciar Perfis de Acesso | Must have | Quadrante 1 | X |
-| US09 | RF08 | OE6 | Acesso para Diagnóstico de Consultores | Should have | Quadrante 2 | X |
+| US09 | RF08 | OE6 | Acesso para Diagnóstico de Consultores | Must have | Quadrante 1 | X |
 
 
 
