@@ -11,4 +11,4 @@ Caso o Player não esteja funcionando, [clique nesse link para assistir diretame
 
 | Data     | Versão | Descrição             | Autor              |
 | -------- | ------ | --------------------- | ------------------ |
-| 15/09/25 | 1.0    | Criação do Documento e documentação  | Pablo Cunha        |
+| 15/09/25 | 1.0    | Criação do Documento  | Pablo Cunha        |
