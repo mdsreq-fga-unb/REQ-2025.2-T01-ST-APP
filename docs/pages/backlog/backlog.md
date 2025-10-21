@@ -93,7 +93,7 @@ Mede o esforço, o tempo e o risco técnico necessários para implementar a func
 | US06 | RF04 | OE6 | Exportar Relatório em PDF | Should have | Quadrante 2 | |
 | US07 | RF06 | OE4 | Sugerir Planos de Ação | Could have |Quadrante 2 | |
 | US08 | RF09 | OE3 | Gerenciar Perfis de Acesso | Must have | Quadrante 1 | X |
-| US09 | RF08 | OE6 | Acesso para Diagnóstico de Consultores | Must have | Quadrante 1 | X |
+| US09 | RF08 | OE6 | Acesso para Diagnóstico de Consultores | Should have | Quadrante 2 |  |
 
 
 
