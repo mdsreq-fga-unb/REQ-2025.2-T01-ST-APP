@@ -164,7 +164,7 @@ O aplicativo Flutter precisa saber onde o seu backend FastAPI está rodando.
         ``
     - Se estiver usando um Simulador iOS ou dispositivo físico na mesma rede Wi-Fi, use o IP da sua máquina na rede local (ex: ``192.168.1.10``).
 
-### 5. Como Executar a Aplicação
+## 5. Como Executar a Aplicação
 
 Para desenvolver, você precisará de dois terminais abertos.
 
