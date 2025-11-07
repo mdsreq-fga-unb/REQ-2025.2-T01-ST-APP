@@ -16,7 +16,12 @@ def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
+<<<<<<< HEAD
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
+=======
+
+def create_access_token(data: dict,  expires_delta: timedelta | None = None) -> str:
+>>>>>>> 1db8677 (adiciona cadastro de usuarios)
 
     to_encode = data.copy()
 
@@ -25,22 +30,53 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=15)
 
+<<<<<<< HEAD
     to_encode.update({"exp": expire})
 
     encode_jwt = jwt.encode(
         to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
+=======
+
+    to_encode.update({"exp":expire})
+
+
+    encode_jwt = jwt.encode(
+            to_encode,
+            settings.SECRET_KEY,
+            algorithm=settings.ALGORITHM
+            )
+>>>>>>> 1db8677 (adiciona cadastro de usuarios)
 
     return encode_jwt
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1db8677 (adiciona cadastro de usuarios)
 def decode_token(token: str) -> dict | None:
 
     try:
         payload = jwt.decode(
+<<<<<<< HEAD
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
         )
         return payload
 
     except JWTError:
         return None
+=======
+                token, 
+                settings.SECRET_KEY,
+                algorithms=[settings.ALGORITHM]
+                )
+        return payload
+
+    except JWTError:
+        return None 
+        
+
+
+
+>>>>>>> 1db8677 (adiciona cadastro de usuarios)

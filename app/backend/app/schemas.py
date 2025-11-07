@@ -9,6 +9,7 @@ class EmpresaRead(BaseModel):
     
     class Config:
         from_attributes = True
+        
 class UserBase(BaseModel):
     email: str
     nome: str
@@ -21,15 +22,16 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
     empresa: str
-    
+
+
 class UserRead(UserBase):
     id: int
     is_active: bool
     empresa: EmpresaRead
     
     model_config = ConfigDict(from_attributes=True)
-
-
+    
+    
 class User(UserBase):
     id: int
     is_active: bool
