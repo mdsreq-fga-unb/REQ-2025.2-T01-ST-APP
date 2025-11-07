@@ -6,7 +6,6 @@ from sqlalchemy import pool
 from alembic import context
 
 import sys, os
-
 sys.path.append(os.getcwd())
 
 from app.database import Base

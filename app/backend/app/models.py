@@ -15,7 +15,6 @@ class UserRole(str, enum.Enum):
     Colaborador = "Colaborador"
     Gestor = "Gestor"
 
-
 class User(Base):
     __tablename__ = "usuarios"
 
