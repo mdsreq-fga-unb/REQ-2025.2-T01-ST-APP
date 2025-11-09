@@ -172,7 +172,7 @@ Terminal 1: Executar o Backend (FastAPI)
 ``` 
 # Vá para a pasta /backend
 # Certifique-se que o (venv) está ativo
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ``` 
 `` --host 0.0.0.0`` é essencial para que o servidor seja acessível fora do localhost (pelo emulador).
 
