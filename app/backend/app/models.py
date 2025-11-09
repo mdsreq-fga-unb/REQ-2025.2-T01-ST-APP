@@ -1,12 +1,5 @@
 import enum
-from operator import index
-from os import WCOREDUMP
-from pydantic import EmailStr
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum as SQLAlchemyEnum
-from sqlalchemy.orm import relationship
-from sqlalchemy.sql.elements import CollationClause
-from sqlalchemy.sql.operators import is_associative
-from sqlalchemy.sql.schema import default_is_clause_element
 from .database import Base
 
 class UserRole(str, enum.Enum):
@@ -21,6 +14,8 @@ class User(Base):
     nome = Column(String, index=True)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
+    empresa = Column(String)
+    cargo = Column(String)
     is_active = Column(Boolean, default=True)
 
     role = Column(

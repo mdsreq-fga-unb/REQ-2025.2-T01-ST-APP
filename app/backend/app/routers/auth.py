@@ -46,11 +46,6 @@ def login_for_access_token(
 @router.post("/users")
 def create_user(user: schemas.UserCreate, db: Session = Depends(dependencies.get_db)):
                 
-    print("="*30)
-    print(f"DEBUG: Senha recebida: '{user.password}'")
-    print(f"DEBUG: Tamanho da senha: {len(user.password)}")
-    print("="*30)
-
     db_user = crud.get_user_email(db, email = user.email)
     
     if db_user:

@@ -1,5 +1,4 @@
-from pydantic import BaseModel, EmailStr
-from typing import Dict
+from pydantic import BaseModel
 from .models import UserRole
 
 class UserBase(BaseModel):
@@ -7,6 +6,8 @@ class UserBase(BaseModel):
     email: str
     nome: str
     role: UserRole = UserRole.Colaborador 
+    empresa: str
+    cargo: str
 
 
 class UserCreate(UserBase):
