@@ -12,12 +12,12 @@ def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = security.get_password_hash(user.password)
 
     db_user = models.User(
-        nome=user.nome,
-        email=user.email,
-        hashed_password=hashed_password,
-        empresa=user.empresa,
-        cargo=user.cargo,
-        role=user.role,
+        nome = user.nome,
+        email = user.email,
+        hashed_password = hashed_password,
+        empresa = user.empresa,
+        cargo = user.cargo,
+        role = user.role 
     )
 
     db.add(db_user)
