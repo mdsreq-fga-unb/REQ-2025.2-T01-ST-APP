@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'pages/login_page.dart';
 import 'pages/cadastro_page.dart';
-import 'pages/home_page.dart';
+import 'pages/home_colaborador_page.dart';
 import 'pages/questionario_page.dart';
-import 'pages/dashboard_page.dart'; // <-- novo
+import 'pages/dashboard_page.dart';
+import 'pages/tipo_usuario_page.dart';
+import 'pages/inicio_page.dart'; 
 
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: const LoginPage(),
+    home: const InicioPage(),
     routes: {
+      "/tipo_usuario": (context) => const TipoUsuarioPage(),
       "/cadastro": (context) => const CadastroPage(),
       "/home": (context) => const HomePage(),
       "/questionario": (context) => const QuestionarioPage(),
-      "/dashboard": (context) => const DashboardPage(), // <-- nova rota
+      "/dashboard": (context) => const DashboardPage(), 
     },
   ));
 }
