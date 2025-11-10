@@ -10,7 +10,7 @@ especies_data = [
     "Condições de Trabalho",
     "Informática",
     "Práticas de gestão",
-    "Tempo e Sobrecarga"
+    "Tempo e Sobrecarga",
 ]
 
 especies = {}
@@ -23,15 +23,30 @@ for nome in especies_data:
 
 # Perguntas
 perguntas_data = [
-    ("O nível de iluminação é suficiente para executar as atividades", "Condições de Trabalho"),
+    (
+        "O nível de iluminação é suficiente para executar as atividades",
+        "Condições de Trabalho",
+    ),
     ("O espaço físico é satisfatório", "Condições de Trabalho"),
-    ("O posto de trabalho é adequado para a realização das tarefas", "Condições de Trabalho"),
+    (
+        "O posto de trabalho é adequado para a realização das tarefas",
+        "Condições de Trabalho",
+    ),
     ("Na RFB as condições de trabalho são satisfatórias", "Condições de Trabalho"),
     ("O mobiliário existente no local de trabalho é adequado", "Condições de Trabalho"),
     ("A conexão com a internet no meu posto de trabalho é eficiente", "Informática"),
-    ("Os equipamentos de informática (estação de trabalho, impressora, servidores, etc) que uso funcionam sem apresentar defeitos", "Informática"),
-    ("Os aplicativos que a RFB disponibiliza atendem minhas necessidades de comunicação no trabalho", "Informática"),
-    ("Na RFB disponho de tempo para executar o meu trabalho com zelo", "Práticas de gestão"),
+    (
+        "Os equipamentos de informática (estação de trabalho, impressora, servidores, etc) que uso funcionam sem apresentar defeitos",
+        "Informática",
+    ),
+    (
+        "Os aplicativos que a RFB disponibiliza atendem minhas necessidades de comunicação no trabalho",
+        "Informática",
+    ),
+    (
+        "Na RFB disponho de tempo para executar o meu trabalho com zelo",
+        "Práticas de gestão",
+    ),
     ("Posso executar o meu trabalho sem sobrecarga de tarefas", "Práticas de gestão"),
     ("Faltam horários de pausa para descanso no trabalho", "Tempo e Sobrecarga"),
     ("Posso executar o meu trabalho sem pressão", "Práticas de gestão"),
@@ -41,7 +56,10 @@ perguntas_data = [
     ("Há confiança entre os colegas", "Práticas de gestão"),
     ("A distribuição das tarefas é justa", "Práticas de gestão"),
     ("A comunicação entre funcionários é insatisfatória", "Práticas de gestão"),
-    ("A RFB me dá a possibilidade de ser criativo(a) no trabalho", "Práticas de gestão"),
+    (
+        "A RFB me dá a possibilidade de ser criativo(a) no trabalho",
+        "Práticas de gestão",
+    ),
     ("Na RFB as atividades que realizo são fonte de prazer", "Práticas de gestão"),
     ("Na RFB recebo incentivos de minha chefia", "Práticas de gestão"),
     ("Na RFB o resultado obtido com meu trabalho é reconhecido", "Práticas de gestão"),
@@ -56,7 +74,10 @@ perguntas_data = [
     ("Participo das decisões sobre a organização das tarefas", "Práticas de gestão"),
     ("O modo de gestão supervaloriza a obediência à hierarquia", "Práticas de gestão"),
     ("É comum o trabalho ultrapassar o horário de expediente", "Tempo e Sobrecarga"),
-    ("O trabalho prejudica o uso do meu tempo livre fora do CENSIPAM", "Tempo e Sobrecarga"),
+    (
+        "O trabalho prejudica o uso do meu tempo livre fora do CENSIPAM",
+        "Tempo e Sobrecarga",
+    ),
     ("O trabalho tem me levado ao esgotamento profissional", "Tempo e Sobrecarga"),
     ("Tenho me sentido cansado(a)", "Tempo e Sobrecarga"),
     ("Tenho trabalhado no limite de minha capacidade", "Tempo e Sobrecarga"),

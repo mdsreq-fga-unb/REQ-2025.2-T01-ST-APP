@@ -1,11 +1,20 @@
 import enum
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum as SQLAlchemyEnum
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Boolean,
+    ForeignKey,
+    Enum as SQLAlchemyEnum,
+)
 from .database import Base
+
 
 class UserRole(str, enum.Enum):
 
     Colaborador = "Colaborador"
     Gestor = "Gestor"
+
 
 class User(Base):
     __tablename__ = "usuarios"
@@ -19,14 +28,5 @@ class User(Base):
     is_active = Column(Boolean, default=True)
 
     role = Column(
-        SQLAlchemyEnum(UserRole),
-        nullable = False,
-        default = UserRole.Colaborador
+        SQLAlchemyEnum(UserRole), nullable=False, default=UserRole.Colaborador
     )
-
-
-
-
-
-    
-

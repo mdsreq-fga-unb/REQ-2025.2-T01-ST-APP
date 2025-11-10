@@ -16,8 +16,7 @@ def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
-
-def create_access_token(data: dict,  expires_delta: timedelta | None = None) -> str:
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
 
     to_encode = data.copy()
 
@@ -26,33 +25,22 @@ def create_access_token(data: dict,  expires_delta: timedelta | None = None) -> 
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=15)
 
-
-    to_encode.update({"exp":expire})
-
+    to_encode.update({"exp": expire})
 
     encode_jwt = jwt.encode(
-            to_encode,
-            settings.SECRET_KEY,
-            algorithm=settings.ALGORITHM
-            )
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
+    )
 
     return encode_jwt
-
 
 
 def decode_token(token: str) -> dict | None:
 
     try:
         payload = jwt.decode(
-                token, 
-                settings.SECRET_KEY,
-                algorithms=[settings.ALGORITHM]
-                )
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
         return payload
 
     except JWTError:
-        return None 
-        
-
-
-
+        return None
