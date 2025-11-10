@@ -52,7 +52,7 @@ class TokenData(BaseModel):
 class Home(BaseModel):
     nome: str
     cargo: str | None = None
-
+    
     class Config:
         from_attributes = True
 
