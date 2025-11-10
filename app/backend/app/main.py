@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware  
-from .routers import users, auth
+from .routers import auth
 
 app = FastAPI(
     title="GenT API",

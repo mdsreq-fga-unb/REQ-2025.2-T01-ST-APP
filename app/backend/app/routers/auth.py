@@ -3,7 +3,7 @@ from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session 
-from app import crud, schemas, security, dependencies
+from app import crud, schemas, security, dependencies, models
 from app.config import settings 
 
 router = APIRouter()
@@ -56,4 +56,14 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(dependencies.get
     
 
     return crud.create_user(db = db, user = user)
+
+@router.get("/me", response_model=schemas.User)
+def get_current_user(
+    current_user: models.User = Depends(dependencies.get_current_user)
+):
+    """
+    Retorna os dados do usuário atualmente autenticado.
+    Requer token JWT válido no header Authorization: Bearer <token>
+    """
+    return current_user
 
