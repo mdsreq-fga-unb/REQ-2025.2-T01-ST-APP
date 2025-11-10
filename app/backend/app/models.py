@@ -1,6 +1,14 @@
 import enum
 from operator import index
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum as SQLAlchemyEnum, union
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Boolean,
+    ForeignKey,
+    Enum as SQLAlchemyEnum,
+    union,
+)
 from sqlalchemy.orm import relationship
 from .database import Base
 
@@ -13,7 +21,7 @@ class UserRole(str, enum.Enum):
 
 class Empresa(Base):
 
-    __tablename__="empresas"
+    __tablename__ = "empresas"
 
     id = Column(Integer, primary_key=True, index=True)
 
@@ -22,7 +30,6 @@ class Empresa(Base):
     usuarios = relationship("User", back_populates="empresa")
 
     perguntas = relationship("Perguntas", back_populates="empresa")
-
 
 
 class User(Base):
@@ -47,7 +54,7 @@ class User(Base):
 
 class Perguntas(Base):
 
-    __tablename__="perguntas"
+    __tablename__ = "perguntas"
     id = Column(Integer, primary_key=True, index=True)
     descricao = Column(String)
 
@@ -59,8 +66,8 @@ class Perguntas(Base):
 
 
 class Respostas(Base):
-    
-    __tablename__= "respostas"
+
+    __tablename__ = "respostas"
     id = Column(Integer, primary_key=True, index=True)
 
     descricao = Column(String, nullable=False)
@@ -70,15 +77,3 @@ class Respostas(Base):
     votos = Column(Integer, default=0, nullable=False)
 
     pergunta = relationship("Perguntas", back_populates="opcoes")
-
-
-
-
-
-
-
-
-
-
-    
-

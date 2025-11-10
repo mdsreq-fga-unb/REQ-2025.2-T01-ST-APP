@@ -15,7 +15,7 @@ def get_empresa_nome(db: Session, nome: str) -> models.Empresa | None:
 
 def create_empresa(db: Session, nome: str) -> models.Empresa:
 
-    db_empresa = models.Empresa(nome = nome)
+    db_empresa = models.Empresa(nome=nome)
     db.add(db_empresa)
     db.commit()
     db.refresh(db_empresa)
@@ -27,23 +27,23 @@ def get_or_create_empresa(db: Session, nome: str) -> models.Empresa:
 
     db_empresa = get_empresa_nome(db, nome=nome)
 
-    if(db_empresa):
+    if db_empresa:
         return db_empresa
 
     return create_empresa(db, nome=nome)
 
-    
+
 def create_user(db: Session, user: schemas.UserCreate, empresa_id: int):
 
     hashed_password = security.get_password_hash(user.password)
 
     db_user = models.User(
-        nome = user.nome,
-        email = user.email,
-        hashed_password = hashed_password,
-        empresa_id = empresa_id,
-        cargo = user.cargo,
-        role = user.role 
+        nome=user.nome,
+        email=user.email,
+        hashed_password=hashed_password,
+        empresa_id=empresa_id,
+        cargo=user.cargo,
+        role=user.role,
     )
 
     db.add(db_user)
