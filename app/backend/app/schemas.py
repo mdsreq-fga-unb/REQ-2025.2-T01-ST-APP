@@ -7,8 +7,6 @@ class UserBase(BaseModel):
     email: str
     nome: str
     role: UserRole = UserRole.Colaborador
-    empresa: str
-    cargo: str
 
 
 class UserCreate(UserBase):
@@ -30,3 +28,12 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: str | None = None
+
+
+class Home(BaseModel):
+
+    nome: str
+    cargo: str | None = None
+
+    class Config:
+        from_attributes = True
