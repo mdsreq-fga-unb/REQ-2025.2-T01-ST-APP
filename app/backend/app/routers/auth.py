@@ -46,18 +46,12 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(dependencies.get
 
     if db_user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Email ja registrado"
-        )
+            status_code = status.HTTP_400_BAD_REQUEST,
+            detail = "Email ja registrado" 
+    )
 
-    return crud.create_user(db=db, user=user)
+    db_empresa = crud.get_or_create_empresa(db, nome = user.empresa)
+    
 
+    return crud.create_user(db = db, user = user, empresa_id = db_empresa.id)
 
-@router.get("/me", response_model=schemas.User)
-def get_current_user(
-    current_user: models.User = Depends(dependencies.get_current_user),
-):
-    """
-    Retorna os dados do usuário atualmente autenticado.
-    Requer token JWT válido no header Authorization: Bearer <token>
-    """
-    return current_user

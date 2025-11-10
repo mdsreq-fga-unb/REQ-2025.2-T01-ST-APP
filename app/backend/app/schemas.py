@@ -54,5 +54,17 @@ class TokenData(BaseModel):
 <<<<<<< HEAD
 =======
 
+
+class Home(BaseModel):
+
+    nome: str
+    cargo: str | None = None
+
+    class Config:
+        from_attributes = True
+
+
+    
+
     
 >>>>>>> 1db8677 (adiciona cadastro de usuarios)

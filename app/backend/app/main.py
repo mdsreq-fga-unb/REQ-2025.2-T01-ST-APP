@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from .routers import auth
+from fastapi.middleware.cors import CORSMiddleware  
+from .routers import users, auth, home
 
 app = FastAPI(
     title="GenT API",
@@ -17,8 +17,8 @@ app.add_middleware(
 )
 
 
-app.include_router(auth.router, prefix="/auth", tags=["Usuários"])
-
+app.include_router(auth.router, prefix="/auth", tags=["Autenticação"])
+app.include_router(home.router, prefix="/auth", tags=["Usuário Logado"])
 
 @app.get("/")
 def read_root():
