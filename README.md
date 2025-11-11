@@ -122,6 +122,8 @@ Edite o arquivo .env com os dados reais do seu banco (criados no passo 3) e gere
 O Alembic gerencia o esquema do banco de dados (criação e atualização de tabelas) com base nos seus models.py. Para aplicar todas as migrações e criar seu schema pela primeira vez, execute:
 ```
 # Este comando aplica as migrações e cria todas as tabelas
+alembic revision --autogenerate -m "Sua mensagem descritiva aqui"
+
 alembic upgrade head
 ``` 
 
