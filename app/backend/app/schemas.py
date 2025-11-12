@@ -55,8 +55,8 @@ class Home(BaseModel):
 
     class Config:
         from_attributes = True
-
-
+        
+        
 class PerguntasBase(BaseModel):
     descricao: str
 
@@ -83,3 +83,5 @@ class ResultadoVoto(BaseModel):
     class Config:
 
         from_attributes = True
+
+
