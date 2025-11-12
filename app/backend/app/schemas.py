@@ -1,11 +1,13 @@
 from pydantic import BaseModel
-from .models import UserRole
+from .models import UserRole, VotoValor
 
 
 class UserBase(BaseModel):
 
     email: str
     nome: str
+    empresa: str
+    cargo: str
     role: UserRole = UserRole.Colaborador
 
 
@@ -36,4 +38,32 @@ class Home(BaseModel):
     cargo: str | None = None
 
     class Config:
+        from_attributes = True
+
+
+class PerguntasBase(BaseModel):
+    descricao: str
+
+
+class Perguntas(PerguntasBase):
+
+    id: int
+
+    class Config:
+        from_attributes = True
+
+
+class VotoCreate(BaseModel):
+
+    pergunta_id: int
+    voto_valor: int
+
+
+class ResultadoVoto(BaseModel):
+
+    voto_valor: VotoValor
+    total_votos: int
+
+    class Config:
+
         from_attributes = True
