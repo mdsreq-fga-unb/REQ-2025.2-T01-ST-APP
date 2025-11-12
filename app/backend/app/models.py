@@ -1,5 +1,4 @@
 import enum
-from operator import index
 from sqlalchemy import (
     Column,
     Integer,
@@ -19,20 +18,14 @@ class UserRole(str, enum.Enum):
 
 
 class Empresa(Base):
-
     __tablename__ = "empresas"
-
     id = Column(Integer, primary_key=True, index=True)
-
     nome = Column(String, unique=True, index=True)
-
     usuarios = relationship("User", back_populates="empresa")
-
     perguntas = relationship("Perguntas", back_populates="empresa")
 
 
 class User(Base):
-
     __tablename__ = "usuarios"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
