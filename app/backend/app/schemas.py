@@ -1,12 +1,14 @@
 from pydantic import BaseModel
+from typing import Optional
 from .models import UserRole
 
 
 class UserBase(BaseModel):
-
     email: str
     nome: str
     role: UserRole = UserRole.Colaborador
+    empresa: Optional[str] = None
+    cargo: Optional[str] = None
 
 
 class UserCreate(UserBase):
@@ -31,7 +33,6 @@ class TokenData(BaseModel):
 
 
 class Home(BaseModel):
-
     nome: str
     cargo: str | None = None
 
