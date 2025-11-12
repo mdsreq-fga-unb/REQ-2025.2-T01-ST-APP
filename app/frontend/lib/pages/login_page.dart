@@ -44,7 +44,6 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     if (sucesso) {
-      // Aguarda um pouco e navega baseado no tipoUsuario
       Future.delayed(const Duration(milliseconds: 500), () {
         if (widget.tipoUsuario == "gestor") {
           Navigator.pushReplacement(
@@ -54,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => const HomePage()),
+            MaterialPageRoute(builder: (_) => HomePageColaborador(apiService: apiService)),
           );
         }
       });
@@ -103,7 +102,6 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                // TODO: Implementar "Esqueceu a senha?"
               },
               child: const Text("Esqueceu sua senha?"),
             ),

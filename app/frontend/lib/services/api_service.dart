@@ -4,9 +4,10 @@ import 'dart:convert';
 class ApiService {
   final String baseUrl = "http://localhost:8000";
 
-  String? accessToken;  // Armazena JWT
-  String? usuarioTipo;  // Tipo do usuário (Colaborador/Gestor)
-  int? usuarioId;       // ID do usuário
+  String? accessToken;  
+  String? usuarioTipo;   
+  int? usuarioId;        
+  Map<String, dynamic>? userData; 
 
   Future<bool> cadastrarUsuario(
     String nome,
@@ -16,7 +17,7 @@ class ApiService {
     String cargo,
   ) async {
     var url = Uri.parse("$baseUrl/auth/users");
-    
+
     try {
       var resposta = await http.post(
         url,
@@ -27,14 +28,15 @@ class ApiService {
           "password": password,
           "empresa": empresa,
           "cargo": cargo,
-          "role": "Colaborador",  // Default: Colaborador
+          "role": "Colaborador",
         }),
       );
 
       if (resposta.statusCode == 200 || resposta.statusCode == 201) {
         var body = jsonDecode(resposta.body);
-        usuarioId = body["id"];  // Backend retorna o User com id
+        usuarioId = body["id"];
         usuarioTipo = body["role"] ?? "Colaborador";
+        userData = body;
         return true;
       }
       print("Erro cadastro: ${resposta.statusCode} - ${resposta.body}");
@@ -47,31 +49,28 @@ class ApiService {
 
   Future<bool> loginUsuario(String email, String password) async {
     var url = Uri.parse("$baseUrl/auth/token");
-    
+
     try {
-      // Backend espera OAuth2PasswordRequestForm (form-data)
       var resposta = await http.post(
         url,
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
         body: {
-          "username": email,    // OAuth2 usa 'username' (é o email aqui)
+          "username": email, 
           "password": password,
         },
       );
 
       if (resposta.statusCode == 200) {
         var body = jsonDecode(resposta.body);
-        accessToken = body["access_token"];  // Salva JWT
-        
-        // Agora busca os dados do usuário usando GET /me
-        bool userInfoObtida = await _fetchUserInfo();
+        accessToken = body["access_token"];
+
+        bool userInfoObtida = await fetchUserInfo();
         if (!userInfoObtida) {
-          // Se falhar ao obter info do usuário, não falha o login
-          // mas usa default
           usuarioTipo ??= "Colaborador";
         }
         return true;
       }
+
       print("Erro login: ${resposta.statusCode} - ${resposta.body}");
       return false;
     } catch (e) {
@@ -80,11 +79,12 @@ class ApiService {
     }
   }
 
-  Future<bool> _fetchUserInfo() async {
+  
+  Future<bool> fetchUserInfo() async {
     if (accessToken == null) return false;
 
     var url = Uri.parse("$baseUrl/auth/me");
-    
+
     try {
       var resposta = await http.get(
         url,
@@ -97,8 +97,10 @@ class ApiService {
         var user = jsonDecode(resposta.body);
         usuarioId = user["id"];
         usuarioTipo = user["role"] ?? "Colaborador";
+        userData = user; 
         return true;
       }
+
       print("Erro ao buscar usuário: ${resposta.statusCode}");
       return false;
     } catch (e) {
@@ -111,13 +113,13 @@ class ApiService {
     if (usuarioId == null || accessToken == null) return false;
 
     var url = Uri.parse("$baseUrl/respostas");
-    
+
     try {
       var resposta = await http.post(
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $accessToken",  // Envia JWT no header
+          "Authorization": "Bearer $accessToken",
         },
         body: jsonEncode({
           "usuario_id": usuarioId,
@@ -136,5 +138,6 @@ class ApiService {
     accessToken = null;
     usuarioId = null;
     usuarioTipo = null;
+    userData = null;
   }
 }

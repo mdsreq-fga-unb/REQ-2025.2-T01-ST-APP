@@ -49,6 +49,11 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(dependencies.get
             status_code=status.HTTP_400_BAD_REQUEST, detail="Email ja registrado"
         )
 
-    db_empresa = crud.get_or_create_empresa(db, nome=user.empresa)
+    empresa_nome = getattr(user, "empresa", None)
+    if empresa_nome:
+        db_empresa = crud.get_or_create_empresa(db, nome=empresa_nome)
+        empresa_id = db_empresa.id
+    else:
+        empresa_id = None
 
-    return crud.create_user(db=db, user=user, empresa_id=db_empresa.id)
+    return crud.create_user(db=db, user=user, empresa_id=empresa_id)
