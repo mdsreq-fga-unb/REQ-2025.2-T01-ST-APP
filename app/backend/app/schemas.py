@@ -14,9 +14,8 @@ class UserBase(BaseModel):
     email: str
     nome: str
     empresa: str
-    cargo: str
-    role: UserRole = UserRole.Colaborador
     cargo: Optional[str] = None
+    role: str="Colaborador"
 
 
 class UserCreate(UserBase):

@@ -2,7 +2,7 @@
 import '/services/api_service.dart';
 import 'cadastro_page.dart';
 import 'home_colaborador_page.dart';
-import 'dashboard_page.dart';
+import 'home_gestor_page.dart';
 
 class LoginPage extends StatefulWidget {
   final String tipoUsuario;
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         if (widget.tipoUsuario == "gestor") {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => const DashboardPage()),
+            MaterialPageRoute(builder: (_) => HomePageGestor(apiService: apiService)),
           );
         } else {
           Navigator.pushReplacement(
