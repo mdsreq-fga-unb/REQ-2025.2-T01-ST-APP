@@ -1,6 +1,8 @@
 import re
+from sqlalchemy import func, tuple_
 from sqlalchemy.orm import Session
 from . import models, schemas, security
+import typing
 
 
 def get_user_email(db: Session, email: str) -> models.User | None:
@@ -50,3 +52,74 @@ def create_user(db: Session, user: schemas.UserCreate, empresa_id: int):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def votar_ou_trocar_voto(
+    db: Session, user_id: int, dados_voto: schemas.VotoCreate
+) -> models.Respostas:
+
+    voto_existente = (
+        db.query(models.Respostas)
+        .filter(
+            models.Respostas.user_id == user_id,
+            models.Respostas.pergunta_id == dados_voto.pergunta_id,
+        )
+        .first()
+    )
+
+    if voto_existente:
+
+        voto_existente.voto_valor = dados_voto.voto_valor
+        db.commit()
+        db.refresh(voto_existente)
+        return voto_existente
+
+    else:
+
+        novo_voto = models.Respostas(
+            user_id=user_id,
+            pergunta_id=dados_voto.pergunta_id,
+            voto_valor=dados_voto.voto_valor,
+        )
+
+        db.add(novo_voto)
+        db.commit()
+        db.refresh(novo_voto)
+        return novo_voto
+
+
+def get_resultados_votacao(
+    db: Session, pergunta_id: int
+) -> list[tuple[models.VotoValor, int]]:
+
+    resultados_db = (
+        db.query(
+            models.Respostas.voto_valor,
+            func.count(models.Respostas.id).label("total_votos"),
+        )
+        .filter(models.Respostas.pergunta_id == pergunta_id)
+        .group_by(models.Respostas.voto_valor)
+        .all()
+    )
+
+    return [(row[0], row[1]) for row in resultados_db]
+
+
+def get_resultados_agregados_por_tema(
+    db: Session, empresa_id: int, tema: str
+) -> list[tuple[models.VotoValor, int]]:
+
+    resultados_db = (
+        db.query(
+            models.Respostas.voto_valor,
+            func.count(models.Respostas.id).label("total_votos"),
+        )
+        .join(models.Perguntas, models.Respostas.pergunta_id == models.Perguntas.id)
+        .filter(
+            models.Perguntas.tema == tema, models.Perguntas.empresa_id == empresa_id
+        )
+        .group_by(models.Respostas.voto_valor)
+        .all()
+    )
+
+    return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]

@@ -1,28 +1,13 @@
-from database import SessionLocal, engine
-from app import models
+from .database import SessionLocal, engine
+from . import models
+import logging
 
-models.Base.metadata.create_all(bind=engine)
+# Configura um logging básico para ver o que está acontecendo
+logging.basicConfig(level=logging.INFO)
 
-db = SessionLocal()
-
-# Espécies
-especies_data = [
-    "Condições de Trabalho",
-    "Informática",
-    "Práticas de gestão",
-    "Tempo e Sobrecarga",
-]
-
-especies = {}
-for nome in especies_data:
-    especie = models.Especie(nome=nome)
-    db.add(especie)
-    db.commit()
-    db.refresh(especie)
-    especies[nome] = especie.id
-
-# Perguntas
+# Lista estática de perguntas (como você forneceu)
 perguntas_data = [
+    # (Descricao, Tema)
     (
         "O nível de iluminação é suficiente para executar as atividades",
         "Condições de Trabalho",
@@ -83,11 +68,81 @@ perguntas_data = [
     ("Tenho trabalhado no limite de minha capacidade", "Tempo e Sobrecarga"),
 ]
 
-for texto, especie_nome in perguntas_data:
-    pergunta = models.Pergunta(texto=texto, id_especie=especies[especie_nome])
-    db.add(pergunta)
 
-db.commit()
-db.close()
+def seed_database():
+    """
+    Garante que todas as empresas cadastradas tenham o conjunto
+    básico de perguntas.
+    """
 
-print("Banco de dados populado com sucesso!")
+    # Inicia a sessão com o banco
+    db = SessionLocal()
+
+    try:
+        # 1. Busca todas as empresas do banco de dados
+        todas_as_empresas = db.query(models.Empresa).all()
+
+        if not todas_as_empresas:
+            logging.warning("Nenhuma empresa encontrada no banco.")
+            logging.warning("Cadastre uma empresa antes de rodar o seed.")
+            return
+
+        logging.info(
+            f"Encontradas {len(todas_as_empresas)} empresas. Verificando perguntas..."
+        )
+
+        perguntas_adicionadas = 0
+
+        # 2. Itera sobre cada empresa encontrada
+        for empresa in todas_as_empresas:
+
+            # 3. Verifica se esta empresa JÁ tem perguntas
+            count = (
+                db.query(models.Perguntas)
+                .filter(models.Perguntas.empresa_id == empresa.id)
+                .count()
+            )
+
+            if count > 0:
+                logging.info(
+                    f"Empresa '{empresa.nome}' (ID: {empresa.id}) já possui {count} perguntas. Pulando."
+                )
+                continue
+
+            # 4. Se a empresa não tem perguntas, adiciona o conjunto padrão
+            logging.info(
+                f"Adicionando {len(perguntas_data)} perguntas para a empresa '{empresa.nome}' (ID: {empresa.id})..."
+            )
+
+            for texto_pergunta, tema_pergunta in perguntas_data:
+                pergunta = models.Perguntas(
+                    descricao=texto_pergunta,
+                    tema=tema_pergunta,
+                    empresa_id=empresa.id,  # Linka com a empresa do loop
+                )
+                db.add(pergunta)
+                perguntas_adicionadas += 1
+
+        # 5. Commita todas as adições de uma vez
+        if perguntas_adicionadas > 0:
+            db.commit()
+            logging.info(
+                f"Sucesso! {perguntas_adicionadas} novas perguntas foram adicionadas."
+            )
+        else:
+            logging.info(
+                "O banco de dados já estava atualizado. Nenhuma pergunta foi adicionada."
+            )
+
+    except Exception as e:
+        logging.error(f"Ocorreu um erro durante o seed: {e}")
+        db.rollback()  # Desfaz as mudanças em caso de erro
+    finally:
+        db.close()  # Sempre fecha a conexão
+
+
+if __name__ == "__main__":
+    logging.info("Iniciando script de povoamento (seed) das perguntas...")
+    # Garante que as tabelas existem (embora Alembic seja o ideal)
+    models.Base.metadata.create_all(bind=engine)
+    seed_database()
