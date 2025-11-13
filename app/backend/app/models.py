@@ -1,4 +1,5 @@
 import enum
+from operator import index
 from sqlalchemy import (
     Column,
     Integer,
@@ -26,6 +27,7 @@ class Empresa(Base):
 
 
 class User(Base):
+
     __tablename__ = "usuarios"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
