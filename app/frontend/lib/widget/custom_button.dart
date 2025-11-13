@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
+  final Color? backgroundColor; // Agora aceita cor de fundo opcional
+  final Color? textColor;       // Agora aceita cor de texto opcional
 
   const CustomButton({
     super.key,
     required this.title,
     required this.onTap,
+    this.backgroundColor,
+    this.textColor,
   });
 
   @override
