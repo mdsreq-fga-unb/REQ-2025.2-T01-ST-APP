@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict 
 from typing import Optional
-from .models import UserRole, VotoValor
+from .models import VotoValor, UserRole
 
 
 class EmpresaRead(BaseModel):
@@ -14,14 +14,13 @@ class UserBase(BaseModel):
     email: str
     nome: str
     empresa: str
-    cargo: str
-    role: UserRole = UserRole.Colaborador
     cargo: Optional[str] = None
+    role: UserRole
 
 
 class UserCreate(UserBase):
     password: str
-    empresa: str
+
 
 
 class UserRead(UserBase):

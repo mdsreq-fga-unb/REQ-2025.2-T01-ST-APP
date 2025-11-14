@@ -12,7 +12,7 @@ class QuestionarioPage extends StatefulWidget {
 class _QuestionarioPageState extends State<QuestionarioPage> {
   final apiService = ApiService();
   List perguntas = [];
-  Map<int, String> respostas = {}; // id -> "Sim"/"Não"
+  Map<int, String> respostas = {}; 
   bool carregando = true;
   int perguntaAtual = 0;
 

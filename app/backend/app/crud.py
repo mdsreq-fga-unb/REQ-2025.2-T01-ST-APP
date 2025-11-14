@@ -1,8 +1,8 @@
-import re
-from sqlalchemy import func, tuple_
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from . import models, schemas, security
-import typing
+from .models import UserRole 
+
 
 
 def get_user_email(db: Session, email: str) -> models.User | None:
@@ -36,8 +36,12 @@ def get_or_create_empresa(db: Session, nome: str) -> models.Empresa:
 
 
 def create_user(db: Session, user: schemas.UserCreate, empresa_id: int):
-
     hashed_password = security.get_password_hash(user.password)
+
+    try:
+        role_enum = UserRole(user.role) if isinstance(user.role, str) else user.role
+    except ValueError:
+        role_enum = UserRole.Colaborador  
 
     db_user = models.User(
         nome=user.nome,
@@ -45,7 +49,7 @@ def create_user(db: Session, user: schemas.UserCreate, empresa_id: int):
         hashed_password=hashed_password,
         empresa_id=empresa_id,
         cargo=user.cargo,
-        role=user.role,
+        role=role_enum,  
     )
 
     db.add(db_user)
