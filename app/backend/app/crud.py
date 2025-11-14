@@ -1,9 +1,8 @@
-import re
-from sqlalchemy import func, tuple_
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from . import models, schemas, security
 from .models import UserRole 
-import typing
+
 
 
 def get_user_email(db: Session, email: str) -> models.User | None:

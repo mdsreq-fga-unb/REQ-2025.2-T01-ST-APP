@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (sucesso) {
       Future.delayed(const Duration(milliseconds: 500), () {
-        if (widget.tipoUsuario == "gestor") {
+        if (widget.tipoUsuario == "Gestor") {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => HomePageGestor(apiService: apiService)),
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const CadastroPage()),
+                  MaterialPageRoute(builder: (_) => CadastroPage(tipoUsuario: widget.tipoUsuario)),
                 );
               },
               child: const Text("Ainda não possui conta?"),

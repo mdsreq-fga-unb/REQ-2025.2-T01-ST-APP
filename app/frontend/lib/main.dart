@@ -13,7 +13,6 @@ void main() {
     home: const InicioPage(),
     routes: {
       "/tipo_usuario": (context) => const TipoUsuarioPage(),
-      "/cadastro": (context) => const CadastroPage(),
       "/home_colaborador": (context) => HomePageColaborador(),
       "/home_gestor": (context) => HomePageGestor(),
       "/questionario": (context) => const QuestionarioPage(),

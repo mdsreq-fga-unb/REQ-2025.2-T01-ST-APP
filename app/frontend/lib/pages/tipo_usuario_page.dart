@@ -34,13 +34,13 @@ class TipoUsuarioPage extends StatelessWidget {
                 _buildOptionButton(
                   context,
                   label: "Sou Gestor!",
-                  tipoUsuario: "gestor",
+                  tipoUsuario: "Gestor",
                 ),
                 const SizedBox(height: 20),
                 _buildOptionButton(
                   context,
                   label: "Sou Trabalhador!",
-                  tipoUsuario: "colaborador",
+                  tipoUsuario: "Colaborador",
                 ),
               ],
             ),
