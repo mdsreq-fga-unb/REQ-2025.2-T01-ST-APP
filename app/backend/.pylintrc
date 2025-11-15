@@ -1,0 +1,31 @@
+[MAIN]
+# Ignora pastas que não queremos analisar (como migrations e venv)
+ignore-patterns=alembic/versions/.*, venv/.*
+
+[MESSAGES CONTROL]
+# Desabilita os "erros bobos" que você mencionou.
+disable=
+    missing-module-docstring,  # C0114: Não exigir docstring no topo de todo arquivo
+    missing-class-docstring,   # C0115: Não exigir docstring em classes
+    missing-function-docstring, # C0116: Não exigir docstring em funções
+    too-few-public-methods,    # R0903: Chato para Pydantic, Enums e Configs
+    line-too-long,             # C0301: Linhas longas (o Black/Ruff resolve melhor)
+    trailing-whitespace,       # C0303
+    trailing-newlines,         # C0305
+    duplicate-code,            # R0801: Ignora código duplicado
+    
+    # --- Erros Específicos do seu Log ---
+    
+    # E1101: O Pylint não entende o Alembic e SQLAlchemy e acha que os
+    # membros não existem (ex: op.create_table, context.config). 
+    # É seguro desabilitar.
+    no-member,                 
+    
+    # C0103: Ignora nomes "inválidos" como 'db', 'id', ou 'revision'
+    # no Alembic.
+    invalid-name               
+
+
+[FORMAT]
+# Permite que a linha seja um pouco maior que o padrão (100)
+max-line-length=120
