@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:convert'; // Para o jsonEncode se precisar
+import 'dart:convert';
 import '../services/api_service.dart';
-import '../widget/custom_button.dart'; // Caminho corrigido (widget no singular)
+import '../widget/custom_button.dart';
+import '../widget/confirmation_dialog.dart'; // Importar o diálogo
 
 class QuestionarioPage extends StatefulWidget {
   const QuestionarioPage({super.key});
@@ -11,24 +12,23 @@ class QuestionarioPage extends StatefulWidget {
 }
 
 class _QuestionarioPageState extends State<QuestionarioPage> {
-  final Color corRoxaClara = const Color(0xFFCFA7FF);
-  final Color corLaranja = const Color(0xFFFFB74D);
+  // Cores baseadas no novo protótipo
+  final Color corRoxaClara = const Color(0xFFD4A0FA);
+  final Color corLaranja = const Color(0xFFFEBB4C);
+  final Color corRoxaEscura = const Color(0xFFA550E2); 
 
   final apiService = ApiService();
   List perguntas = [];
-  
-  // Mapa de respostas: ID da Pergunta (int) -> Valor Likert (int)
-  Map<int, int> respostas = {}; 
-  
+  Map<int, int> respostas = {};
   bool carregando = true;
   int perguntaAtual = 0;
 
   final List<Map<String, dynamic>> opcoesLikert = [
-    {'texto': 'Concordo Totalmente', 'valor': 5, 'cor': Colors.green[700]},
-    {'texto': 'Concordo Parcialmente', 'valor': 4, 'cor': Colors.lightGreen},
-    {'texto': 'Nem Concordo Nem Discordo', 'valor': 3, 'cor': Colors.grey},
-    {'texto': 'Discordo Parcialmente', 'valor': 2, 'cor': Colors.orangeAccent},
-    {'texto': 'Discordo Totalmente', 'valor': 1, 'cor': Colors.redAccent},
+    {'texto': 'Concordo totalmente', 'valor': 5},
+    {'texto': 'Concordo parcialmente', 'valor': 4},
+    {'texto': 'Nem concordo, nem discordo', 'valor': 3},
+    {'texto': 'Discordo parcialmente', 'valor': 2},
+    {'texto': 'Discordo totalmente', 'valor': 1},
   ];
 
   @override
@@ -55,8 +55,7 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
     setState(() {
       respostas[perguntaId] = valor;
     });
-    
-    // Avança automaticamente se não for a última pergunta
+
     if (perguntaAtual < perguntas.length - 1) {
       Future.delayed(const Duration(milliseconds: 300), () {
         if (mounted) setState(() => perguntaAtual++);
@@ -71,24 +70,32 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
 
   Future<void> concluirQuestionario() async {
     if (!todasRespondidas()) {
-       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.red,
-            content: Text("Por favor, responda todas as perguntas antes de finalizar."),
-          ),
-       );
-       return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text("Por favor, responda todas as perguntas."),
+        ),
+      );
+      return;
     }
 
+    // O pop-up laranja com botões roxos
+    final bool? confirmar = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return const ConfirmationDialog(); 
+      },
+    );
+
+    if (confirmar != true) return;
+
     try {
-      // Converte para o formato esperado pelo backend
-      final respostasConvertidas = respostas.map((k, v) => MapEntry(k, v)); // Mantém int e int
-      
+      final respostasConvertidas = respostas.map((k, v) => MapEntry(k, v));
       await apiService.enviarRespostas(respostasConvertidas);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(backgroundColor: Colors.green, content: Text("Questionário enviado com sucesso!")),
+          const SnackBar(backgroundColor: Colors.green, content: Text("Enviado com sucesso!")),
         );
         Navigator.pop(context);
       }
@@ -96,7 +103,7 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
       print("Erro envio: $e");
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-           const SnackBar(content: Text("Erro ao enviar respostas.")),
+          const SnackBar(content: Text("Erro ao enviar respostas.")),
         );
       }
     }
@@ -104,171 +111,214 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
 
   @override
   Widget build(BuildContext context) {
+    double progresso = 0;
+    if (perguntas.isNotEmpty) {
+      // Progresso baseado nas perguntas respondidas, não na atual
+      progresso = respostas.length / perguntas.length;
+    }
+
     if (carregando) {
-      return Scaffold(backgroundColor: Colors.white, body: Center(child: CircularProgressIndicator(color: corLaranja)));
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: _buildAppBar(), // AppBar roxa simples
+        body: Center(child: CircularProgressIndicator(color: corLaranja)),
+      );
     }
 
     if (perguntas.isEmpty) {
-      return Scaffold(appBar: _buildAppBar(), body: const Center(child: Text("Nenhuma pergunta disponível.")));
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: _buildAppBar(),
+        body: const Center(child: Text("Nenhuma pergunta disponível.")),
+      );
     }
 
     var pergunta = perguntas[perguntaAtual];
     var idPergunta = pergunta['id'];
     var respostaAtual = respostas[idPergunta];
-
-    // Verifica se é a última pergunta para mostrar o botão de finalizar
     bool isUltimaPergunta = perguntaAtual == perguntas.length - 1;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            // Contador
-            Text(
-              "Questão ${perguntaAtual + 1} de ${perguntas.length}",
-              style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
+      appBar: _buildAppBar(), // Cabeçalho Roxo Simples
+      body: Column(
+        children: [
+          // --- MUDANÇA 1: Barra de Progresso separada ---
+          _buildProgressBar(progresso),
 
-            // Card da Pergunta
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: corRoxaClara, 
-                borderRadius: BorderRadius.circular(16),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  // Card da Pergunta Laranja
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: corLaranja, // Laranja como no protótipo
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Questão ${perguntaAtual + 1}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          pergunta['descricao'] ?? "Sem descrição",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Opções Likert (com bolinha roxa)
+                  ...opcoesLikert.map((opcao) {
+                    bool isSelected = respostaAtual == opcao['valor'];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: _buildLikertButton(
+                        texto: opcao['texto'],
+                        valor: opcao['valor'],
+                        isSelected: isSelected,
+                      ),
+                    );
+                  }).toList(),
+                ],
               ),
-              child: Text(
-                pergunta['descricao'] ?? "Sem descrição",
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              ),
             ),
-            
-            const SizedBox(height: 20),
-
-            // Opções Likert
-            ...opcoesLikert.map((opcao) {
-              bool isSelected = respostaAtual == opcao['valor'];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _buildLikertButton(
-                  texto: opcao['texto'],
-                  valor: opcao['valor'],
-                  corBase: opcao['cor'],
-                  isSelected: isSelected,
-                ),
-              );
-            }).toList(),
-
-            const SizedBox(height: 30),
-
-            // --- ÁREA DE NAVEGAÇÃO ---
-            Row(
+          ),
+          
+          // --- MUDANÇA 2: Botões do Rodapé (Roxos) ---
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+            color: Colors.white, // Fundo branco
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Botão Voltar (Seta Esquerda)
-                _buildNavButton(
-                  icon: Icons.arrow_back,
-                  // Só ativa se não for a primeira pergunta
-                  onTap: perguntaAtual > 0 ? () => setState(() => perguntaAtual--) : null,
+                Expanded(
+                  child: CustomButton(
+                    title: "Anterior",
+                    backgroundColor: corRoxaClara, // Roxo
+                    textColor: Colors.black,
+                    onTap: perguntaAtual > 0 ? () => setState(() => perguntaAtual--) : null,
+                  ),
                 ),
-
-                // Texto indicador de progresso (opcional, ajuda visualmente)
-                Text(
-                  "${((respostas.length / perguntas.length) * 100).toInt()}% Completo",
-                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                ),
-
-                // Botão Avançar (Seta Direita)
-                // Só ativa se não for a última pergunta
-                _buildNavButton(
-                  icon: Icons.arrow_forward,
-                  onTap: !isUltimaPergunta ? () => setState(() => perguntaAtual++) : null,
+                const SizedBox(width: 20),
+                Expanded(
+                  child: CustomButton(
+                    title: isUltimaPergunta ? "Finalizar" : "Avançar",
+                    backgroundColor: corRoxaClara, // Roxo
+                    textColor: Colors.black,
+                    onTap: isUltimaPergunta
+                           ? concluirQuestionario
+                           : () => setState(() => perguntaAtual++),
+                  ),
                 ),
               ],
             ),
-
-            const SizedBox(height: 30),
-
-            // --- BOTÃO FINALIZAR (Só aparece na última pergunta) ---
-            if (isUltimaPergunta)
-              CustomButton(
-                title: "Finalizar Questionário",
-                // Se não respondeu tudo, fica cinza. Se respondeu, fica Laranja.
-                backgroundColor: todasRespondidas() ? corLaranja : Colors.grey[300],
-                textColor: todasRespondidas() ? Colors.black : Colors.grey[600],
-                onTap: concluirQuestionario,
-              ),
-              
-            const SizedBox(height: 20),
-          ],
-        ),
+          ),
+          
+          // --- MUDANÇA 3: Barra Inferior Fixa (Roxa) ---
+          Container(
+            height: 30, // Altura da barra inferior
+            color: corRoxaClara,
+          )
+        ],
       ),
     );
   }
 
+  // --- MUDANÇA 4: AppBar simples (só a barra roxa) ---
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: corRoxaClara,
       elevation: 0,
+      // Deixamos o botão de voltar padrão para o usuário não ficar preso
       leading: IconButton(
         icon: const Icon(Icons.arrow_back, color: Colors.black),
         onPressed: () => Navigator.pop(context),
       ),
-      title: const Text("Avaliação", style: TextStyle(color: Colors.black)),
+      // Removemos o título e o 'bottom'
     );
   }
 
-  Widget _buildNavButton({required IconData icon, VoidCallback? onTap}) {
-    // Se onTap for null, o botão fica visualmente desabilitado (cinza claro)
-    bool isDisabled = onTap == null;
-    
-    return ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isDisabled ? Colors.grey[200] : corLaranja,
-        foregroundColor: isDisabled ? Colors.grey[400] : Colors.black,
-        elevation: isDisabled ? 0 : 2,
-        shape: const CircleBorder(),
-        padding: const EdgeInsets.all(16),
+  // --- MUDANÇA 5: Widget da Barra de Progresso ---
+  Widget _buildProgressBar(double progresso) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "${(progresso * 100).toInt()}% Concluído",
+            style: const TextStyle(
+              color: Colors.black54,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 8),
+          LinearProgressIndicator(
+            value: progresso,
+            backgroundColor: corRoxaClara, // Fundo roxo claro
+            valueColor: AlwaysStoppedAnimation<Color>(corRoxaEscura), // Progresso roxo escuro
+            minHeight: 15,
+            borderRadius: BorderRadius.circular(10), // Arredondado como no protótipo
+          ),
+        ],
       ),
-      child: Icon(icon, size: 30),
     );
   }
+
 
   Widget _buildLikertButton({
     required String texto, 
     required int valor, 
-    required Color corBase, 
     required bool isSelected
   }) {
+    // Este widget já estava correto (com a bolinha roxa)
     return InkWell(
       onTap: () => responder(valor),
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         decoration: BoxDecoration(
-          color: isSelected ? corBase : Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? corBase : Colors.grey[300]!,
+            color: isSelected ? corRoxaEscura : Colors.grey[300]!,
             width: 2,
           ),
           boxShadow: isSelected ? [
-            BoxShadow(color: corBase.withOpacity(0.4), blurRadius: 8, offset: const Offset(0, 4))
+            BoxShadow(color: corRoxaEscura.withOpacity(0.3), blurRadius: 6, offset: const Offset(0, 2))
           ] : [],
         ),
         child: Row(
           children: [
             Container(
-              width: 16, height: 16,
+              width: 22,
+              height: 22,
               decoration: BoxDecoration(
-                color: isSelected ? Colors.white : corBase,
+                color: isSelected ? corRoxaEscura : Colors.transparent,
                 shape: BoxShape.circle,
+                border: Border.all(
+                  color: corRoxaEscura,
+                  width: 2,
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -278,11 +328,10 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: isSelected ? Colors.white : Colors.black87,
+                  color: isSelected ? corRoxaEscura : Colors.black87,
                 ),
               ),
             ),
-            if (isSelected) const Icon(Icons.check, color: Colors.white),
           ],
         ),
       ),
