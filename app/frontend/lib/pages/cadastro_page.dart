@@ -2,7 +2,8 @@
 import '/services/api_service.dart';
 
 class CadastroPage extends StatefulWidget {
-  const CadastroPage({super.key});
+  final String tipoUsuario;
+  const CadastroPage({super.key, required this.tipoUsuario});
 
   @override
   State<CadastroPage> createState() => _CadastroPageState();
@@ -62,6 +63,7 @@ class _CadastroPageState extends State<CadastroPage> {
       senhaController.text,
       empresaController.text,
       cargoController.text,
+      widget.tipoUsuario,
     );
 
     setState(() {

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import '/services/api_service.dart';
 
-class HomePageColaborador extends StatefulWidget {
+class HomePageGestor extends StatefulWidget {
   final ApiService apiService;
 
-  HomePageColaborador({super.key, ApiService? apiService}) : apiService = apiService ?? ApiService();
+  HomePageGestor({super.key, ApiService? apiService})
+      : apiService = apiService ?? ApiService();
+
   @override
-  State<HomePageColaborador> createState() => _HomePageState();
+  State<HomePageGestor> createState() => _HomePageGestorState();
 }
 
-class _HomePageState extends State<HomePageColaborador> {
+class _HomePageGestorState extends State<HomePageGestor> {
   late ApiService apiService;
   Map<String, dynamic>? userData;
   bool carregando = true;
@@ -52,14 +54,14 @@ class _HomePageState extends State<HomePageColaborador> {
       );
     }
 
-    final nome = userData?["nome"] ?? "Usuário";
-    final cargo = userData?["cargo"] ?? "Colaborador";
+    final nome = userData?["nome"] ?? "Gestor";
+    final cargo = userData?["cargo"] ?? "Gestor";
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          "Tela Principal - Colaborador",
+          "Tela Principal - Gestor",
           style: TextStyle(color: Colors.black54, fontSize: 16),
         ),
         backgroundColor: Colors.white,
@@ -108,34 +110,26 @@ class _HomePageState extends State<HomePageColaborador> {
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
 
+            
             Expanded(
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 25, 
+                  runSpacing: 25, 
                   children: [
-                    _buildMenuButton(
-                      label: "Questionário\nDiagnóstico",
-                      onTap: () {
-                        Navigator.pushNamed(context, "/questionario");
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    _buildMenuButton(
-                      label: "Biblioteca",
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 20),
-                    _buildMenuButton(
-                      label: "Recomendações\npersonalizadas",
-                      onTap: () {},
-                    ),
+                    _buildMenuButton("Minha equipe", onTap: () {}),
+                    _buildMenuButton("Dashboard", onTap: () {}),
+                    _buildMenuButton("Plano de ação", onTap: () {}),
+                    _buildMenuButton("Biblioteca", onTap: () {}),
                   ],
                 ),
               ),
             ),
 
+            
             Container(
               height: 20,
               width: double.infinity,
@@ -147,20 +141,17 @@ class _HomePageState extends State<HomePageColaborador> {
     );
   }
 
-  Widget _buildMenuButton({
-    required String label,
-    required VoidCallback onTap,
-  }) {
+  Widget _buildMenuButton(String label, {required VoidCallback onTap}) {
     return SizedBox(
-      width: 200,
-      height: 80,
+      width: 150, 
+      height: 65,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFFFFB74D),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.all(10),
           elevation: 0,
         ),
         onPressed: onTap,
@@ -170,7 +161,7 @@ class _HomePageState extends State<HomePageColaborador> {
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 15,
+            fontSize: 14,
           ),
         ),
       ),

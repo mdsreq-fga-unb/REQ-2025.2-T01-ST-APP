@@ -22,6 +22,7 @@ class ApiService {
     String password,
     String empresa,
     String cargo,
+    String role,
   ) async {
     var url = Uri.parse("$baseUrl/auth/users");
 
@@ -35,14 +36,14 @@ class ApiService {
           "password": password,
           "empresa": empresa,
           "cargo": cargo,
-          "role": "Colaborador",
+          "role": role,
         }),
       );
 
       if (resposta.statusCode == 200 || resposta.statusCode == 201) {
         var body = jsonDecode(resposta.body);
         usuarioId = body["id"];
-        usuarioTipo = body["role"] ?? "Colaborador";
+        usuarioTipo = body["role"];
         userData = body;
         return true;
       }
