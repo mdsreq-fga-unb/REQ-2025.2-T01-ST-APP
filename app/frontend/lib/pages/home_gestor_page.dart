@@ -121,7 +121,10 @@ class _HomePageGestorState extends State<HomePageGestor> {
                   runSpacing: 25, 
                   children: [
                     _buildMenuButton("Minha equipe", onTap: () {}),
-                    _buildMenuButton("Dashboard", onTap: () {}),
+                    _buildMenuButton("Dashboard", onTap: () {
+                      Navigator.pushNamed(context, "/dashboard");
+                      },
+                      ),
                     _buildMenuButton("Plano de ação", onTap: () {}),
                     _buildMenuButton("Biblioteca", onTap: () {}),
                   ],
