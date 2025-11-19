@@ -91,6 +91,12 @@ def votar_ou_trocar_voto(
         db.refresh(novo_voto)
         return novo_voto
 
+def get_perguntas_por_tema(db: Session, empresa_id: int, tema: str) -> list[models.Perguntas]:
+
+    return db.query(models.Perguntas).filter(
+            models.Perguntas.empresa_id == empresa_id,
+            models.Perguntas.tema == tema
+        ).all()
 
 def get_resultados_votacao(
     db: Session, pergunta_id: int
@@ -106,8 +112,7 @@ def get_resultados_votacao(
         .all()
     )
 
-    return [(row[0], row[1]) for row in resultados_db]
-
+    return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
 
 def get_resultados_agregados_por_tema(
     db: Session, empresa_id: int, tema: str
