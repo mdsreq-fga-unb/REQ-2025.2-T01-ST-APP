@@ -59,7 +59,7 @@ class ApiService {
   required String escolaridade,
 }) async {
   if (usuarioId == null) {
-    print(" Erro: usuárioId está nulo. Cadastro não armazenou ID.");
+    print("Erro: usuárioId está nulo. Cadastro não armazenou ID.");
     return false;
   }
 
@@ -70,7 +70,7 @@ class ApiService {
       url,
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "usuarioId": usuarioId,
+        "usuario_id": usuarioId,  
         "idade": idade,
         "genero": genero,
         "raca": raca,
@@ -85,16 +85,14 @@ class ApiService {
 
     print("Resposta pesquisa: ${resposta.body}");
 
-    if (resposta.statusCode == 200 || resposta.statusCode == 201) {
-      return true;
-    }
+    return resposta.statusCode == 200 || resposta.statusCode == 201;
 
-    return false;
   } catch (e) {
     print("Erro ao enviar pesquisa: $e");
     return false;
   }
 }
+
 
 
   Future<bool> loginUsuario(String email, String password) async {

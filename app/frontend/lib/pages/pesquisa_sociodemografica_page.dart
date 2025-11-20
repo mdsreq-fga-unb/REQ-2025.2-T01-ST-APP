@@ -224,7 +224,6 @@ class _PesquisaSociodemograficaPageState
 
                     const SizedBox(height: 35),
 
-                    // BOTÃO ENVIAR
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -240,10 +239,10 @@ class _PesquisaSociodemograficaPageState
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
-                            final api = ApiService();
+                            final apiService = ApiService();
 
                             bool sucesso =
-                                await api.enviarPesquisaSociodemografica(
+                                await apiService.enviarPesquisaSociodemografica(
                               idade: idade!,
                               genero: genero!,
                               raca: raca!,

@@ -13,7 +13,6 @@ void main() {
     debugShowCheckedModeBanner: false,
     home: const InicioPage(),
 
-    // ROTAS ESTÁTICAS
     routes: {
       "/tipo_usuario": (context) => const TipoUsuarioPage(),
       "/home_colaborador": (context) => HomePageColaborador(),
@@ -22,7 +21,6 @@ void main() {
       "/dashboard": (context) => const DashboardPage(),
     },
 
-    // ROTAS DINÂMICAS
     onGenerateRoute: (settings) {
       switch (settings.name) {
 

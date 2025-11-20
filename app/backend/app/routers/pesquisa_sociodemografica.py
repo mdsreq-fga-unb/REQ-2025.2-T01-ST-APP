@@ -1,12 +1,16 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from database import get_db
 from schemas import PesquisaSociodemograficaCreate
+from dependencies import get_current_user
 
 router = APIRouter(prefix="/pesquisa", tags=["Pesquisa Sociodemográfica"])
 
-
 @router.post("/salvar")
-def salvar_pesquisa(data: PesquisaSociodemograficaCreate, usuario_id: int, db=Depends(get_db)):
+def salvar_pesquisa(
+    data: PesquisaSociodemograficaCreate,
+    db = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
     query = """
         INSERT INTO pesquisa_sociodemografica (
             usuario_id, idade, genero, raca, estado_civil,
@@ -24,7 +28,7 @@ def salvar_pesquisa(data: PesquisaSociodemograficaCreate, usuario_id: int, db=De
     """
 
     values = data.model_dump()
-    values["usuario_id"] = usuario_id
+    values["usuario_id"] = current_user.id  
 
     cursor = db.cursor()
     cursor.execute(query, values)
