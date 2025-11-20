@@ -31,7 +31,6 @@ class User(Base):
     __tablename__ = "usuarios"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    nome: Mapped[str] = mapped_column(String, index=True)
     email: Mapped[str] = mapped_column(String, unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String)
 
@@ -48,7 +47,8 @@ class User(Base):
     empresa: Mapped["Empresa"] = relationship(back_populates="usuarios")
 
     respostas_dadas: Mapped[list["Respostas"]] = relationship(back_populates="autor")
-
+    
+    pesquisa_sociodemografica: Mapped["PesquisaSociodemografica"] = relationship(back_populates="usuario", uselist=False)
 
 class Perguntas(Base):
     __tablename__ = "perguntas"
@@ -124,8 +124,8 @@ class PesquisaSociodemografica(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
 
-    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"), index=True)
-    usuario: Mapped["User"] = relationship()
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"), unique=True)
+    usuario: Mapped["User"] = relationship(back_populates="pesquisa_sociodemografica")
 
     idade: Mapped[int] = mapped_column(Integer, nullable=False)
 

@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import auth, home, forms, resultados
+
+from .routers import auth, home, forms, resultados, pesquisa_sociodemografica
+
 
 app = FastAPI(
     title="GenT API",
@@ -21,6 +23,7 @@ app.include_router(auth.router, prefix="/auth", tags=["Autenticação"])
 app.include_router(home.router, prefix="/auth", tags=["Usuário Logado"])
 app.include_router(forms.router, prefix="/api", tags=["Questinario"])
 app.include_router(resultados.router, prefix="/api", tags=["Questinario"])
+app.include_router(pesquisa_sociodemografica.router, prefix="/api", tags=["Questinario"])
 
 
 @app.get("/")

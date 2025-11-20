@@ -1,38 +1,42 @@
-from fastapi import APIRouter, Depends, HTTPException
-from database import get_db
-from schemas import PesquisaSociodemograficaCreate
-from dependencies import get_current_user
+from fastapi import APIRouter, Depends, HTTPException, status
+
+from sqlalchemy.orm import Session
+
+from .. import models, schemas, dependencies, crud
 
 router = APIRouter(prefix="/pesquisa", tags=["Pesquisa Sociodemográfica"])
 
-@router.post("/salvar")
+@router.post("/salvar", response_model=schemas.PesquisaSociodemograficaResponse)
 def salvar_pesquisa(
-    data: PesquisaSociodemograficaCreate,
-    db = Depends(get_db),
-    current_user = Depends(get_current_user)
+    pesquisa_data: schemas.PesquisaSociodemograficaCreate,
+    db: Session = Depends(dependencies.get_db),
+    current_user: models.User = Depends(dependencies.get_current_user)
 ):
-    query = """
-        INSERT INTO pesquisa_sociodemografica (
-            usuario_id, idade, genero, raca, estado_civil,
-            possui_filhos, quantidade_filhos,
-            tempo_empresa_meses, tempo_cargo_meses,
-            escolaridade
+    
+    if crud.get_pesquisa_by_user_id(db, usuario_id=current_user.id):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT, 
+            detail="Usuário já respondeu à pesquisa."
         )
-        VALUES (
-            %(usuario_id)s, %(idade)s, %(genero)s, %(raca)s, %(estado_civil)s,
-            %(possui_filhos)s, %(quantidade_filhos)s,
-            %(tempo_empresa_meses)s, %(tempo_cargo_meses)s,
-            %(escolaridade)s
+
+    return crud.create_pesquisa(
+        db=db, 
+        pesquisa=pesquisa_data, 
+        usuario_id=current_user.id
+    )
+
+
+@router.get("/leitura", response_model=schemas.PesquisaSociodemograficaResponse)
+def ler_minha_pesquisa(
+    db: Session = Depends(dependencies.get_db),
+    current_user: models.User = Depends(dependencies.get_current_user)
+):
+    pesquisa = crud.get_pesquisa_by_user_id(db, usuario_id=current_user.id)
+    
+    if not pesquisa:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Pesquisa não encontrada."
         )
-        RETURNING id;
-    """
-
-    values = data.model_dump()
-    values["usuario_id"] = current_user.id  
-
-    cursor = db.cursor()
-    cursor.execute(query, values)
-    result = cursor.fetchone()
-    db.commit()
-
-    return {"id": result[0], "message": "Pesquisa salva com sucesso!"}
+        
+    return pesquisa

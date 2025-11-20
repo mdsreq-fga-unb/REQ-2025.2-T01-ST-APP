@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
-from .models import UserRole, VotoValor
+from .models import UserRole, VotoValor, GeneroEnum, RacaEnum, EstadoCivilEnum, EscolaridadeEnum
 
 
 class EmpresaRead(BaseModel):
@@ -83,13 +83,21 @@ class ResultadoVoto(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     
 class PesquisaSociodemograficaCreate(BaseModel):
-    usuario_id: int
     idade: int
-    genero: str
-    raca: str
-    estadoCivil: str
-    possuiFilhos: bool
-    quantidadeFilhos: Optional[int]
-    tempoEmpresaMeses: int
-    tempoCargoMeses: int
-    escolaridade: str
+    genero: GeneroEnum
+    raca: RacaEnum
+    estado_civil: EstadoCivilEnum      
+    possui_filhos: bool                
+    quantidade_filhos: int | None = None     
+    tempo_empresa_meses: int           
+    tempo_cargo_meses: int   
+    escolaridade: EscolaridadeEnum
+    
+    
+    
+
+class PesquisaSociodemograficaResponse(PesquisaSociodemograficaCreate):
+    id: int
+    usuario_id: int
+
+    model_config = ConfigDict(from_attributes=True)

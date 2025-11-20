@@ -1,6 +1,9 @@
 import re
 from sqlalchemy import func, tuple_
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import update
+from sqlalchemy.sql.dml import ReturningUpdate
+from sqlalchemy.util import FastIntFlag
 from . import models, schemas, security
 import typing
 
@@ -123,3 +126,57 @@ def get_resultados_agregados_por_tema(
     )
 
     return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
+
+
+def create_pesquisa(db: Session, pesquisa: schemas.PesquisaSociodemograficaCreate, usuario_id: int) -> models.PesquisaSociodemografica:
+    
+    db_pesquisa = models.PesquisaSociodemografica(
+        usuario_id=usuario_id,
+        **pesquisa.model_dump()
+    )
+
+    db.add(db_pesquisa)
+    db.commit()
+    db.refresh(db_pesquisa)
+
+    return db_pesquisa
+
+
+def get_pesquisa_by_user_id(db: Session, usuario_id: int) -> models.PesquisaSociodemografica | None:
+    
+    return db.query(models.PesquisaSociodemografica).filter(
+        models.PesquisaSociodemografica.usuario_id == usuario_id
+    ).first()
+
+
+def update_pesquisa(db: Session, usuario_id: int, pesquisa_update: schemas.PesquisaSociodemograficaCreate) -> models.PesquisaSociodemografica | None:
+       
+    db_pesquisa = get_pesquisa_by_user_id(db, usuario_id)
+    
+    if not db_pesquisa:
+        return None
+
+
+    update_data = pesquisa_update.model_dump(exclude_unset=True)
+
+    for key, value in update_data.items():
+        setattr(db_pesquisa, key, value)
+
+    db.add(db_pesquisa)
+    db.commit()
+    db.refresh(db_pesquisa)
+
+    return db_pesquisa
+
+def delete_pesquisa(db: Session, usuario_id: int) -> bool:
+        
+    db_pesquisa = get_pesquisa_by_user_id(db, usuario_id)
+    
+    if not db_pesquisa:
+        return False
+        
+    db.delete(db_pesquisa)
+    db.commit()
+
+    return True
+
