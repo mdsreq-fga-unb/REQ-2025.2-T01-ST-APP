@@ -47,6 +47,56 @@ class ApiService {
     }
   }
 
+  Future<bool> enviarPesquisaSociodemografica({
+  required int idade,
+  required String genero,
+  required String raca,
+  required String estadoCivil,
+  required bool possuiFilhos,
+  required int? quantidadeFilhos,
+  required int tempoEmpresaMeses,
+  required int tempoCargoMeses,
+  required String escolaridade,
+}) async {
+  if (usuarioId == null) {
+    print(" Erro: usuárioId está nulo. Cadastro não armazenou ID.");
+    return false;
+  }
+
+  var url = Uri.parse("$baseUrl/pesquisa");
+
+  try {
+    var resposta = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "usuarioId": usuarioId,
+        "idade": idade,
+        "genero": genero,
+        "raca": raca,
+        "estadoCivil": estadoCivil,
+        "possuiFilhos": possuiFilhos,
+        "quantidadeFilhos": quantidadeFilhos,
+        "tempoEmpresaMeses": tempoEmpresaMeses,
+        "tempoCargoMeses": tempoCargoMeses,
+        "escolaridade": escolaridade,
+      }),
+    );
+
+    print("Resposta pesquisa: ${resposta.body}");
+
+    if (resposta.statusCode == 200 || resposta.statusCode == 201) {
+      return true;
+    }
+
+    return false;
+  } catch (e) {
+    print("Erro ao enviar pesquisa: $e");
+    return false;
+  }
+}
+
+
   Future<bool> loginUsuario(String email, String password) async {
     var url = Uri.parse("$baseUrl/auth/token");
 

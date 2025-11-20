@@ -22,6 +22,17 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
     empresa: str
+    
+class PesquisaSociodemograficaCreate(BaseModel):
+    idade: int
+    genero: str
+    raca: str
+    estado_civil: str
+    possui_filhos: bool
+    quantidade_filhos: Optional[int] = None
+    tempo_empresa_meses: int
+    tempo_cargo_meses: int
+    escolaridade: str
 
 
 class UserRead(UserBase):
