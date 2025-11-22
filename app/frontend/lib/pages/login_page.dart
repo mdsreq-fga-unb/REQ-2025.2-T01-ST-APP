@@ -6,6 +6,7 @@ import 'home_gestor_page.dart';
 
 class LoginPage extends StatefulWidget {
   final String tipoUsuario;
+
   const LoginPage({super.key, required this.tipoUsuario});
 
   @override
@@ -16,15 +17,14 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
   final apiService = ApiService();
+
   String mensagem = "";
   bool _obscurePassword = true;
   bool _carregando = false;
 
   Future<void> fazerLogin() async {
     if (emailController.text.isEmpty || senhaController.text.isEmpty) {
-      setState(() {
-        mensagem = "Email e senha são obrigatórios!";
-      });
+      setState(() => mensagem = "Email e senha são obrigatórios!");
       return;
     }
 
@@ -45,15 +45,21 @@ class _LoginPageState extends State<LoginPage> {
 
     if (sucesso) {
       Future.delayed(const Duration(milliseconds: 500), () {
-        if (widget.tipoUsuario == "Gestor") {
+        if (!mounted) return;
+
+        if (widget.tipoUsuario == "gestor") {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => HomePageGestor(apiService: apiService)),
+            MaterialPageRoute(
+              builder: (_) => HomePageGestor(apiService: apiService),
+            ),
           );
         } else {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => HomePageColaborador(apiService: apiService)),
+            MaterialPageRoute(
+              builder: (_) => HomePageColaborador(apiService: apiService),
+            ),
           );
         }
       });
@@ -101,15 +107,16 @@ class _LoginPageState extends State<LoginPage> {
             _buildPasswordField("Insira sua senha:", senhaController),
             const SizedBox(height: 20),
             TextButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               child: const Text("Esqueceu sua senha?"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => CadastroPage(tipoUsuario: widget.tipoUsuario)),
+                  MaterialPageRoute(
+                    builder: (_) => CadastroPage(tipoUsuario: widget.tipoUsuario),
+                  ),
                 );
               },
               child: const Text("Ainda não possui conta?"),

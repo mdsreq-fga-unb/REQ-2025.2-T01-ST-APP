@@ -112,19 +112,16 @@ class _HomePageGestorState extends State<HomePageGestor> {
 
             const SizedBox(height: 30),
 
-            
+            // 🔸 Botões em 2 linhas de 2
             Expanded(
               child: Center(
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 25, 
-                  runSpacing: 25, 
+                  spacing: 25, // espaço entre colunas
+                  runSpacing: 25, // espaço entre linhas
                   children: [
                     _buildMenuButton("Minha equipe", onTap: () {}),
-                    _buildMenuButton("Dashboard", onTap: () {
-                      Navigator.pushNamed(context, "/dashboard");
-                      },
-                      ),
+                    _buildMenuButton("Dashboard", onTap: () {}),
                     _buildMenuButton("Plano de ação", onTap: () {}),
                     _buildMenuButton("Biblioteca", onTap: () {}),
                   ],
@@ -132,7 +129,7 @@ class _HomePageGestorState extends State<HomePageGestor> {
               ),
             ),
 
-            
+            // Barra inferior
             Container(
               height: 20,
               width: double.infinity,
@@ -146,7 +143,7 @@ class _HomePageGestorState extends State<HomePageGestor> {
 
   Widget _buildMenuButton(String label, {required VoidCallback onTap}) {
     return SizedBox(
-      width: 150, 
+      width: 150, // define largura fixa (faz quebrar em 2 colunas)
       height: 65,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
