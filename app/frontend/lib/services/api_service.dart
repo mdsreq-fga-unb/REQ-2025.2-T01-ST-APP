@@ -2,12 +2,16 @@
 import 'dart:convert';
 
 class ApiService {
+  // Singleton instance so pages share the same ApiService state (usuarioId, tokens, etc.)
+  static final ApiService _instance = ApiService._internal();
+  factory ApiService() => _instance;
+  ApiService._internal();
   final String baseUrl = "http://localhost:8000";
 
-  String? accessToken;  
-  String? usuarioTipo;   
-  int? usuarioId;        
-  Map<String, dynamic>? userData; 
+  String? accessToken;
+  String? usuarioTipo;
+  int? usuarioId;
+  Map<String, dynamic>? userData;
 
   Future<bool> cadastrarUsuario(
     String nome,
@@ -34,9 +38,18 @@ class ApiService {
 
       if (resposta.statusCode == 200 || resposta.statusCode == 201) {
         var body = jsonDecode(resposta.body);
-        usuarioId = body["id"];
+        print("DEBUG - Resposta do cadastro: $body");
+        // Tenta extrair ID de múltiplas chaves possíveis
+        usuarioId = body["id"] ?? body["user_id"] ?? body["userId"];
         usuarioTipo = body["role"] ?? "Colaborador";
         userData = body;
+        print("DEBUG - usuarioId extraído: $usuarioId");
+        // Tenta logar automaticamente para obter token (necessário para enviar a pesquisa)
+        try {
+          await loginUsuario(email, password);
+        } catch (e) {
+          print("Aviso: login automático após cadastro falhou: $e");
+        }
         return true;
       }
       print("Erro cadastro: ${resposta.statusCode} - ${resposta.body}");
@@ -48,69 +61,71 @@ class ApiService {
   }
 
   Future<bool> enviarPesquisaSociodemografica({
-  required int idade,
-  required String genero,
-  required String raca,
-  required String estadoCivil,
-  required bool possuiFilhos,
-  required int? quantidadeFilhos,
-  required int tempoEmpresaMeses,
-  required int tempoCargoMeses,
-  required String escolaridade,
-}) async {
-  if (usuarioId == null) {
-    print("Erro: usuárioId está nulo. Cadastro não armazenou ID.");
-    return false;
+    required int idade,
+    required String genero,
+    required String raca,
+    required String estadoCivil,
+    required bool possuiFilhos,
+    required int? quantidadeFilhos,
+    required int tempoEmpresaMeses,
+    required int tempoCargoMeses,
+    required String escolaridade,
+  }) async {
+    if (usuarioId == null) {
+      print("Erro: usuárioId está nulo. Cadastro não armazenou ID.");
+      return false;
+    }
+
+    // Endpoint correto no backend: /api/pesquisa/salvar
+    var url = Uri.parse("$baseUrl/api/pesquisa/salvar");
+
+    final bodyMap = {
+      "idade": idade,
+      "genero": genero,
+      "raca": raca,
+      "estado_civil": estadoCivil,
+      "possui_filhos": possuiFilhos,
+      "quantidade_filhos": quantidadeFilhos,
+      "tempo_empresa_meses": tempoEmpresaMeses,
+      "tempo_cargo_meses": tempoCargoMeses,
+      "escolaridade": escolaridade,
+    };
+
+    try {
+      final headers = {"Content-Type": "application/json"};
+      if (accessToken != null) {
+        headers["Authorization"] = "Bearer $accessToken";
+      }
+
+      var resposta = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode(bodyMap),
+      );
+
+      print("Tentativa POST /api/pesquisa/salvar -> ${resposta.statusCode} ${resposta.body}");
+      return resposta.statusCode == 200 || resposta.statusCode == 201;
+    } catch (e) {
+      print("Erro ao enviar pesquisa: $e");
+      return false;
+    }
   }
-
-  var url = Uri.parse("$baseUrl/pesquisa");
-
-  try {
-    var resposta = await http.post(
-      url,
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "usuario_id": usuarioId,  
-        "idade": idade,
-        "genero": genero,
-        "raca": raca,
-        "estadoCivil": estadoCivil,
-        "possuiFilhos": possuiFilhos,
-        "quantidadeFilhos": quantidadeFilhos,
-        "tempoEmpresaMeses": tempoEmpresaMeses,
-        "tempoCargoMeses": tempoCargoMeses,
-        "escolaridade": escolaridade,
-      }),
-    );
-
-    print("Resposta pesquisa: ${resposta.body}");
-
-    return resposta.statusCode == 200 || resposta.statusCode == 201;
-
-  } catch (e) {
-    print("Erro ao enviar pesquisa: $e");
-    return false;
-  }
-}
-
-
 
   Future<bool> loginUsuario(String email, String password) async {
     var url = Uri.parse("$baseUrl/auth/token");
 
     try {
+      // FastAPI OAuth2 espera form-data, não JSON
       var resposta = await http.post(
         url,
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: {
-          "username": email, 
-          "password": password,
-        },
+        body: "username=$email&password=$password",
       );
 
       if (resposta.statusCode == 200) {
         var body = jsonDecode(resposta.body);
         accessToken = body["access_token"];
+        print("DEBUG - Login sucesso, token obtido");
 
         bool userInfoObtida = await fetchUserInfo();
         if (!userInfoObtida) {
@@ -127,7 +142,6 @@ class ApiService {
     }
   }
 
-  
   Future<bool> fetchUserInfo() async {
     if (accessToken == null) return false;
 
@@ -145,7 +159,7 @@ class ApiService {
         var user = jsonDecode(resposta.body);
         usuarioId = user["id"];
         usuarioTipo = user["role"] ?? "Colaborador";
-        userData = user; 
+        userData = user;
         return true;
       }
 

@@ -34,6 +34,8 @@ class User(Base):
     email: Mapped[str] = mapped_column(String, unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String)
 
+    nome: Mapped[str] = mapped_column(String)
+
     cargo: Mapped[str | None] = mapped_column(String, nullable=True)
 
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)

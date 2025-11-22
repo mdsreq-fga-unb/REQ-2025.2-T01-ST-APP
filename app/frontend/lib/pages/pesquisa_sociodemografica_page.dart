@@ -239,6 +239,27 @@ class _PesquisaSociodemograficaPageState
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
+                            // Mapa de conversão: valores do frontend → valores esperados pelo backend
+                            final estadoCivilMap = {
+                              "Solteiro(a)": "Solteiro",
+                              "Casado(a)": "Casado",
+                              "União Estável": "Uniao_Estavel",
+                              "Divorciado(a)": "Divorciado",
+                              "Viúvo(a)": "Viúvo",
+                            };
+
+                            final escolaridadeMap = {
+                              "Ensino Fundamental incompleto": "Fundamental_incompleto",
+                              "Ensino Fundamental completo": "Fundamental_completo",
+                              "Ensino Médio incompleto": "Medio_incompleto",
+                              "Ensino Médio completo": "Medio_completo",
+                              "Superior incompleto": "Superior_incompleto",
+                              "Superior completo": "Superior_completo",
+                              "Pós-graduação": "Pos_graduacao",
+                              "Mestrado": "Mestrado",
+                              "Doutorado": "Doutorado",
+                            };
+
                             final apiService = ApiService();
 
                             bool sucesso =
@@ -246,12 +267,12 @@ class _PesquisaSociodemograficaPageState
                               idade: idade!,
                               genero: genero!,
                               raca: raca!,
-                              estadoCivil: estadoCivil!,
+                              estadoCivil: estadoCivilMap[estadoCivil!] ?? estadoCivil!,
                               possuiFilhos: possuiFilhos!,
                               quantidadeFilhos: quantidadeFilhos,
                               tempoEmpresaMeses: tempoEmpresaMeses!,
                               tempoCargoMeses: tempoCargoMeses!,
-                              escolaridade: escolaridade!,
+                              escolaridade: escolaridadeMap[escolaridade!] ?? escolaridade!,
                             );
 
                             if (!mounted) return;
