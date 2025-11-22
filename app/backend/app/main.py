@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
+from app import models, dependencies
 from fastapi.middleware.cors import CORSMiddleware
 
 from .routers import auth, home, forms, resultados, pesquisa_sociodemografica
@@ -29,3 +31,21 @@ app.include_router(pesquisa_sociodemografica.router, prefix="/api", tags=["Quest
 @app.get("/")
 def read_root():
     return {"message": "Bem-vindo à API GenT"}
+
+@app.get("/perguntas")
+def listar_perguntas(
+    db: Session = Depends(dependencies.get_db),
+    # MUDANÇA AQUI: Usamos dependencies.get_current_user
+    current_user: models.User = Depends(dependencies.get_current_user) 
+):
+    print(f"Usuário logado: {current_user.email} | Empresa ID: {current_user.empresa_id}")
+
+    if not current_user.empresa_id:
+        raise HTTPException(status_code=404, detail="Usuário não tem empresa vinculada.")
+
+    # Busca perguntas filtrando pela empresa
+    perguntas = db.query(models.Perguntas).filter(
+        models.Perguntas.empresa_id == current_user.empresa_id
+    ).all()
+
+    return perguntas

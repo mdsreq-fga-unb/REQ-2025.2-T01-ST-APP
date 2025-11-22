@@ -63,6 +63,7 @@ class _CadastroPageState extends State<CadastroPage> {
       senhaController.text,
       empresaController.text,
       cargoController.text,
+      widget.tipoUsuario,
     );
 
     setState(() {

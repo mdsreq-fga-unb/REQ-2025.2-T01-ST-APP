@@ -71,7 +71,6 @@ class _HomePageGestorState extends State<HomePageGestor> {
       body: SafeArea(
         child: Column(
           children: [
-            // Cabeçalho
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(

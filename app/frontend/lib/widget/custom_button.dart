@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String title;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final Color? backgroundColor; // Agora aceita cor de fundo opcional
+  final Color? textColor;       // Agora aceita cor de texto opcional
 
   const CustomButton({
     super.key,
     required this.title,
-    required this.onTap,
+    this.onTap,
+    this.backgroundColor,
+    this.textColor,
   });
 
   @override
@@ -19,7 +23,7 @@ class CustomButton extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         margin: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.blueAccent,
+          color: backgroundColor ?? const Color(0xFFFEBB4C),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Center(

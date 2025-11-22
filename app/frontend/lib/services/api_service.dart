@@ -19,6 +19,7 @@ class ApiService {
     String password,
     String empresa,
     String cargo,
+    String role,
   ) async {
     var url = Uri.parse("$baseUrl/auth/users");
 
@@ -32,7 +33,7 @@ class ApiService {
           "password": password,
           "empresa": empresa,
           "cargo": cargo,
-          "role": "Colaborador",
+          "role": role,
         }),
       );
 
@@ -171,7 +172,7 @@ class ApiService {
     }
   }
 
-  Future<bool> enviarRespostas(Map<int, String> respostas) async {
+  Future<bool> enviarRespostas(Map<int, int> respostas) async {
     if (usuarioId == null || accessToken == null) return false;
 
     var url = Uri.parse("$baseUrl/respostas");
@@ -193,6 +194,34 @@ class ApiService {
     } catch (e) {
       print("Erro ao enviar respostas: $e");
       return false;
+    }
+  }
+
+  Future<List<dynamic>> getPerguntas() async {
+    if (accessToken == null) {
+      throw Exception("Usuário não autenticado");
+    }
+
+    // Usa a baseUrl inteligente que configuramos antes
+    var url = Uri.parse("$baseUrl/perguntas");
+
+    try {
+      var resposta = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $accessToken", // <--- O SEGREDO ESTÁ AQUI
+        },
+      );
+
+      if (resposta.statusCode == 200) {
+        return jsonDecode(resposta.body);
+      } else {
+        throw Exception("Erro ${resposta.statusCode}: ${resposta.body}");
+      }
+    } catch (e) {
+      print("Erro ao buscar perguntas: $e");
+      rethrow;
     }
   }
 
