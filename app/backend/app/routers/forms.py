@@ -12,7 +12,7 @@ def votar_trocar_voto(
     user: models.User = Depends(dependencies.get_current_user),
     db: Session = Depends(dependencies.get_db),
 ):
-    # A rota agora só orquestra a chamada
+    
     crud.votar_ou_trocar_voto(db=db, user_id=user.id, dados_voto=dados_voto)
 
     return {"status": "Voto computado com sucesso!"}

@@ -31,9 +31,10 @@ class User(Base):
     __tablename__ = "usuarios"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    nome: Mapped[str] = mapped_column(String, index=True)
     email: Mapped[str] = mapped_column(String, unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String)
+
+    nome: Mapped[str] = mapped_column(String)
 
     cargo: Mapped[str | None] = mapped_column(String, nullable=True)
 
@@ -48,7 +49,8 @@ class User(Base):
     empresa: Mapped["Empresa"] = relationship(back_populates="usuarios")
 
     respostas_dadas: Mapped[list["Respostas"]] = relationship(back_populates="autor")
-
+    
+    pesquisa_sociodemografica: Mapped["PesquisaSociodemografica"] = relationship(back_populates="usuario", uselist=False)
 
 class Perguntas(Base):
     __tablename__ = "perguntas"
@@ -83,3 +85,71 @@ class Respostas(Base):
     __table_args__ = (
         UniqueConstraint("user_id", "pergunta_id", name="_user_pergunta_uc"),
     )
+    
+class GeneroEnum(str, enum.Enum):
+    Homem = "Homem"
+    Mulher = "Mulher"
+    Outro = "Outro"
+    Prefiro_nao_responder = "Prefiro_não_responder"
+
+
+class RacaEnum(str, enum.Enum):
+    Branco = "Branco"
+    Amarelo = "Amarelo"
+    Indigena = "Indígena"
+    Pardo = "Pardo"
+    Preto = "Preto"
+
+
+class EstadoCivilEnum(str, enum.Enum):
+    Solteiro = "Solteiro"
+    Casado = "Casado"
+    Uniao_Estavel = "Uniao_Estavel"
+    Divorciado = "Divorciado"
+    Viuvo = "Viúvo"
+
+
+class EscolaridadeEnum(str, enum.Enum):
+    Fundamental_incompleto = "Fundamental_incompleto"
+    Fundamental_completo = "Fundamental_completo"
+    Medio_incompleto = "Medio_incompleto"
+    Medio_completo = "Medio_completo"
+    Superior_incompleto = "Superior_incompleto"
+    Superior_completo = "Superior_completo"
+    Pos_graduacao = "Pos_graduacao"
+    Mestrado = "Mestrado"
+    Doutorado = "Doutorado"
+
+
+class PesquisaSociodemografica(Base):
+    __tablename__ = "pesquisa_sociodemografica"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"), unique=True)
+    usuario: Mapped["User"] = relationship(back_populates="pesquisa_sociodemografica")
+
+    idade: Mapped[int] = mapped_column(Integer, nullable=False)
+
+    genero: Mapped[GeneroEnum] = mapped_column(
+        SQLAlchemyEnum(GeneroEnum), nullable=False
+    )
+
+    raca: Mapped[RacaEnum] = mapped_column(
+        SQLAlchemyEnum(RacaEnum), nullable=False
+    )
+
+    estado_civil: Mapped[EstadoCivilEnum] = mapped_column(
+        SQLAlchemyEnum(EstadoCivilEnum), nullable=False
+    )
+
+    possui_filhos: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    quantidade_filhos: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
+    tempo_empresa_meses: Mapped[int] = mapped_column(Integer, nullable=False)
+    tempo_cargo_meses: Mapped[int] = mapped_column(Integer, nullable=False)
+
+    escolaridade: Mapped[EscolaridadeEnum] = mapped_column(
+        SQLAlchemyEnum(EscolaridadeEnum), nullable=False
+    )
+
