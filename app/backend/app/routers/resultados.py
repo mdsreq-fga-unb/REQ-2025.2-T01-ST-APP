@@ -38,13 +38,11 @@ def get_relatorio_pdf(
     db: Session = Depends(dependencies.get_db),
     current_user: models.User = Depends(dependencies.get_current_user),
 ):
-   
-  
+
     resultados_agregados_db = crud.get_resultados_agregados_por_tema(
         db, empresa_id=current_user.empresa_id, tema=tema_nome
     )
 
- 
     total_votos_tema = sum(total for _, total in resultados_agregados_db)
     resultados_agregados_formatados = []
 
@@ -67,7 +65,6 @@ def get_relatorio_pdf(
 
     for pergunta in perguntas:
 
-        
         resultados_pergunta_db = crud.get_resultados_votacao(
             db, pergunta_id=pergunta.id
         )
@@ -76,7 +73,9 @@ def get_relatorio_pdf(
         resultados_formatados = []
 
         for voto_valor, total in resultados_pergunta_db:
-            percent = (total / total_votos_pergunta) * 100 if total_votos_pergunta > 0 else 0
+            percent = (
+                (total / total_votos_pergunta) * 100 if total_votos_pergunta > 0 else 0
+            )
 
             resultados_formatados.append(
                 {
@@ -110,10 +109,7 @@ def get_relatorio_pdf(
 
     except Exception as e:
         print(f"Erro ao converter HTML para PDF com WeasyPrint: {e}")
-        raise HTTPException(
-            status_code=500, detail="Erro ao gerar o arquivo PDF."
-        )
-
+        raise HTTPException(status_code=500, detail="Erro ao gerar o arquivo PDF.")
 
     filename = f"relatorio_{tema_nome.lower().replace(' ', '_')}.pdf"
 

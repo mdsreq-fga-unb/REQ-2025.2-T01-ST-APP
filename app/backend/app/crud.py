@@ -4,8 +4,7 @@ from sqlalchemy.sql import update
 from sqlalchemy.sql.dml import ReturningUpdate
 from sqlalchemy.util import FastIntFlag
 from . import models, schemas, security
-from .models import UserRole 
-
+from .models import UserRole
 
 
 def get_user_email(db: Session, email: str) -> models.User | None:
@@ -24,6 +23,10 @@ def create_empresa(db: Session, nome: str) -> models.Empresa:
     db.add(db_empresa)
     db.commit()
     db.refresh(db_empresa)
+
+    from .seed_data import seed_database
+
+    seed_database()
 
     return db_empresa
 
@@ -44,7 +47,7 @@ def create_user(db: Session, user: schemas.UserCreate, empresa_id: int):
     try:
         role_enum = UserRole(user.role) if isinstance(user.role, str) else user.role
     except ValueError:
-        role_enum = UserRole.Colaborador  
+        role_enum = UserRole.Colaborador
 
     db_user = models.User(
         nome=user.nome,
@@ -52,7 +55,7 @@ def create_user(db: Session, user: schemas.UserCreate, empresa_id: int):
         hashed_password=hashed_password,
         empresa_id=empresa_id,
         cargo=user.cargo,
-        role=role_enum,  
+        role=role_enum,
     )
 
     db.add(db_user)
@@ -65,6 +68,10 @@ def votar_ou_trocar_voto(
     db: Session, user_id: int, dados_voto: schemas.VotoCreate
 ) -> models.Respostas:
 
+    print(
+        f"DEBUG - votar_ou_trocar_voto: user_id={user_id}, pergunta_id={dados_voto.pergunta_id}, voto_valor={dados_voto.voto_valor}"
+    )
+
     voto_existente = (
         db.query(models.Respostas)
         .filter(
@@ -75,31 +82,36 @@ def votar_ou_trocar_voto(
     )
 
     if voto_existente:
-
+        print(f"DEBUG - Voto existente encontrado, atualizando...")
         voto_existente.voto_valor = dados_voto.voto_valor
         db.commit()
         db.refresh(voto_existente)
         return voto_existente
-
     else:
-
+        print(f"DEBUG - Criando novo voto...")
         novo_voto = models.Respostas(
             user_id=user_id,
             pergunta_id=dados_voto.pergunta_id,
             voto_valor=dados_voto.voto_valor,
         )
-
         db.add(novo_voto)
         db.commit()
         db.refresh(novo_voto)
         return novo_voto
 
-def get_perguntas_por_tema(db: Session, empresa_id: int, tema: str) -> list[models.Perguntas]:
 
-    return db.query(models.Perguntas).filter(
-            models.Perguntas.empresa_id == empresa_id,
-            models.Perguntas.tema == tema
-        ).all()
+def get_perguntas_por_tema(
+    db: Session, empresa_id: int, tema: str
+) -> list[models.Perguntas]:
+
+    return (
+        db.query(models.Perguntas)
+        .filter(
+            models.Perguntas.empresa_id == empresa_id, models.Perguntas.tema == tema
+        )
+        .all()
+    )
+
 
 def get_resultados_votacao(
     db: Session, pergunta_id: int
@@ -116,6 +128,7 @@ def get_resultados_votacao(
     )
 
     return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
+
 
 def get_resultados_agregados_por_tema(
     db: Session, empresa_id: int, tema: str
@@ -137,11 +150,12 @@ def get_resultados_agregados_por_tema(
     return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
 
 
-def create_pesquisa(db: Session, pesquisa: schemas.PesquisaSociodemograficaCreate, usuario_id: int) -> models.PesquisaSociodemografica:
-    
+def create_pesquisa(
+    db: Session, pesquisa: schemas.PesquisaSociodemograficaCreate, usuario_id: int
+) -> models.PesquisaSociodemografica:
+
     db_pesquisa = models.PesquisaSociodemografica(
-        usuario_id=usuario_id,
-        **pesquisa.model_dump()
+        usuario_id=usuario_id, **pesquisa.model_dump()
     )
 
     db.add(db_pesquisa)
@@ -151,20 +165,27 @@ def create_pesquisa(db: Session, pesquisa: schemas.PesquisaSociodemograficaCreat
     return db_pesquisa
 
 
-def get_pesquisa_by_user_id(db: Session, usuario_id: int) -> models.PesquisaSociodemografica | None:
-    
-    return db.query(models.PesquisaSociodemografica).filter(
-        models.PesquisaSociodemografica.usuario_id == usuario_id
-    ).first()
+def get_pesquisa_by_user_id(
+    db: Session, usuario_id: int
+) -> models.PesquisaSociodemografica | None:
+
+    return (
+        db.query(models.PesquisaSociodemografica)
+        .filter(models.PesquisaSociodemografica.usuario_id == usuario_id)
+        .first()
+    )
 
 
-def update_pesquisa(db: Session, usuario_id: int, pesquisa_update: schemas.PesquisaSociodemograficaCreate) -> models.PesquisaSociodemografica | None:
-       
+def update_pesquisa(
+    db: Session,
+    usuario_id: int,
+    pesquisa_update: schemas.PesquisaSociodemograficaCreate,
+) -> models.PesquisaSociodemografica | None:
+
     db_pesquisa = get_pesquisa_by_user_id(db, usuario_id)
-    
+
     if not db_pesquisa:
         return None
-
 
     update_data = pesquisa_update.model_dump(exclude_unset=True)
 
@@ -177,15 +198,15 @@ def update_pesquisa(db: Session, usuario_id: int, pesquisa_update: schemas.Pesqu
 
     return db_pesquisa
 
+
 def delete_pesquisa(db: Session, usuario_id: int) -> bool:
-        
+
     db_pesquisa = get_pesquisa_by_user_id(db, usuario_id)
-    
+
     if not db_pesquisa:
         return False
-        
+
     db.delete(db_pesquisa)
     db.commit()
 
     return True
-

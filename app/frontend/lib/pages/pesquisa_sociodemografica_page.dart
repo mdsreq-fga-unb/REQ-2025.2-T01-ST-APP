@@ -29,142 +29,140 @@ class _PesquisaSociodemograficaPageState
   int? tempoCargoMeses;
   String? escolaridade;
 
-  // ESTILO DOS CAMPOS
-  InputDecoration fieldDecoration(String label) {
+  Widget tituloSecao(String texto) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 18, bottom: 8),
+      child: Text(
+        texto,
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  InputDecoration campoEstilo() {
     return InputDecoration(
-      labelText: label,
       filled: true,
-      fillColor: const Color(0xFFE2B8FF), // Roxo claro igual ao cadastro
+      fillColor: const Color(0xFFE2B8FF),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(30),
         borderSide: BorderSide.none,
       ),
-      labelStyle: const TextStyle(color: Colors.black87),
+      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // FUNDO BRANCO
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 22),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 24),
 
-              // TÍTULO
-              const Text(
-                "Estamos quase lá!!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 14),
-
-              // Caixinha amarela
-              const DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFB84D),
-                  borderRadius: BorderRadius.all(Radius.circular(14)),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                const Center(
                   child: Text(
-                    "Com essas informações\nfarei seu perfil",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 15),
+                    "Estamos quase terminando!",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 30),
+                const SizedBox(height: 30),
 
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration: fieldDecoration("Idade"),
-                      keyboardType: TextInputType.number,
-                      validator: (v) =>
-                          v == null || v.isEmpty ? "Obrigatório" : null,
-                      onSaved: (v) => idade = int.tryParse(v!),
-                    ),
+                tituloSecao("Idade"),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: campoEstilo(),
+                  validator: (v) =>
+                      v == null || v.isEmpty ? "Obrigatório" : null,
+                  onSaved: (v) => idade = int.tryParse(v!),
+                ),
 
-                    const SizedBox(height: 15),
+                tituloSecao("Como você se identifica quanto a gênero?"),
+                ...[
+                  "Mulher",
+                  "Homem",
+                  "Outro",
+                  "Prefiro não informar"
+                ].map(
+                  (e) => RadioListTile(
+                    value: e,
+                    groupValue: genero,
+                    activeColor: Colors.black87,
+                    onChanged: (v) => setState(() => genero = v),
+                    title: Text(e),
+                  ),
+                ),
 
-                    DropdownButtonFormField(
-                      decoration: fieldDecoration("Gênero"),
-                      dropdownColor: const Color(0xFFE2B8FF),
-                      items: [
-                        "Homem",
-                        "Mulher",
-                        "Outro",
-                        "Prefiro não responder"
-                      ]
-                          .map((e) =>
-                              DropdownMenuItem(value: e, child: Text(e)))
-                          .toList(),
-                      onChanged: (v) => genero = v,
-                      validator: (v) => v == null ? "Obrigatório" : null,
-                    ),
+                tituloSecao("E quanto à raça?"),
+                ...[
+                  "Branco(a)",
+                  "Pardo(a)",
+                  "Indígena",
+                  "Amarelo(a)",
+                  "Preto(a)"
+                ].map(
+                  (e) => RadioListTile(
+                    value: e,
+                    groupValue: raca,
+                    activeColor: Colors.black87,
+                    onChanged: (v) => setState(() => raca = v),
+                    title: Text(e),
+                  ),
+                ),
 
-                    const SizedBox(height: 15),
+                tituloSecao("Qual é seu estado civil?"),
+                ...[
+                  "Solteiro(a)",
+                  "Casado(a)",
+                  "União estável",
+                  "Divorciado(a)",
+                  "Viúvo(a)"
+                ].map(
+                  (e) => RadioListTile(
+                    value: e,
+                    groupValue: estadoCivil,
+                    activeColor: Colors.black87,
+                    onChanged: (v) => setState(() => estadoCivil = v),
+                    title: Text(e),
+                  ),
+                ),
 
-                    DropdownButtonFormField(
-                      decoration: fieldDecoration("Raça/Etnia"),
-                      dropdownColor: const Color(0xFFE2B8FF),
-                      items: ["Branco", "Amarelo", "Indígena", "Pardo", "Preto"]
-                          .map((e) =>
-                              DropdownMenuItem(value: e, child: Text(e)))
-                          .toList(),
-                      onChanged: (v) => raca = v,
-                      validator: (v) => v == null ? "Obrigatório" : null,
-                    ),
+                tituloSecao("Tem filhos?"),
+                RadioListTile<bool>(
+                  value: false,
+                  groupValue: possuiFilhos,
+                  activeColor: Colors.black87,
+                  onChanged: (v) => setState(() => possuiFilhos = v),
+                  title: const Text("Não tenho"),
+                ),
+                RadioListTile<bool>(
+                  value: true,
+                  groupValue: possuiFilhos,
+                  activeColor: Colors.black87,
+                  onChanged: (v) => setState(() => possuiFilhos = v),
+                  title: const Text("Tenho. Quantos?"),
+                ),
 
-                    const SizedBox(height: 15),
-
-                    DropdownButtonFormField(
-                      decoration: fieldDecoration("Estado Civil"),
-                      dropdownColor: const Color(0xFFE2B8FF),
-                      items: [
-                        "Solteiro(a)",
-                        "Casado(a)",
-                        "União Estável",
-                        "Divorciado(a)",
-                        "Viúvo(a)"
-                      ]
-                          .map((e) =>
-                              DropdownMenuItem(value: e, child: Text(e)))
-                          .toList(),
-                      onChanged: (v) => estadoCivil = v,
-                      validator: (v) => v == null ? "Obrigatório" : null,
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    DropdownButtonFormField<bool>(
-                      decoration: fieldDecoration("Possui filhos?"),
-                      dropdownColor: const Color(0xFFE2B8FF),
-                      items: const [
-                        DropdownMenuItem(value: false, child: Text("Não")),
-                        DropdownMenuItem(value: true, child: Text("Sim")),
-                      ],
-                      onChanged: (v) => setState(() => possuiFilhos = v),
-                      validator: (v) => v == null ? "Obrigatório" : null,
-                    ),
-
-                    if (possuiFilhos == true) ...[
-                      const SizedBox(height: 15),
-                      TextFormField(
-                        decoration: fieldDecoration("Quantidade de filhos"),
+                if (possuiFilhos == true)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 22, bottom: 12),
+                    child: SizedBox(
+                      width: 220,
+                      child: TextFormField(
                         keyboardType: TextInputType.number,
+                        decoration: campoEstilo(),
                         validator: (v) {
                           if (possuiFilhos == true &&
                               (v == null || v.isEmpty)) {
@@ -175,135 +173,139 @@ class _PesquisaSociodemograficaPageState
                         onSaved: (v) =>
                             quantidadeFilhos = int.tryParse(v ?? "0"),
                       ),
-                    ],
-
-                    const SizedBox(height: 15),
-
-                    TextFormField(
-                      decoration: fieldDecoration("Tempo de empresa (meses)"),
-                      keyboardType: TextInputType.number,
-                      validator: (v) =>
-                          v == null || v.isEmpty ? "Obrigatório" : null,
-                      onSaved: (v) =>
-                          tempoEmpresaMeses = int.tryParse(v!),
                     ),
+                  ),
 
-                    const SizedBox(height: 15),
+                tituloSecao("Tempo de empresa (em meses)"),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: campoEstilo(),
+                  validator: (v) =>
+                      v == null || v.isEmpty ? "Obrigatório" : null,
+                  onSaved: (v) => tempoEmpresaMeses = int.tryParse(v!),
+                ),
 
-                    TextFormField(
-                      decoration:
-                          fieldDecoration("Tempo no cargo atual (meses)"),
-                      keyboardType: TextInputType.number,
-                      validator: (v) =>
-                          v == null || v.isEmpty ? "Obrigatório" : null,
-                      onSaved: (v) => tempoCargoMeses = int.tryParse(v!),
+                tituloSecao("Tempo no cargo atual (em meses)"),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: campoEstilo(),
+                  validator: (v) =>
+                      v == null || v.isEmpty ? "Obrigatório" : null,
+                  onSaved: (v) => tempoCargoMeses = int.tryParse(v!),
+                ),
+
+                tituloSecao("Escolaridade"),
+                DropdownButtonFormField(
+                  decoration: campoEstilo(),
+                  dropdownColor: const Color(0xFFE2B8FF),
+                  items: [
+                    "Ensino Fundamental incompleto",
+                    "Ensino Fundamental completo",
+                    "Ensino Médio incompleto",
+                    "Ensino Médio completo",
+                    "Superior incompleto",
+                    "Superior completo",
+                    "Pós-graduação",
+                    "Mestrado",
+                    "Doutorado",
+                  ]
+                      .map((e) =>
+                          DropdownMenuItem(value: e, child: Text(e)))
+                      .toList(),
+                  onChanged: (v) => escolaridade = v,
+                  validator: (v) => v == null ? "Obrigatório" : null,
+                ),
+
+                const SizedBox(height: 40),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFE2B8FF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-
-                    const SizedBox(height: 15),
-
-                    DropdownButtonFormField(
-                      decoration: fieldDecoration("Escolaridade"),
-                      dropdownColor: const Color(0xFFE2B8FF),
-                      items: [
-                        "Ensino Fundamental incompleto",
-                        "Ensino Fundamental completo",
-                        "Ensino Médio incompleto",
-                        "Ensino Médio completo",
-                        "Superior incompleto",
-                        "Superior completo",
-                        "Pós-graduação",
-                        "Mestrado",
-                        "Doutorado"
-                      ]
-                          .map((e) =>
-                              DropdownMenuItem(value: e, child: Text(e)))
-                          .toList(),
-                      onChanged: (v) => escolaridade = v,
-                      validator: (v) => v == null ? "Obrigatório" : null,
-                    ),
-
-                    const SizedBox(height: 35),
-
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFB84D),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 14, horizontal: 20),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(22),
-                          ),
-                        ),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-
-                            // Mapa de conversão: valores do frontend → valores esperados pelo backend
-                            final estadoCivilMap = {
-                              "Solteiro(a)": "Solteiro",
-                              "Casado(a)": "Casado",
-                              "União Estável": "Uniao_Estavel",
-                              "Divorciado(a)": "Divorciado",
-                              "Viúvo(a)": "Viúvo",
-                            };
-
-                            final escolaridadeMap = {
-                              "Ensino Fundamental incompleto": "Fundamental_incompleto",
-                              "Ensino Fundamental completo": "Fundamental_completo",
-                              "Ensino Médio incompleto": "Medio_incompleto",
-                              "Ensino Médio completo": "Medio_completo",
-                              "Superior incompleto": "Superior_incompleto",
-                              "Superior completo": "Superior_completo",
-                              "Pós-graduação": "Pos_graduacao",
-                              "Mestrado": "Mestrado",
-                              "Doutorado": "Doutorado",
-                            };
-
-                            final apiService = ApiService();
-
-                            bool sucesso =
-                                await apiService.enviarPesquisaSociodemografica(
-                              idade: idade!,
-                              genero: genero!,
-                              raca: raca!,
-                              estadoCivil: estadoCivilMap[estadoCivil!] ?? estadoCivil!,
-                              possuiFilhos: possuiFilhos!,
-                              quantidadeFilhos: quantidadeFilhos,
-                              tempoEmpresaMeses: tempoEmpresaMeses!,
-                              tempoCargoMeses: tempoCargoMeses!,
-                              escolaridade: escolaridadeMap[escolaridade!] ?? escolaridade!,
-                            );
-
-                            if (!mounted) return;
-
-                            if (sucesso) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      LoginPage(tipoUsuario: widget.tipoUsuario),
-                                ),
-                              );
-                            }
-                          }
-                        },
-                        child: const Text(
-                          "Enviar",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
+                    onPressed: enviarFormulario,
+                    child: const Text(
+                      "Enviar",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
                       ),
                     ),
-
-                    const SizedBox(height: 20),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> enviarFormulario() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      final estadoCivilMap = {
+        "Solteiro(a)": "Solteiro",
+        "Casado(a)": "Casado",
+        "União estável": "Uniao_Estavel",
+        "Divorciado(a)": "Divorciado",
+        "Viúvo(a)": "Viúvo",
+      };
+
+      final escolaridadeMap = {
+        "Ensino Fundamental incompleto": "Fundamental_incompleto",
+        "Ensino Fundamental completo": "Fundamental_completo",
+        "Ensino Médio incompleto": "Medio_incompleto",
+        "Ensino Médio completo": "Medio_completo",
+        "Superior incompleto": "Superior_incompleto",
+        "Superior completo": "Superior_completo",
+        "Pós-graduação": "Pos_graduacao",
+        "Mestrado": "Mestrado",
+        "Doutorado": "Doutorado",
+      };
+
+      
+      final racaMap = {
+        "Branco(a)": "Branco",
+        "Pardo(a)": "Pardo",
+        "Indígena": "Indigena",
+        "Amarelo(a)": "Amarelo",
+        "Preto(a)": "Preto",
+      };
+
+      final apiService = ApiService();
+
+      bool sucesso = await apiService.enviarPesquisaSociodemografica(
+        idade: idade!,
+        genero: genero!,
+        raca: racaMap[raca] ?? raca!,
+        estadoCivil: estadoCivilMap[estadoCivil] ?? estadoCivil!,
+        possuiFilhos: possuiFilhos!,
+        quantidadeFilhos: quantidadeFilhos,
+        tempoEmpresaMeses: tempoEmpresaMeses!,
+        tempoCargoMeses: tempoCargoMeses!,
+        escolaridade: escolaridadeMap[escolaridade] ?? escolaridade!,
+      );
+
+      if (!mounted) return;
+
+      if (sucesso) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => LoginPage(tipoUsuario: widget.tipoUsuario),
+          ),
+        );
+      }
+    }
   }
 }

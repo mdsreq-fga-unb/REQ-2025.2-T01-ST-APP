@@ -18,7 +18,7 @@ void main() {
       "/home_colaborador": (context) => HomePageColaborador(),
       "/home_gestor": (context) => HomePageGestor(),
       "/questionario": (context) => const QuestionarioPage(),
-      "/dashboard": (context) => const DashboardPage(),
+      "/dashboard": (context) => DashboardPage(),
     },
 
     onGenerateRoute: (settings) {
@@ -53,7 +53,6 @@ void main() {
   ));
 }
 
-// ===== FUNÇÃO DE TELA DE ERRO PARA ROTAS MAL CHAMADAS =====
 
 Route _erroRota(String msg) {
   return MaterialPageRoute(

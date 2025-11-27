@@ -49,8 +49,11 @@ class User(Base):
     empresa: Mapped["Empresa"] = relationship(back_populates="usuarios")
 
     respostas_dadas: Mapped[list["Respostas"]] = relationship(back_populates="autor")
-    
-    pesquisa_sociodemografica: Mapped["PesquisaSociodemografica"] = relationship(back_populates="usuario", uselist=False)
+
+    pesquisa_sociodemografica: Mapped["PesquisaSociodemografica"] = relationship(
+        back_populates="usuario", uselist=False
+    )
+
 
 class Perguntas(Base):
     __tablename__ = "perguntas"
@@ -85,7 +88,8 @@ class Respostas(Base):
     __table_args__ = (
         UniqueConstraint("user_id", "pergunta_id", name="_user_pergunta_uc"),
     )
-    
+
+
 class GeneroEnum(str, enum.Enum):
     Homem = "Homem"
     Mulher = "Mulher"
@@ -135,9 +139,7 @@ class PesquisaSociodemografica(Base):
         SQLAlchemyEnum(GeneroEnum), nullable=False
     )
 
-    raca: Mapped[RacaEnum] = mapped_column(
-        SQLAlchemyEnum(RacaEnum), nullable=False
-    )
+    raca: Mapped[RacaEnum] = mapped_column(SQLAlchemyEnum(RacaEnum), nullable=False)
 
     estado_civil: Mapped[EstadoCivilEnum] = mapped_column(
         SQLAlchemyEnum(EstadoCivilEnum), nullable=False
@@ -152,4 +154,3 @@ class PesquisaSociodemografica(Base):
     escolaridade: Mapped[EscolaridadeEnum] = mapped_column(
         SQLAlchemyEnum(EscolaridadeEnum), nullable=False
     )
-

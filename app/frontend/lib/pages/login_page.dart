@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (!mounted) return;
 
-        if (widget.tipoUsuario == "gestor") {
+        if (widget.tipoUsuario == "Gestor") {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
