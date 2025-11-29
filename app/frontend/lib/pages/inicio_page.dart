@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'tipo_usuario_page.dart';
 
 class InicioPage extends StatelessWidget {
@@ -13,21 +14,18 @@ class InicioPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "GenT",
-                style: TextStyle(
-                  fontSize: 64,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontFamily: 'Sans-serif',
-                ),
+              SvgPicture.asset(
+                'assets/images/Logo_gent_2.svg',
+                height: 160,
               ),
+
               const SizedBox(height: 40),
+
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFFFB74D),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 60, vertical: 15),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                 ),
@@ -40,9 +38,10 @@ class InicioPage extends StatelessWidget {
                 child: const Text(
                   "Começar",
                   style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -52,4 +51,3 @@ class InicioPage extends StatelessWidget {
     );
   }
 }
-
