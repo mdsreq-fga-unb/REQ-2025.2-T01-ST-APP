@@ -34,5 +34,5 @@ Um requisito é considerado "Done" quando atende aos seguintes critérios:
 
 * Performance Preservada: A nova funcionalidade atende aos requisitos de desempenho, mantendo o tempo de resposta abaixo de 3 segundos.
 
-* Documentação Atualizada: Toda a documentação impactada pela funcionalidade foi devidamente criada ou atualizada.
+* Documentação Atualizada: A documentação técnica (API/Swagger, README) foram revisadas e atualizadas para refletir as novas implementações.
 

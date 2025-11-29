@@ -75,6 +75,8 @@
 | **Planejamento da Release** | Elicitação e Descoberta | Levantamento inicial das necessidade do cliente | Workshop de Requisitos, Entrevistas, Brainstorming | Visão do produto, entendimento compartilhado e lista preliminar de épicos. |
 | **Planejamento da Release** | Análise e Consenso | Priorização dos Requisitos | MoSCoW, Análise de Domínio, Análise de Custo/Benefício | Requisitos priorizados, com viabilidade inicial compreendida e alinhados ao negócio. |
 | **Planejamento da Release** | Declaração | Estruturação inicial do Backlog do Produto | Temas, Épicos e User Stories | Backlog inicial estruturado com os principais épicos e histórias de usuário. |
+| **Planejamento de Release** | Verificação e Validação | Validação de escopo e viabilidade macro | Walkthroughs e Workshop de Requisitos | Escopo da release validado pelos stakeholders e alinhado aos objetivos de negócio |
+| **Planejamento de Release** | Organização e Atualização | Definição e fatiamento do backlog |Product Backlog e Refinamento (Grooming) | Product Backlog ordenado, estimado e fatiado para a Release. |
 | **Planejamento de Sprint** | Análise e Consenso | Discussão de viabilidade técnica | Análise de domínio de requisitos / Análise de Custo/Benefício | Requisitos acordados de forma viável para implementação |
 | **Planejamento de Sprint** | Declaração | Detalhamento e Refinamento das User Stories | User Stories com Critérios de Aceitação | Histórias de usuário formatadas e com Critérios de Aceite definidos. |
 | **Planejamento de Sprint** | Verificação e Validação | Garantia de prontidão dos requisitos | Definition of Ready (DoR), Revisão do Backlog DEEP | Itens do backlog validados (conforme checklist DoR) e verificados conforme padrão DEEP. |
