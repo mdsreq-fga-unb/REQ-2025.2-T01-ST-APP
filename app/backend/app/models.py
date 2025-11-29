@@ -67,11 +67,11 @@ class Perguntas(Base):
 
 
 class VotoValor(int, enum.Enum):
-    CONCORDO_TOTALMENTE = 5
-    CONCORDO_PARCIALMENTE = 4
-    NEM_CONCORDO_NEM_DISCORDO = 3
-    DISCORDO_PARCIALMENTE = 2
-    DISCORDO_TOTALMENTE = 1
+    SEMPRE = 5
+    FREQUENTEMENTE = 4
+    ÀS_VEZES = 3
+    RARAMENTE = 2
+    NUNCA = 1
 
 
 class Respostas(Base):

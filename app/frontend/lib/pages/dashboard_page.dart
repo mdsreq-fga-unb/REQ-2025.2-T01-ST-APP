@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '/services/api_service.dart';
 import 'detalhamento_page.dart';
-import '/widget/gauge_widget.dart';
 
 class DashboardPage extends StatefulWidget {
   final ApiService apiService;
@@ -116,49 +115,38 @@ class _DashboardPageState extends State<DashboardPage> {
 
                 const SizedBox(height: 20),
 
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start, // <-- ALTERADO
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Score Geral",
-                            style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            "${(_scoreGeral * 100).round()}% - ${_classificacaoPorValor(_scoreGeral)}",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: LinearProgressIndicator(
-                              value: _scoreGeral,
-                              minHeight: 12,
-                              backgroundColor: Colors.grey[300],
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                _corPorValor(_scoreGeral),
-                              ),
-                            ),
-                          ),
-                        ],
+                    const Text(
+                      "Score Geral",
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
+                    const SizedBox(height: 4),
+                    Text(
+                      "${(_scoreGeral * 100).round()}% - ${_classificacaoPorValor(_scoreGeral)}",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
 
-                    const SizedBox(width: 40), 
-
-                    GaugeWidget(valor: _scoreGeral),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: LinearProgressIndicator(
+                        value: _scoreGeral,
+                        minHeight: 14,
+                        backgroundColor: Colors.grey[300],
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          _corPorValor(_scoreGeral),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
 

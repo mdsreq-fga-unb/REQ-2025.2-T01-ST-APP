@@ -14,8 +14,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final emailController = TextEditingController();
-  final senhaController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController senhaController = TextEditingController();
   final apiService = ApiService();
 
   String mensagem = "";
@@ -75,6 +75,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    const fieldSpacing = SizedBox(height: 18);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -102,14 +104,27 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 30),
-            _buildTextField("Insira seu e-mail:", emailController, TextInputType.emailAddress),
-            const SizedBox(height: 16),
-            _buildPasswordField("Insira sua senha:", senhaController),
+
+            _labelledTextField(
+              label: "Insira seu e-mail:",
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+            ),
+
+            fieldSpacing,
+
+            _labelledPasswordField(
+              label: "Insira sua senha:",
+              controller: senhaController,
+            ),
+
             const SizedBox(height: 20),
+
             TextButton(
               onPressed: () {},
               child: const Text("Esqueceu sua senha?"),
             ),
+
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -121,13 +136,16 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: const Text("Ainda não possui conta?"),
             ),
+
             const SizedBox(height: 20),
+
             _carregando
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFFB74D),
-                      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 16),
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 80, vertical: 16),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                     ),
@@ -135,14 +153,18 @@ class _LoginPageState extends State<LoginPage> {
                     child: const Text(
                       "Entrar",
                       style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
+
             const SizedBox(height: 20),
+
             Text(
               mensagem,
               style: TextStyle(
-                color: mensagem.contains("bem-sucedido") ? Colors.green : Colors.red,
+                color: mensagem.contains("bem") ? Colors.green : Colors.red,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -152,52 +174,64 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildTextField(
-    String label,
-    TextEditingController controller,
-    TextInputType inputType,
-  ) {
-    return TextField(
-      controller: controller,
-      keyboardType: inputType,
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(color: Colors.black),
-        filled: true,
-        fillColor: const Color(0xFFCFA7FF),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+  Widget _labelledTextField({
+    required String label,
+    required TextEditingController controller,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+            filled: true,
+            fillColor: const Color(0xFFCFA7FF),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
-  Widget _buildPasswordField(
-    String label,
-    TextEditingController controller,
-  ) {
-    return TextField(
-      controller: controller,
-      obscureText: _obscurePassword,
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(color: Colors.black),
-        filled: true,
-        fillColor: const Color(0xFFCFA7FF),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+  Widget _labelledPasswordField({
+    required String label,
+    required TextEditingController controller,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          obscureText: _obscurePassword,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+            filled: true,
+            fillColor: const Color(0xFFCFA7FF),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+              onPressed: () {
+                setState(() {
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+            ),
+          ),
         ),
-        suffixIcon: IconButton(
-          icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
-          onPressed: () {
-            setState(() {
-              _obscurePassword = !_obscurePassword;
-            });
-          },
-        ),
-      ),
+      ],
     );
   }
 }
