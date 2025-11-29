@@ -1,8 +1,10 @@
 ﻿import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 
 class ApiService {
-  // Singleton instance so pages share the same ApiService state (usuarioId, tokens, etc.)
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
   ApiService._internal();
@@ -40,12 +42,10 @@ class ApiService {
       if (resposta.statusCode == 200 || resposta.statusCode == 201) {
         var body = jsonDecode(resposta.body);
         print("DEBUG - Resposta do cadastro: $body");
-        // Tenta extrair ID de múltiplas chaves possíveis
         usuarioId = body["id"] ?? body["user_id"] ?? body["userId"];
         usuarioTipo = body["role"] ?? "Colaborador";
         userData = body;
         print("DEBUG - usuarioId extraído: $usuarioId");
-        // Tenta logar automaticamente para obter token (necessário para enviar a pesquisa)
         try {
           await loginUsuario(email, password);
         } catch (e) {
@@ -77,7 +77,6 @@ class ApiService {
       return false;
     }
 
-    // Endpoint correto no backend: /api/pesquisa/salvar
     var url = Uri.parse("$baseUrl/api/pesquisa/salvar");
 
     final bodyMap = {
@@ -116,7 +115,6 @@ class ApiService {
     var url = Uri.parse("$baseUrl/auth/token");
 
     try {
-      // FastAPI OAuth2 espera form-data, não JSON
       var resposta = await http.post(
         url,
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
@@ -172,45 +170,124 @@ class ApiService {
     }
   }
 
-  Future<bool> enviarRespostas(Map<int, int> respostas) async {
-    if (usuarioId == null || accessToken == null) return false;
-
-    var url = Uri.parse("$baseUrl/respostas");
-
-    try {
-      var resposta = await http.post(
-        url,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $accessToken",
-        },
-        body: jsonEncode({
-          "usuario_id": usuarioId,
-          "respostas": respostas,
-        }),
-      );
-
-      return resposta.statusCode == 200 || resposta.statusCode == 201;
-    } catch (e) {
-      print("Erro ao enviar respostas: $e");
-      return false;
-    }
+Future<bool> enviarRespostas(Map<int, int> respostas) async {
+  if (usuarioId == null || accessToken == null) {
+    print("DEBUG - usuarioId ou accessToken é nulo");
+    return false;
   }
 
+  try {
+    int respostasEnviadas = 0;
+    int totalRespostas = respostas.length;
+
+    print("DEBUG - Iniciando envio de $totalRespostas respostas");
+
+    for (var entry in respostas.entries) {
+      bool sucesso = await enviarRespostaIndividual(entry.key, entry.value);
+      if (sucesso) {
+        respostasEnviadas++;
+        print("DEBUG - Resposta $respostasEnviadas/$totalRespostas enviada com sucesso");
+      } else {
+        print("DEBUG - Falha ao enviar resposta para pergunta ${entry.key}");
+      }
+    }
+
+    print("DEBUG - Total de respostas processadas: $respostasEnviadas/$totalRespostas");
+    
+    return respostasEnviadas > 0;
+    
+  } catch (e) {
+    print("Erro ao enviar respostas: $e");
+    return false;
+  }
+}
+
+Future<bool> enviarRespostaIndividual(int perguntaId, int valor) async {
+  if (accessToken == null) {
+    print("DEBUG - Access token é nulo");
+    return false;
+  }
+
+  var url = Uri.parse("$baseUrl/api/responder");
+
+  try {
+    var resposta = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $accessToken",
+      },
+      body: jsonEncode({
+        "pergunta_id": perguntaId,
+        "voto_valor": valor,
+      }),
+    );
+
+    print("DEBUG - Status code resposta individual: ${resposta.statusCode}");
+    print("DEBUG - Response body: ${resposta.body}");
+    
+    if (resposta.statusCode == 200) {
+      var responseBody = jsonDecode(resposta.body);
+      if (responseBody["status"] == "Voto computado com sucesso!") {
+        print("DEBUG - Resposta salva: pergunta_id=$perguntaId, valor=$valor");
+        return true;
+      }
+    }
+    
+    print("DEBUG - Erro ao salvar resposta individual");
+    return false;
+    
+  } catch (e) {
+    print("Erro ao enviar resposta individual: $e");
+    return false;
+  }
+}
+
   Future<List<dynamic>> getPerguntas() async {
+  if (accessToken == null) {
+    print("DEBUG - Access token é nulo!");
+    throw Exception("Usuário não autenticado");
+  }
+
+  var url = Uri.parse("$baseUrl/perguntas");
+  print("DEBUG - URL das perguntas: $url");
+
+  try {
+    var resposta = await http.get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $accessToken",
+      },
+    );
+
+    print("DEBUG - Status code: ${resposta.statusCode}");
+
+    if (resposta.statusCode == 200) {
+      var decoded = jsonDecode(resposta.body);
+      return decoded;
+    } else {
+      throw Exception("Erro ${resposta.statusCode}: ${resposta.body}");
+    }
+  } catch (e) {
+    print("Erro ao buscar perguntas: $e");
+    rethrow;
+  }
+}
+
+  Future<List<dynamic>> getResultadosPorTema(String tema) async {
     if (accessToken == null) {
       throw Exception("Usuário não autenticado");
     }
 
-    // Usa a baseUrl inteligente que configuramos antes
-    var url = Uri.parse("$baseUrl/perguntas");
+    var url = Uri.parse("$baseUrl/api/respostas/${Uri.encodeComponent(tema)}");
 
     try {
       var resposta = await http.get(
         url,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $accessToken", // <--- O SEGREDO ESTÁ AQUI
+          "Authorization": "Bearer $accessToken",
         },
       );
 
@@ -220,7 +297,47 @@ class ApiService {
         throw Exception("Erro ${resposta.statusCode}: ${resposta.body}");
       }
     } catch (e) {
-      print("Erro ao buscar perguntas: $e");
+      print("Erro ao buscar resultados por tema: $e");
+      rethrow;
+    }
+  }
+
+  Future<String?> downloadRelatorioPdf(String tema) async {
+    if (accessToken == null) {
+      throw Exception("Usuário não autenticado");
+    }
+
+    var url = Uri.parse("$baseUrl/api/relatorio-pdf/${Uri.encodeComponent(tema)}");
+
+    try {
+      var resposta = await http.get(
+        url,
+        headers: {
+          "Authorization": "Bearer $accessToken",
+        },
+      );
+
+      if (resposta.statusCode == 200) {
+        final bytes = resposta.bodyBytes;
+
+        final dir = await getTemporaryDirectory();
+        final filePath = "${dir.path}/relatorio_${tema.replaceAll(' ', '_')}.pdf";
+        final file = File(filePath);
+        await file.writeAsBytes(bytes);
+
+        
+        try {
+          await OpenFile.open(filePath);
+        } catch (e) {
+          print('Não foi possível abrir automaticamente: $e');
+        }
+
+        return filePath;
+      } else {
+        throw Exception("Erro ao gerar PDF: ${resposta.statusCode}");
+      }
+    } catch (e) {
+      print("Erro ao baixar PDF: $e");
       rethrow;
     }
   }

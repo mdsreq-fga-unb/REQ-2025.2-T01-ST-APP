@@ -72,29 +72,31 @@ perguntas_data = [
 def seed_database():
     """
     Garante que todas as empresas cadastradas tenham o conjunto
-    básico de perguntas.
+    básico de perguntas. Executa sempre, verificando cada empresa.
     """
-
-    # Inicia a sessão com o banco
     db = SessionLocal()
-
     try:
         # 1. Busca todas as empresas do banco de dados
         todas_as_empresas = db.query(models.Empresa).all()
 
         if not todas_as_empresas:
             logging.warning("Nenhuma empresa encontrada no banco.")
-            logging.warning("Cadastre uma empresa antes de rodar o seed.")
             return
 
         logging.info(
             f"Encontradas {len(todas_as_empresas)} empresas. Verificando perguntas..."
         )
 
+        # Log das empresas encontradas
+        for emp in todas_as_empresas:
+            logging.info(f" - Empresa: {emp.nome} (ID: {emp.id})")
+
         perguntas_adicionadas = 0
+        empresas_processadas = 0
 
         # 2. Itera sobre cada empresa encontrada
         for empresa in todas_as_empresas:
+            empresas_processadas += 1
 
             # 3. Verifica se esta empresa JÁ tem perguntas
             count = (
@@ -103,42 +105,57 @@ def seed_database():
                 .count()
             )
 
-            if count > 0:
+            if count >= len(perguntas_data):
                 logging.info(
                     f"Empresa '{empresa.nome}' (ID: {empresa.id}) já possui {count} perguntas. Pulando."
                 )
                 continue
 
-            # 4. Se a empresa não tem perguntas, adiciona o conjunto padrão
-            logging.info(
-                f"Adicionando {len(perguntas_data)} perguntas para a empresa '{empresa.nome}' (ID: {empresa.id})..."
+            # 4. Se a empresa não tem perguntas suficientes, adiciona o conjunto padrão
+            if count > 0:
+                logging.info(
+                    f"Empresa '{empresa.nome}' (ID: {empresa.id}) tem apenas {count} de {len(perguntas_data)} perguntas. Adicionando as restantes."
+                )
+            else:
+                logging.info(
+                    f"Adicionando {len(perguntas_data)} perguntas para a empresa '{empresa.nome}' (ID: {empresa.id})..."
+                )
+
+            # Adiciona apenas as perguntas que faltam
+            perguntas_existentes = (
+                db.query(models.Perguntas.descricao)
+                .filter(models.Perguntas.empresa_id == empresa.id)
+                .all()
             )
+            descricoes_existentes = {p[0] for p in perguntas_existentes}
 
             for texto_pergunta, tema_pergunta in perguntas_data:
-                pergunta = models.Perguntas(
-                    descricao=texto_pergunta,
-                    tema=tema_pergunta,
-                    empresa_id=empresa.id,  # Linka com a empresa do loop
-                )
-                db.add(pergunta)
-                perguntas_adicionadas += 1
+                if texto_pergunta not in descricoes_existentes:
+                    pergunta = models.Perguntas(
+                        descricao=texto_pergunta,
+                        tema=tema_pergunta,
+                        empresa_id=empresa.id,
+                    )
+                    db.add(pergunta)
+                    perguntas_adicionadas += 1
 
         # 5. Commita todas as adições de uma vez
         if perguntas_adicionadas > 0:
             db.commit()
             logging.info(
-                f"Sucesso! {perguntas_adicionadas} novas perguntas foram adicionadas."
+                f"✅ Sucesso! {perguntas_adicionadas} novas perguntas foram adicionadas para {empresas_processadas} empresas."
             )
         else:
             logging.info(
-                "O banco de dados já estava atualizado. Nenhuma pergunta foi adicionada."
+                "📊 Banco já estava atualizado. Nenhuma pergunta foi adicionada."
             )
 
     except Exception as e:
-        logging.error(f"Ocorreu um erro durante o seed: {e}")
-        db.rollback()  # Desfaz as mudanças em caso de erro
+        logging.error(f"❌ Erro durante o seed: {e}")
+        db.rollback()
+        raise
     finally:
-        db.close()  # Sempre fecha a conexão
+        db.close()
 
 
 if __name__ == "__main__":

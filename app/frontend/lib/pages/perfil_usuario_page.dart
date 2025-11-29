@@ -17,8 +17,10 @@ class _PerfilPageState extends State<PerfilPage> {
 
   final nomeController = TextEditingController();
   final emailController = TextEditingController();
-  final senhaController = TextEditingController();
-  final confirmarSenhaController = TextEditingController();
+  final cargoController = TextEditingController();
+  final idadeController = TextEditingController();
+  final generoController = TextEditingController();
+  final racaController = TextEditingController();
 
   @override
   void initState() {
@@ -33,8 +35,10 @@ class _PerfilPageState extends State<PerfilPage> {
 
     nomeController.text = user?["nome"] ?? "";
     emailController.text = user?["email"] ?? "";
-    senhaController.text = "";
-    confirmarSenhaController.text = "";
+    cargoController.text = user?["cargo"] ?? "";
+    idadeController.text = user?["idade"]?.toString() ?? "";
+    generoController.text = user?["genero"] ?? "";
+    racaController.text = user?["raca"] ?? "";
 
     setState(() => carregando = false);
   }
@@ -70,7 +74,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   width: 120,
                   height: 120,
                   decoration: const BoxDecoration(
-                    color: Color(0xFFFFB74D),
+                    color: Color(0xFFEDEDED),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -99,8 +103,9 @@ class _PerfilPageState extends State<PerfilPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             Text(
-              api.userData?["cargo"] ?? "",
+              cargoController.text,
               style: const TextStyle(color: Colors.black54),
             ),
 
@@ -112,30 +117,16 @@ class _PerfilPageState extends State<PerfilPage> {
             _buildCampo("Email", emailController),
             const SizedBox(height: 15),
 
-            _buildCampo("Senha", senhaController, senha: true),
+            _buildCampo("Cargo", cargoController),
             const SizedBox(height: 15),
 
-            _buildCampo("Confirme a senha", confirmarSenhaController, senha: true),
-            const SizedBox(height: 30),
+            _buildCampo("Idade", idadeController),
+            const SizedBox(height: 15),
 
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFCFA7FF),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: () {
-                },
-                child: const Text(
-                  "Salvar alterações",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                ),
-              ),
-            ),
+            _buildCampo("Gênero", generoController),
+            const SizedBox(height: 15),
+
+            _buildCampo("Raça", racaController),
 
             const SizedBox(height: 40),
           ],
@@ -144,11 +135,7 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  Widget _buildCampo(
-    String label,
-    TextEditingController controller, {
-    bool senha = false,
-  }) {
+  Widget _buildCampo(String label, TextEditingController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -161,12 +148,11 @@ class _PerfilPageState extends State<PerfilPage> {
           ),
           child: TextField(
             controller: controller,
-            obscureText: senha,
-            decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+            enabled: false, 
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 14),
               border: InputBorder.none,
-              suffixIcon: const Icon(Icons.edit, size: 20),
+              suffixIcon: Icon(Icons.remove_red_eye_outlined, size: 20, color: Colors.black54),
             ),
           ),
         ),

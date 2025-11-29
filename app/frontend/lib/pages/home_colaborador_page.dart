@@ -100,10 +100,21 @@ class _HomePageState extends State<HomePageColaborador> {
                       ),
                     ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.notifications_none),
-                    onPressed: () {},
-                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.notifications_none),
+                        onPressed: () {
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.person_outline),
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/pagina_usuario");
+                        },
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
