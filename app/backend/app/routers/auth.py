@@ -39,7 +39,7 @@ def login_for_access_token(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@router.post("/users")
+@router.post("/users", response_model=schemas.UserRead)
 def create_user(user: schemas.UserCreate, db: Session = Depends(dependencies.get_db)):
 
     db_user = crud.get_user_email(db, email=user.email)

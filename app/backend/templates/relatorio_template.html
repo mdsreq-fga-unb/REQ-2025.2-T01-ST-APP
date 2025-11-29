@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Resultados</title>
+    <style>
+        /* CSS Básico para o PDF */
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            color: #333;
+        }
+        h1 {
+            color: #005a9c;
+            border-bottom: 2px solid #005a9c;
+            padding-bottom: 5px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 3px;
+            margin-top: 30px;
+        }
+        .tema-header {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+        .pergunta-bloco {
+            margin-bottom: 25px;
+            padding-left: 10px;
+            border-left: 3px solid #f0f0f0;
+        }
+        .pergunta-descricao {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #000;
+        }
+        .resultado-item {
+            margin-left: 20px;
+            font-size: 0.9em;
+        }
+        .total-geral {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-top: 15px;
+            color: #005a9c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tema-header">
+        <h1>Relatório de Resultados</h1>
+        <p>Tema: {{ tema_nome }}</p>
+    </div>
+
+    <h2>Dashboard Geral</h2>
+    
+    {% for resultado in resultados_agregados %}
+        <div class="resultado-item">
+            <strong>{{ resultado.voto_nome }}:</strong> 
+            {{ resultado.total_votos }} voto(s) ({{ "%.1f" | format(resultado.porcentagem) }}%)
+        </div>
+    {% else %}
+        <p>Nenhum voto registrado para este tema ainda.</p>
+    {% endfor %}
+    <p class="total-geral">Total de Votos no Tema: {{ total_votos_tema }}</p>
+
+
+    <h2>por Pergunta</h2>
+
+    {% for p in perguntas_com_breakdown %}
+        <div class="pergunta-bloco">
+            <p class="pergunta-descricao">{{ p.descricao }}</p>
+            
+            {% for res in p.resultados %}
+                <div class="resultado-item">
+                    {{ res.voto_nome }}: {{ res.total_votos }} voto(s) ({{ "%.1f" | format(res.porcentagem) }}%)
+                </div>
+            {% else %}
+                <div class="resultado-item"><i>(Nenhum voto para esta pergunta)</i></div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+</body>
+</html>

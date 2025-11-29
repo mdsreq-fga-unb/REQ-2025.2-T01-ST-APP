@@ -3,6 +3,7 @@ import '/services/api_service.dart';
 
 class CadastroPage extends StatefulWidget {
   final String tipoUsuario;
+
   const CadastroPage({super.key, required this.tipoUsuario});
 
   @override
@@ -16,7 +17,7 @@ class _CadastroPageState extends State<CadastroPage> {
   final cargoController = TextEditingController();
   final senhaController = TextEditingController();
   final confirmaSenhaController = TextEditingController();
-  
+
   String mensagem = "";
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -25,7 +26,6 @@ class _CadastroPageState extends State<CadastroPage> {
   final apiService = ApiService();
 
   Future<void> fazerCadastro() async {
-    // Validações básicas
     if (nomeController.text.isEmpty ||
         emailController.text.isEmpty ||
         empresaController.text.isEmpty ||
@@ -70,9 +70,14 @@ class _CadastroPageState extends State<CadastroPage> {
       _carregando = false;
       if (sucesso) {
         mensagem = "Usuário cadastrado com sucesso!";
-        // Aguarda um pouco e volta para a tela anterior
+
         Future.delayed(const Duration(seconds: 2), () {
-          Navigator.pop(context);
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(
+            context,
+            "/pesquisa_sociodemografica",
+            arguments: widget.tipoUsuario,
+          );
         });
       } else {
         mensagem = "Erro ao cadastrar. Verifique os dados e tente novamente.";
@@ -93,6 +98,8 @@ class _CadastroPageState extends State<CadastroPage> {
 
   @override
   Widget build(BuildContext context) {
+    const fieldSpacing = SizedBox(height: 18);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -102,7 +109,7 @@ class _CadastroPageState extends State<CadastroPage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("Cadastro"),
+        title: Text("Cadastro (${widget.tipoUsuario})"),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -112,7 +119,9 @@ class _CadastroPageState extends State<CadastroPage> {
               "Estamos quase lá!!",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
+
             const SizedBox(height: 10),
+
             Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
               decoration: BoxDecoration(
@@ -124,34 +133,23 @@ class _CadastroPageState extends State<CadastroPage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
+
             const SizedBox(height: 30),
-            // Nome
-            _buildInput("Nome Completo", nomeController),
-            const SizedBox(height: 16),
-            // Email
-            _buildInput("Email", emailController, inputType: TextInputType.emailAddress),
-            const SizedBox(height: 16),
-            // Empresa
-            _buildInput("Empresa", empresaController),
-            const SizedBox(height: 16),
-            // Cargo
-            _buildInput("Cargo", cargoController),
-            const SizedBox(height: 16),
-            // Senha
-            _buildPasswordInput("Senha", senhaController, _obscurePassword, (value) {
-              setState(() {
-                _obscurePassword = value;
-              });
-            }),
-            const SizedBox(height: 16),
-            // Confirmar Senha
-            _buildPasswordInput("Confirmar Senha", confirmaSenhaController, _obscureConfirmPassword, (value) {
-              setState(() {
-                _obscureConfirmPassword = value;
-              });
-            }),
+
+            _labelledInput("Nome Completo", nomeController),
+            fieldSpacing,
+            _labelledInput("Email", emailController, inputType: TextInputType.emailAddress),
+            fieldSpacing,
+            _labelledInput("Empresa", empresaController),
+            fieldSpacing,
+            _labelledInput("Cargo", cargoController),
+            fieldSpacing,
+            _labelledPasswordInput("Senha", senhaController, _obscurePassword, (v) => setState(() => _obscurePassword = v)),
+            fieldSpacing,
+            _labelledPasswordInput("Confirmar Senha", confirmaSenhaController, _obscureConfirmPassword, (v) => setState(() => _obscureConfirmPassword = v)),
+
             const SizedBox(height: 30),
-            // Botão Cadastrar
+
             _carregando
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
@@ -169,8 +167,9 @@ class _CadastroPageState extends State<CadastroPage> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
+
             const SizedBox(height: 20),
-            // Mensagem de feedback
+
             Text(
               mensagem,
               style: TextStyle(
@@ -184,48 +183,53 @@ class _CadastroPageState extends State<CadastroPage> {
     );
   }
 
-  Widget _buildInput(
-    String label,
-    TextEditingController controller, {
-    TextInputType inputType = TextInputType.text,
-  }) {
-    return TextField(
-      controller: controller,
-      keyboardType: inputType,
-      decoration: InputDecoration(
-        labelText: label,
-        filled: true,
-        fillColor: const Color(0xFFCFA7FF),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
+  Widget _labelledInput(String label, TextEditingController controller, {TextInputType inputType = TextInputType.text}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          keyboardType: inputType,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+            filled: true,
+            fillColor: const Color(0xFFCFA7FF),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide.none,
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
-  Widget _buildPasswordInput(
-    String label,
-    TextEditingController controller,
-    bool obscure,
-    Function(bool) onToggle,
-  ) {
-    return TextField(
-      controller: controller,
-      obscureText: obscure,
-      decoration: InputDecoration(
-        labelText: label,
-        filled: true,
-        fillColor: const Color(0xFFCFA7FF),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
+  Widget _labelledPasswordInput(String label, TextEditingController controller, bool obscure, Function(bool) onToggle) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          obscureText: obscure,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+            filled: true,
+            fillColor: const Color(0xFFCFA7FF),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(obscure ? Icons.visibility_off : Icons.visibility),
+              onPressed: () => onToggle(!obscure),
+            ),
+          ),
         ),
-        suffixIcon: IconButton(
-          icon: Icon(obscure ? Icons.visibility_off : Icons.visibility),
-          onPressed: () => onToggle(!obscure),
-        ),
-      ),
+      ],
     );
   }
 }

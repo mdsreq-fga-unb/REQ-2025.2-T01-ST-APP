@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/services/api_service.dart';
+import 'dashboard_page.dart';
 
 class HomePageGestor extends StatefulWidget {
   final ApiService apiService;
@@ -60,10 +61,6 @@ class _HomePageGestorState extends State<HomePageGestor> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          "Tela Principal - Gestor",
-          style: TextStyle(color: Colors.black54, fontSize: 16),
-        ),
         backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -76,35 +73,46 @@ class _HomePageGestorState extends State<HomePageGestor> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, "/pagina_usuario");
+                    },
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Color(0xFFEDEDED),
+                          child: Icon(Icons.person, color: Colors.black),
+                        ),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              nome,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              cargo,
+                              style: const TextStyle(color: Colors.black54),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
                   Row(
                     children: [
-                      const CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Color(0xFFEDEDED),
-                        child: Icon(Icons.person, color: Colors.black),
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            nome,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            cargo,
-                            style: const TextStyle(color: Colors.black54),
-                          ),
-                        ],
+                      IconButton(
+                        icon: const Icon(Icons.notifications_none),
+                        onPressed: () {},
                       ),
                     ],
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.notifications_none),
-                    onPressed: () {},
                   ),
                 ],
               ),
@@ -112,16 +120,22 @@ class _HomePageGestorState extends State<HomePageGestor> {
 
             const SizedBox(height: 30),
 
-            
             Expanded(
               child: Center(
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 25, 
-                  runSpacing: 25, 
+                  spacing: 25,
+                  runSpacing: 25,
                   children: [
                     _buildMenuButton("Minha equipe", onTap: () {}),
-                    _buildMenuButton("Dashboard", onTap: () {}),
+                    _buildMenuButton("Dashboard", onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DashboardPage(apiService: apiService),
+                        ),
+                      );
+                    }),
                     _buildMenuButton("Plano de ação", onTap: () {}),
                     _buildMenuButton("Biblioteca", onTap: () {}),
                   ],
@@ -129,7 +143,6 @@ class _HomePageGestorState extends State<HomePageGestor> {
               ),
             ),
 
-            
             Container(
               height: 20,
               width: double.infinity,
@@ -143,7 +156,7 @@ class _HomePageGestorState extends State<HomePageGestor> {
 
   Widget _buildMenuButton(String label, {required VoidCallback onTap}) {
     return SizedBox(
-      width: 150, 
+      width: 150,
       height: 65,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
