@@ -1,0 +1,15 @@
+from fastapi import APIRouter, Depends
+from app import schemas, dependencies, models
+
+router = APIRouter()
+
+
+@router.get("/home", response_model=schemas.Home)
+def home_gestor(user: models.User = Depends(dependencies.get_current_user)):
+    return user
+
+
+@router.get("/me", response_model=schemas.UserRead)
+def get_current_user(user: models.User = Depends(dependencies.get_current_user)):
+    """Retorna os dados completos do usuário autenticado."""
+    return user

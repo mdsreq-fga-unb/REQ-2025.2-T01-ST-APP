@@ -1,65 +1,194 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '/services/api_service.dart';
-import 'home_page.dart';
-import 'dashboard_page.dart';
+import 'cadastro_page.dart';
+import 'home_colaborador_page.dart';
+import 'home_gestor_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final String tipoUsuario;
+  const LoginPage({super.key, required this.tipoUsuario});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
-  String mensagem = "";
-
   final apiService = ApiService();
+  String mensagem = "";
+  bool _obscurePassword = true;
+  bool _carregando = false;
 
   Future<void> fazerLogin() async {
-    bool sucesso = await apiService.loginUsuario(emailController.text, senhaController.text);
+    if (emailController.text.isEmpty || senhaController.text.isEmpty) {
+      setState(() {
+        mensagem = "Email e senha são obrigatórios!";
+      });
+      return;
+    }
 
     setState(() {
-      mensagem = sucesso ? "Login bem-sucedido." : "Erro ao fazer login.";
+      _carregando = true;
+      mensagem = "";
+    });
+
+    bool sucesso = await apiService.loginUsuario(
+      emailController.text,
+      senhaController.text,
+    );
+
+    setState(() {
+      _carregando = false;
+      mensagem = sucesso ? "Login bem-sucedido." : "Email ou senha incorretos.";
     });
 
     if (sucesso) {
-      if (apiService.usuarioTipo == "gestor") {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const DashboardPage()),
-        );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-      }
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (widget.tipoUsuario == "Gestor") {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => HomePageGestor(apiService: apiService)),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => HomePageColaborador(apiService: apiService)),
+          );
+        }
+      });
     }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    senhaController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login")),
-      body: Padding(
-        padding: EdgeInsets.all(20),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFCFA7FF),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
         child: Column(
           children: [
-            TextField(controller: emailController, decoration: InputDecoration(labelText: "E-mail")),
-            TextField(controller: senhaController, decoration: InputDecoration(labelText: "Senha"), obscureText: true),
-            SizedBox(height: 20),
-            ElevatedButton(onPressed: fazerLogin, child: Text("Entrar")),
+            const Text(
+              "GenT",
+              style: TextStyle(
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 40),
+            const Text(
+              "Entre na sua conta",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 30),
+            _buildTextField("Insira seu e-mail:", emailController, TextInputType.emailAddress),
+            const SizedBox(height: 16),
+            _buildPasswordField("Insira sua senha:", senhaController),
+            const SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/cadastro");
               },
-              child: Text("Não tem conta? Cadastre-se"),
+              child: const Text("Esqueceu sua senha?"),
             ),
-            SizedBox(height: 20),
-            Text(mensagem, style: TextStyle(color: Colors.red)),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => CadastroPage(tipoUsuario: widget.tipoUsuario)),
+                );
+              },
+              child: const Text("Ainda não possui conta?"),
+            ),
+            const SizedBox(height: 20),
+            _carregando
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFFB74D),
+                      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 16),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: fazerLogin,
+                    child: const Text(
+                      "Entrar",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+            const SizedBox(height: 20),
+            Text(
+              mensagem,
+              style: TextStyle(
+                color: mensagem.contains("bem-sucedido") ? Colors.green : Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(
+    String label,
+    TextEditingController controller,
+    TextInputType inputType,
+  ) {
+    return TextField(
+      controller: controller,
+      keyboardType: inputType,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: Colors.black),
+        filled: true,
+        fillColor: const Color(0xFFCFA7FF),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField(
+    String label,
+    TextEditingController controller,
+  ) {
+    return TextField(
+      controller: controller,
+      obscureText: _obscurePassword,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: Colors.black),
+        filled: true,
+        fillColor: const Color(0xFFCFA7FF),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+          onPressed: () {
+            setState(() {
+              _obscurePassword = !_obscurePassword;
+            });
+          },
         ),
       ),
     );
