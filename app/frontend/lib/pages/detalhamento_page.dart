@@ -19,11 +19,11 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
   List<int> valores = [0, 0, 0, 0, 0];
   List<double> percentuais = [0.0, 0.0, 0.0, 0.0, 0.0];
   List<String> labels = const [
-    "Concordo totalmente",
-    "Concordo parcialmente",
-    "Nem concordo nem discordo",
-    "Discordo parcialmente",
-    "Discordo totalmente",
+    "Sempre",
+    "Frequentemente",
+    "Às vezes",
+    "Raramente",
+    "Nunca",
   ];
   double scorePercent = 0.0;
   int totalVotos = 0;

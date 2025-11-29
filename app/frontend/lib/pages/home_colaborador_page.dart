@@ -4,7 +4,9 @@ import '/services/api_service.dart';
 class HomePageColaborador extends StatefulWidget {
   final ApiService apiService;
 
-  HomePageColaborador({super.key, ApiService? apiService}) : apiService = apiService ?? ApiService();
+  HomePageColaborador({super.key, ApiService? apiService})
+      : apiService = apiService ?? ApiService();
+
   @override
   State<HomePageColaborador> createState() => _HomePageState();
 }
@@ -58,10 +60,6 @@ class _HomePageState extends State<HomePageColaborador> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          "Tela Principal - Colaborador",
-          style: TextStyle(color: Colors.black54, fontSize: 16),
-        ),
         backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -70,48 +68,49 @@ class _HomePageState extends State<HomePageColaborador> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Color(0xFFEDEDED),
-                        child: Icon(Icons.person, color: Colors.black),
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            nome,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, "/pagina_usuario");
+                    },
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Color(0xFFEDEDED),
+                          child: Icon(Icons.person, color: Colors.black),
+                        ),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              nome,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                          Text(
-                            cargo,
-                            style: const TextStyle(color: Colors.black54),
-                          ),
-                        ],
-                      ),
-                    ],
+                            Text(
+                              cargo,
+                              style:
+                                  const TextStyle(color: Colors.black54),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+
                   Row(
                     children: [
                       IconButton(
                         icon: const Icon(Icons.notifications_none),
-                        onPressed: () {
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.person_outline),
-                        onPressed: () {
-                          Navigator.pushNamed(context, "/pagina_usuario");
-                        },
+                        onPressed: () {},
                       ),
                     ],
                   )
@@ -171,7 +170,8 @@ class _HomePageState extends State<HomePageColaborador> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           elevation: 0,
         ),
         onPressed: onTap,

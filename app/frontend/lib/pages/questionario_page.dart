@@ -22,11 +22,11 @@ class _QuestionarioPageState extends State<QuestionarioPage> {
   int perguntaAtual = 0;
 
   final List<Map<String, dynamic>> opcoesLikert = [
-    {'texto': 'Concordo totalmente', 'valor': 5},
-    {'texto': 'Concordo parcialmente', 'valor': 4},
-    {'texto': 'Nem concordo, nem discordo', 'valor': 3},
-    {'texto': 'Discordo parcialmente', 'valor': 2},
-    {'texto': 'Discordo totalmente', 'valor': 1},
+    {'texto': 'Sempre', 'valor': 5},
+    {'texto': 'Frequentemente', 'valor': 4},
+    {'texto': 'Às vezes', 'valor': 3},
+    {'texto': 'Raramente', 'valor': 2},
+    {'texto': 'Nunca', 'valor': 1},
   ];
 
   @override
