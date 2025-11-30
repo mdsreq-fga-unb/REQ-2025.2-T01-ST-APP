@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '/services/api_service.dart';
+import 'package:intl/intl.dart'; // Importante para formatar datas
 
 class DetalhamentoPage extends StatefulWidget {
   final String tema;
@@ -28,25 +29,71 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
   double scorePercent = 0.0;
   int totalVotos = 0;
 
+  // --- MUDANÇA 1: Variável para armazenar a data ---
+  DateTimeRange? _periodoSelecionado;
+
   @override
   void initState() {
     super.initState();
     _carregarResultados();
   }
 
+  // --- MUDANÇA 2: Função para abrir o calendário ---
+  Future<void> _selecionarData() async {
+    final DateTimeRange? picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+      initialDateRange: _periodoSelecionado,
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: const Color(0xFFFFB74D),
+            colorScheme: const ColorScheme.light(primary: Color(0xFFFFB74D)),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != _periodoSelecionado) {
+      setState(() {
+        _periodoSelecionado = picked;
+        // REMOVIDO: carregando = true;
+      });
+      // REMOVIDO: await _carregarResultados();
+    }
+  }
+
+  void _limparFiltroData() {
+    setState(() {
+      _periodoSelecionado = null;
+      // REMOVIDO: carregando = true;
+    });
+    // REMOVIDO: _carregarResultados();
+  }
+
   Future<void> _carregarResultados() async {
     try {
-      final resultados = await widget.apiService.getResultadosPorTema(widget.tema);
+      // --- MUDANÇA: Não passamos mais datas aqui.
+      // O gráfico sempre mostrará o total geral.
+      final resultados = await widget.apiService.getResultadosPorTema(
+        widget.tema,
+      );
 
-    
       valores = [0, 0, 0, 0, 0];
       percentuais = [0.0, 0.0, 0.0, 0.0, 0.0];
       totalVotos = 0;
       int somaPonderada = 0;
 
       for (var r in resultados) {
-        final voto = r['voto_valor'] is int ? r['voto_valor'] as int : int.parse(r['voto_valor'].toString());
+        final voto = r['voto_valor'] is int
+            ? r['voto_valor'] as int
+            : int.parse(r['voto_valor'].toString());
         final total = r['total_votos'] as int;
+        
         final index = 5 - voto;
         if (index >= 0 && index < valores.length) {
           valores[index] = total;
@@ -59,8 +106,10 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
         for (int i = 0; i < percentuais.length; i++) {
           percentuais[i] = (valores[i] / totalVotos) * 100;
         }
-        final mediaVotos = somaPonderada / totalVotos; 
+        final mediaVotos = somaPonderada / totalVotos;
         scorePercent = (mediaVotos / 5.0) * 100;
+      } else {
+        scorePercent = 0.0;
       }
 
       setState(() {
@@ -71,6 +120,7 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
       setState(() => carregando = false);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     if (carregando) {
@@ -89,9 +139,9 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () => Navigator.pop(context),
               ),
-
               const SizedBox(height: 8),
 
+              // Card do Score
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -135,16 +185,69 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
                 ),
               ),
 
+              const SizedBox(height: 20),
+
+              // --- MUDANÇA 4: Visual do Filtro de Data ---
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F5F5),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade300),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.calendar_today,
+                        color: Colors.grey, size: 20),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Período de Análise",
+                            style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            _periodoSelecionado == null
+                                ? "Todo o período"
+                                : "${DateFormat('dd/MM/yy').format(_periodoSelecionado!.start)} - ${DateFormat('dd/MM/yy').format(_periodoSelecionado!.end)}",
+                            style: const TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (_periodoSelecionado != null)
+                      IconButton(
+                        icon: const Icon(Icons.close, color: Colors.red, size: 20),
+                        onPressed: _limparFiltroData,
+                      ),
+                    TextButton(
+                      onPressed: _selecionarData,
+                      child: Text(
+                        "Alterar",
+                        style: TextStyle(
+                            color: Colors.orange[800],
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
               const SizedBox(height: 28),
 
               const Text(
                 "Respostas por Categoria",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 12),
 
               Container(
@@ -155,7 +258,6 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
                   labels: labels,
                 ),
               ),
-
               const SizedBox(height: 30),
 
               const Text(
@@ -165,14 +267,11 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 8),
-
               const Text(
                 "Para a análise completa pergunta por pergunta por escrito em PDF",
                 style: TextStyle(fontSize: 14),
               ),
-
               const SizedBox(height: 20),
 
               Center(
@@ -188,7 +287,24 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
                   ),
                   onPressed: () async {
                     try {
-                      final path = await widget.apiService.downloadRelatorioPdf(widget.tema);
+                      // --- MUDANÇA 5: Passando as datas para o PDF ---
+                      String? dataInicio;
+                      String? dataFim;
+
+                      if (_periodoSelecionado != null) {
+                        dataInicio = DateFormat('yyyy-MM-dd')
+                            .format(_periodoSelecionado!.start);
+                        dataFim = DateFormat('yyyy-MM-dd')
+                            .format(_periodoSelecionado!.end);
+                      }
+
+                      final path = await widget.apiService.downloadRelatorioPdf(
+                        widget.tema,
+                        dataInicio: dataInicio,
+                        dataFim: dataFim,
+                      );
+                      // ----------------------------------------------
+
                       if (path != null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('PDF salvo em: $path')),
@@ -206,7 +322,6 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 30),
             ],
           ),
@@ -216,7 +331,7 @@ class _DetalhamentoPageState extends State<DetalhamentoPage> {
   }
 }
 
-
+// Widget do Gráfico (Mantido igual)
 class CategoriaBarChart extends StatelessWidget {
   final List<double> values;
   final List<String> labels;
@@ -229,8 +344,10 @@ class CategoriaBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxValue =
-        values.reduce((a, b) => a > b ? a : b) + 10; 
+    // Evita crash se a lista for vazia ou só zeros
+    final double maxValue = values.isEmpty 
+        ? 100 
+        : (values.reduce((a, b) => a > b ? a : b) + 10);
 
     return BarChart(
       BarChartData(
@@ -238,11 +355,9 @@ class CategoriaBarChart extends StatelessWidget {
         barTouchData: BarTouchData(enabled: true),
         gridData: FlGridData(show: false),
         borderData: FlBorderData(show: false),
-
         titlesData: FlTitlesData(
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
@@ -256,15 +371,15 @@ class CategoriaBarChart extends StatelessWidget {
               },
             ),
           ),
-
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: (index, meta) {
+                if (index < 0 || index >= labels.length) return const SizedBox();
                 return Padding(
                   padding: const EdgeInsets.only(top: 6),
                   child: Transform.rotate(
-                    angle: -0.7,
+                    angle: -0.5, // Leve rotação para caber melhor
                     child: Text(
                       labels[index.toInt()],
                       textAlign: TextAlign.center,
@@ -276,10 +391,8 @@ class CategoriaBarChart extends StatelessWidget {
             ),
           ),
         ),
-
         barGroups: List.generate(values.length, (i) {
           final color = _getColor(i);
-
           return BarChartGroupData(
             x: i,
             barRods: [

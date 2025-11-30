@@ -302,16 +302,25 @@ Future<bool> enviarRespostaIndividual(int perguntaId, int valor) async {
     }
   }
 
-  Future<String?> downloadRelatorioPdf(String tema) async {
-    if (accessToken == null) {
-      throw Exception("Usuário não autenticado");
-    }
+  Future<String?> downloadRelatorioPdf(
+    String tema, {
+    String? dataInicio,
+    String? dataFim,
+  }) async {
+    if (accessToken == null) throw Exception("Usuário não autenticado");
 
-    var url = Uri.parse("$baseUrl/api/relatorio-pdf/${Uri.encodeComponent(tema)}");
+    // Monta os Query Parameters
+    final Map<String, String> queryParams = {};
+    if (dataInicio != null) queryParams['data_inicio'] = dataInicio;
+    if (dataFim != null) queryParams['data_fim'] = dataFim;
+
+    // Rota ajustada para /api/resultados/relatorio-pdf/ (Conforme o backend)
+    var uri = Uri.parse("$baseUrl/api/resultados/relatorio-pdf/${Uri.encodeComponent(tema)}")
+        .replace(queryParameters: queryParams.isNotEmpty ? queryParams : null);
 
     try {
       var resposta = await http.get(
-        url,
+        uri,
         headers: {
           "Authorization": "Bearer $accessToken",
         },
@@ -319,13 +328,15 @@ Future<bool> enviarRespostaIndividual(int perguntaId, int valor) async {
 
       if (resposta.statusCode == 200) {
         final bytes = resposta.bodyBytes;
-
         final dir = await getTemporaryDirectory();
-        final filePath = "${dir.path}/relatorio_${tema.replaceAll(' ', '_')}.pdf";
+        
+        // Limpa nome do arquivo
+        final safeTema = tema.replaceAll(RegExp(r'[^\w\s]+'), '');
+        final filePath = "${dir.path}/relatorio_${safeTema.replaceAll(' ', '_')}.pdf";
+        
         final file = File(filePath);
         await file.writeAsBytes(bytes);
 
-        
         try {
           await OpenFile.open(filePath);
         } catch (e) {
@@ -341,6 +352,7 @@ Future<bool> enviarRespostaIndividual(int perguntaId, int valor) async {
       rethrow;
     }
   }
+
 
   void logout() {
     accessToken = null;
