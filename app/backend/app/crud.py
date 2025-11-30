@@ -126,15 +126,17 @@ def get_resultados_votacao(
             models.Respostas.pergunta_id == pergunta_id
         )
 
+    # --- CORREÇÃO AQUI ---
     if data_inicio:
-        query = query.filter(models.Respostas.data_resposta >= data_inicio)
+        # Compara apenas a DATA (ignora hora)
+        query = query.filter(func.date(models.Respostas.data_resposta) >= data_inicio)
     
     if data_fim:
-        query = query.filter(models.Respostas.data_resposta <= data_fim)
+        # Compara apenas a DATA (ignora hora)
+        query = query.filter(func.date(models.Respostas.data_resposta) <= data_fim)
+    # ---------------------
 
-    resultados_db = query.group_by(
-            models.Respostas.voto_valor
-        ).all()
+    resultados_db = query.group_by(models.Respostas.voto_valor).all()
 
     return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
 
@@ -143,11 +145,10 @@ def get_resultados_agregados_por_tema(
     db: Session, 
     empresa_id: int, 
     tema: str,
-    data_inicio: date | None = None, # <-- Novos parâmetros opcionais
+    data_inicio: date | None = None,
     data_fim: date | None = None
 ) -> list[tuple[models.VotoValor, int]]:
     
-    # Inicia a query base
     query = db.query(
         models.Respostas.voto_valor,
         func.count(models.Respostas.id).label("total_votos")
@@ -159,18 +160,17 @@ def get_resultados_agregados_por_tema(
         models.Perguntas.empresa_id == empresa_id 
     )
 
+    # --- CORREÇÃO AQUI TAMBÉM ---
     if data_inicio:
-        query = query.filter(models.Respostas.data_resposta >= data_inicio)
+        query = query.filter(func.date(models.Respostas.data_resposta) >= data_inicio)
     
     if data_fim:
-        query = query.filter(models.Respostas.data_resposta <= data_fim)
+        query = query.filter(func.date(models.Respostas.data_resposta) <= data_fim)
+    # ----------------------------
 
-    resultados_db = query.group_by(
-        models.Respostas.voto_valor
-    ).all()
+    resultados_db = query.group_by(models.Respostas.voto_valor).all()
 
     return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
-
 
 def create_pesquisa(
     db: Session, pesquisa: schemas.PesquisaSociodemograficaCreate, usuario_id: int

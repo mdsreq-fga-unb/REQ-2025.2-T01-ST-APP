@@ -14,12 +14,22 @@ router = APIRouter()
 @router.get("/respostas/{tema_nome}", response_model=list[schemas.ResultadoVoto])
 def get_resultados_por_tema(
     tema_nome: str,
+    # --- MUDANÇA AQUI: Adicione os parâmetros de data ---
+    data_inicio: date | None = None,
+    data_fim: date | None = None,
+    # ----------------------------------------------------
     db: Session = Depends(dependencies.get_db),
     current_user: models.User = Depends(dependencies.get_current_user),
 ):
 
     resultados_contados = crud.get_resultados_agregados_por_tema(
-        db, empresa_id=current_user.empresa_id, tema=tema_nome
+        db, 
+        empresa_id=current_user.empresa_id, 
+        tema=tema_nome,
+        # --- MUDANÇA AQUI: Repasse as datas para o CRUD ---
+        data_inicio=data_inicio,
+        data_fim=data_fim
+        # --------------------------------------------------
     )
 
     resultados_finais = []

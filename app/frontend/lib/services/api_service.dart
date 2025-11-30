@@ -275,16 +275,27 @@ Future<bool> enviarRespostaIndividual(int perguntaId, int valor) async {
   }
 }
 
-  Future<List<dynamic>> getResultadosPorTema(String tema) async {
+  Future<List<dynamic>> getResultadosPorTema(
+    String tema, {
+    String? dataInicio, // Ex: "2023-10-01"
+    String? dataFim,    // Ex: "2023-10-31"
+  }) async {
     if (accessToken == null) {
       throw Exception("Usuário não autenticado");
     }
 
-    var url = Uri.parse("$baseUrl/api/respostas/${Uri.encodeComponent(tema)}");
+    // 1. Monta os parâmetros de Query
+    final Map<String, String> queryParams = {};
+    if (dataInicio != null) queryParams['data_inicio'] = dataInicio;
+    if (dataFim != null) queryParams['data_fim'] = dataFim;
+
+    // 2. Cria a URL com os parâmetros
+    var uri = Uri.parse("$baseUrl/api/respostas/${Uri.encodeComponent(tema)}")
+        .replace(queryParameters: queryParams.isNotEmpty ? queryParams : null);
 
     try {
       var resposta = await http.get(
-        url,
+        uri,
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $accessToken",
@@ -315,7 +326,7 @@ Future<bool> enviarRespostaIndividual(int perguntaId, int valor) async {
     if (dataFim != null) queryParams['data_fim'] = dataFim;
 
     // Rota ajustada para /api/resultados/relatorio-pdf/ (Conforme o backend)
-    var uri = Uri.parse("$baseUrl/api/resultados/relatorio-pdf/${Uri.encodeComponent(tema)}")
+    var uri = Uri.parse("$baseUrl/api/relatorio-pdf/${Uri.encodeComponent(tema)}")
         .replace(queryParameters: queryParams.isNotEmpty ? queryParams : null);
 
     try {
