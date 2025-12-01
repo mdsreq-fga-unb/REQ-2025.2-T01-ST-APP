@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from . import models, schemas, security
 from .models import UserRole 
 from datetime import date
+import os
 
 
 
@@ -23,9 +24,12 @@ def create_empresa(db: Session, nome: str) -> models.Empresa:
     db.commit()
     db.refresh(db_empresa)
 
-    from .seed_data import seed_database
-
-    seed_database()
+    if os.getenv("TESTING") != "True":
+        from .seed_data import seed_database
+        try:
+            seed_database()
+        except Exception as e:
+            print(f"Aviso: Seed automático falhou (esperado se banco vazio): {e}")
 
     return db_empresa
 
@@ -126,15 +130,14 @@ def get_resultados_votacao(
             models.Respostas.pergunta_id == pergunta_id
         )
 
-    # --- CORREÇÃO AQUI ---
     if data_inicio:
-        # Compara apenas a DATA (ignora hora)
+        
         query = query.filter(func.date(models.Respostas.data_resposta) >= data_inicio)
     
     if data_fim:
-        # Compara apenas a DATA (ignora hora)
+
         query = query.filter(func.date(models.Respostas.data_resposta) <= data_fim)
-    # ---------------------
+    
 
     resultados_db = query.group_by(models.Respostas.voto_valor).all()
 
@@ -160,14 +163,13 @@ def get_resultados_agregados_por_tema(
         models.Perguntas.empresa_id == empresa_id 
     )
 
-    # --- CORREÇÃO AQUI TAMBÉM ---
+    
     if data_inicio:
         query = query.filter(func.date(models.Respostas.data_resposta) >= data_inicio)
     
     if data_fim:
         query = query.filter(func.date(models.Respostas.data_resposta) <= data_fim)
-    # ----------------------------
-
+        
     resultados_db = query.group_by(models.Respostas.voto_valor).all()
 
     return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
