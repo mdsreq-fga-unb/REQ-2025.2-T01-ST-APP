@@ -24,6 +24,7 @@ def votar_trocar_voto(
         print(f"DEBUG - Voto salvo com sucesso: {resultado}")
         return {"status": "Voto computado com sucesso!"}
     except Exception as e:
+        db.rollback()
         print(f"DEBUG - Erro ao salvar voto: {e}")
         raise HTTPException(status_code=500, detail=f"Erro ao processar voto: {str(e)}")
 
