@@ -1,8 +1,13 @@
 import pytest
+import os
+
+os.environ["TESTING"] = "True"  
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
+
+
 
 # Importe os objetos da sua aplicação real
 from app.database import Base
