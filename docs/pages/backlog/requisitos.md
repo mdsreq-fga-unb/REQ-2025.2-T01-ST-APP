@@ -24,20 +24,20 @@ Requisitos não funcionais descrevem como o sistema do software deve operar, gar
 
 | ID | Descrição | Classificação |
 | :--- | :--- | :--- |
-| **RNF01** | A interface deve ser intuitiva e simples para usuários com diferentes níveis de familiaridade tecnológica. | Usability (Usabilidade) |
-| **RNF02** | A aplicação deve ser responsiva, funcionando em smartphones e tablets. | Usability (Usabilidade) |
-| **RNF03** | Todas as comunicações devem ser criptografadas (HTTPS/TLS). | Requisitos de Interface |
-| **RNF04** | Os dados armazenados devem ser anonimizados em conformidade com a LGPD. | Requisitos Externos (Legislativos / Éticos) |
-| **RNF05** | O sistema deve suportar múltiplas empresas simultaneamente, sem queda de desempenho. | Restrições de Design |
+| **RNF01** | A interface deve permitir que novos usuários realizem as principais ações (responder questionário e acessar dashboard) sem treinamento, com taxa mínima de sucesso de 95% em testes de usabilidade com 10 participantes, em no máximo 2 minutos. | Usability (Usabilidade) |
+| **RNF02** | A aplicação deve se adaptar automaticamente a resoluções entre 360×640 e 1920×1080, mantendo legibilidade com contraste mínimo AA e sem distorções. Os testes devem incluir smartphones Android, iOS e tablets. | Usability (Usabilidade) |
+| **RNF03** | Todas as comunicações cliente–servidor devem utilizar HTTPS com TLS 1.2 ou superior. A verificação deve ser feita via ferramenta SSL Labs e deve obter nota mínima |
+| **RNF04** | Os dados pessoais devem ser anonimizados por hashing irreversível, antes de gravação. Nenhuma tabela pode armazenar identificadores diretos do colaborador. Deve ser aprovado em checklist LGPD baseado no art. 13 e 46.| Requisitos Externos (Legislativos / Éticos) |
+| **RNF05** | O sistema deve suportar ao menos 20 empresas simultâneas, cada uma com mínimo de 200 colaboradores, mantendo tempo de resposta ≤ 3 segundos e consumo de CPU do servidor menor que 70%. | Restrições de Design |
 | **RNF06** | O tempo de resposta da aplicação não deve exceder 3 segundos em operações comuns. | Performance (Desempenho) |
-| **RNF07** | A solução deve ser escalável horizontalmente para atender empresas de pequeno, médio e grande porte. | Supportability (Suportabilidade) |
-| **RNF08** | O sistema deve ter disponibilidade mínima de 99% (SLA). | Reliability (Confiabilidade) |
-| **RNF09** | Deve haver mecanismos de backup automático dos dados diariamente. | Requisitos Organizacionais (Operacionais) |
-| **RNF10** | O código deve seguir boas práticas de desenvolvimento (testes, versionamento, documentação). | Requisitos Organizacionais (Desenvolvimento) |
-| **RNF11** | O sistema deve permitir a inclusão de novos módulos sem impacto na operação existente. | Supportability (Suportabilidade) |
-| **RNF12** | O software deve ser desenvolvido com arquitetura modular para facilitar atualizações e manutenção. | Restrições de Design |
-| **RNF13** | Registrar logs de acesso e ações realizadas na plataforma. | Requisitos Organizacionais (Operacionais) |
-| **RNF14** | Processar os dados coletados e transformá-los em indicadores objetivos. | Requisitos Organizacionais (Operacionais) |
+| **RNF07** | O sistema deve permitir a adição de novas instâncias da aplicação sem necessidade de downtime, suportando aumento de até 300% no volume de usuários com crescimento linear (menor que 20% degradação de performance).| Supportability (Suportabilidade) |
+| **RNF08** | O sistema deve manter disponibilidade mínima de 99% ao mês. O monitoramento será feito com intervalo de verificação de 5 minutos.| Reliability (Confiabilidade) |
+| **RNF09** |O sistema deve executar backup diário incremental e backup completo semanal. Os backups devem ser armazenados por 30 dias e restauráveis em menos de 5 minutos.| Requisitos Organizacionais (Operacionais) |
+| **RNF10** |Todo código deve possuir cobertura mínima de testes automatizados de 80%, integração contínua configurada, e seguir padrões Flutter (frontend).| Requisitos Organizacionais (Desenvolvimento) |
+| **RNF11** |O sistema deve permitir adicionar novos módulos (como novos questionários, relatórios ou métricas) sem necessidade de modificar funcionalidades já existentes, comprovado por testes de regressão que garantam que todas as funcionalidades anteriores continuam funcionando corretamente.| Supportability (Suportabilidade) |
+| **RNF12** |O software deve seguir arquitetura modular (ex.: camadas + serviços separados), permitindo atualização individual de módulos sem impacto nos demais. Deve ser comprovado via inspeção arquitetural.| Restrições de Design |
+| **RNF13** |O sistema deve registrar logs de autenticação, erros e ações críticas, armazenando-os por 90 dias, seguindo padrão JSON estruturado.| Requisitos Organizacionais (Operacionais) |
+| **RNF14** |Os dados coletados devem ser processados em no máximo 10 segundos após envio para atualizar indicadores. Testes devem medir o tempo entre submissão e atualização no dashboard.| Requisitos Organizacionais (Operacionais) |
 
 ---
 
