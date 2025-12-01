@@ -51,8 +51,8 @@ As funcionalidades do backlog foram priorizadas usando o método **MoSCoW** para
 #### Definição da Prioridade (MoSCoW)
 
 * **Must Have (M):**
-    * Itens que formam o ciclo central da solução: coletar dados (OE1) e exibi-los (OE1), garantindo a segurança de acesso (OE3).
-    * *Exemplos:* `Responder Questionários (US01)`, `Visualizar Dashboard (US04)`, `Gerenciar Perfis (US08)`.
+    * Itens que formam o ciclo central da solução: coletar dados (OE1) e exibi-los (OE1, OE2), garantindo a segurança de acesso (OE3).
+    * *Exemplos:* `Responder Questionários (US01)`, `Visualizar Dashboard (US04)`, `Filtrar Dashboard (US05)`,`VCadastrar Usuários (US08)`,`Gerenciar Perfis (US09)`.
 
 * **Should Have (S):**
    
@@ -61,8 +61,8 @@ As funcionalidades do backlog foram priorizadas usando o método **MoSCoW** para
 
 * **Could Have (C):**
 
-    * Itens que representam um nível a mais de inteligência ou automação, mas que podem ser substituídos por processos manuais em um primeiro momento (OE4).
-    * *Exemplo:* `Sugerir Planos de Ação (US07)`.
+    * Itens que representam um nível a mais de inteligência, recomendações ou automação, mas que podem ser substituídos por processos manuais em um primeiro momento (OE4, OE6).
+    * *Exemplo:* `Dicas de Autocuidado (US03)`, `Sugerir Planos de Ação (US07)`, `Relatório Consolidado para Consultores (US10)`,`Histórico Temporal (US11)`.
 
 
 A coluna **Valor x Complexidade** na tabela abaixo utiliza uma matriz de priorização que classifica cada funcionalidade com base nas seguintes definições de "Valor" e "Complexidade":
@@ -89,14 +89,16 @@ Mede o esforço, o tempo e o risco técnico necessários para implementar a func
 | ID | Requisito Associado | Objetivo Específico | Descrição | Prioridade (MoSCoW) | Valor x Complexidade | MVP |
 | :--- | :--- | :--- | :--- | :--- | :-- | :-- |
 | US01 | RF01 | OE1 | Responder Questionários | Must have |Quadrante 1 | X |
-| US02 | RF02 | OE5 | Receber Notificações de Lembrete | Should have | Quadrante 3 | |
-| US03 | RF07 | OE5 | Receber Dicas de Autocuidado | Should have | Quadrante 4 | |
+| US02 | RF02 | OE5 | Notificações de Lembrete | Should have | Quadrante 3 | |
+| US03 | RF07 | OE5 | Dicas de Autocuidado | Should have | Quadrante 4 | |
 | US04 | RF03 | OE1 | Visualizar Dashboard de Indicadores | Must have | Quadrante 1| X |
 | US05 | RF05 | OE2 | Filtrar e Comparar Dados no Dashboard | Must have | Quadrante 1 | X |
 | US06 | RF04 | OE6 | Exportar Relatório em PDF | Should have | Quadrante 2 | |
-| US07 | RF06 | OE4 | Sugerir Planos de Ação | Could have |Quadrante 2 | |
-| US08 | RF09 | OE3 | Gerenciar Perfis de Acesso | Must have | Quadrante 1 | X |
-| US09 | RF08 | OE6 | Acesso para Diagnóstico de Consultores | Should have | Quadrante 2 |  |
+| US07 | RF06 | OE4 | Planos de Ação | Could have |Quadrante 2 | |
+| US08 | RF09 | OE3 | Cadastrar Usuários | Must have | Quadrante 1 | X |
+| US09 | RF09 | OE3 | Gerenciar Usuários | Must have| Quadrante 1 | X |
+| US10 | RF08 | OE6 | Relatório para Consultor | Could have | Quadrante 2 |  |
+| US11 | RF08 | OE6 | Acesso para Diagnóstico de Consultores | Could have| Quadrante 4 |  |
 
 
 
