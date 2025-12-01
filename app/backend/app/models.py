@@ -1,5 +1,5 @@
 import enum
-from operator import index
+from datetime import datetime
 from sqlalchemy import (
     Column,
     Integer,
@@ -8,8 +8,10 @@ from sqlalchemy import (
     ForeignKey,
     Enum as SQLAlchemyEnum,
     UniqueConstraint,
+    DateTime
 )
-from sqlalchemy.orm import MapperEvents, relationship, Mapped, mapped_column
+from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 from .database import Base
 
 
@@ -84,6 +86,12 @@ class Respostas(Base):
     autor = relationship("User", back_populates="respostas_dadas")
     pergunta = relationship("Perguntas", back_populates="respostas_dos_usuarios")
     voto_valor = Column(Integer, nullable=False)
+
+    data_resposta: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), 
+        server_default=func.now(),
+        nullable=False
+    )
 
     __table_args__ = (
         UniqueConstraint("user_id", "pergunta_id", name="_user_pergunta_uc"),
