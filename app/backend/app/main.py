@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app import models, dependencies
 from app.seed_data import seed_database
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 from .routers import auth, home, forms, resultados, pesquisa_sociodemografica
 
@@ -24,9 +25,17 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup_seed():
+    # Adicione esta verificação:
+    if os.getenv("TESTING"): 
+        print("--- MODO DE TESTE: Seed ignorado ---")
+        return
+
     print("=== EXECUTANDO SEED AUTOMÁTICO ===")
-    seed_database()
-    print("=== SEED CONCLUÍDO ===")
+    try:
+        seed_database()
+        print("=== SEED CONCLUÍDO ===")
+    except Exception as e:
+        print(f"Erro no seed (pode ser esperado se o banco estiver vazio): {e}")
 
 
 app.include_router(auth.router, prefix="/auth", tags=["Autenticação"])
