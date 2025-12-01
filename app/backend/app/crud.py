@@ -1,10 +1,10 @@
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-from sqlalchemy.sql import update
-from sqlalchemy.sql.dml import ReturningUpdate
-from sqlalchemy.util import FastIntFlag
 from . import models, schemas, security
-from .models import UserRole
+from .models import UserRole 
+from datetime import date
+import os
+
 
 
 def get_user_email(db: Session, email: str) -> models.User | None:
@@ -24,9 +24,12 @@ def create_empresa(db: Session, nome: str) -> models.Empresa:
     db.commit()
     db.refresh(db_empresa)
 
-    from .seed_data import seed_database
-
-    seed_database()
+    if os.getenv("TESTING") != "True":
+        from .seed_data import seed_database
+        try:
+            seed_database()
+        except Exception as e:
+            print(f"Aviso: Seed automático falhou (esperado se banco vazio): {e}")
 
     return db_empresa
 
@@ -114,41 +117,62 @@ def get_perguntas_por_tema(
 
 
 def get_resultados_votacao(
-    db: Session, pergunta_id: int
+    db: Session, 
+    pergunta_id: int,
+    data_inicio: date | None = None, 
+    data_fim: date | None = None
 ) -> list[tuple[models.VotoValor, int]]:
-
-    resultados_db = (
-        db.query(
+    
+    query = db.query(
             models.Respostas.voto_valor,
-            func.count(models.Respostas.id).label("total_votos"),
+            func.count(models.Respostas.id).label("total_votos")
+        ).filter(
+            models.Respostas.pergunta_id == pergunta_id
         )
-        .filter(models.Respostas.pergunta_id == pergunta_id)
-        .group_by(models.Respostas.voto_valor)
-        .all()
-    )
+
+    if data_inicio:
+        
+        query = query.filter(func.date(models.Respostas.data_resposta) >= data_inicio)
+    
+    if data_fim:
+
+        query = query.filter(func.date(models.Respostas.data_resposta) <= data_fim)
+    
+
+    resultados_db = query.group_by(models.Respostas.voto_valor).all()
 
     return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
 
 
 def get_resultados_agregados_por_tema(
-    db: Session, empresa_id: int, tema: str
+    db: Session, 
+    empresa_id: int, 
+    tema: str,
+    data_inicio: date | None = None,
+    data_fim: date | None = None
 ) -> list[tuple[models.VotoValor, int]]:
-
-    resultados_db = (
-        db.query(
-            models.Respostas.voto_valor,
-            func.count(models.Respostas.id).label("total_votos"),
-        )
-        .join(models.Perguntas, models.Respostas.pergunta_id == models.Perguntas.id)
-        .filter(
-            models.Perguntas.tema == tema, models.Perguntas.empresa_id == empresa_id
-        )
-        .group_by(models.Respostas.voto_valor)
-        .all()
+    
+    query = db.query(
+        models.Respostas.voto_valor,
+        func.count(models.Respostas.id).label("total_votos")
+    ).join(
+        models.Perguntas, 
+        models.Respostas.pergunta_id == models.Perguntas.id
+    ).filter(
+        models.Perguntas.tema == tema,
+        models.Perguntas.empresa_id == empresa_id 
     )
 
-    return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
+    
+    if data_inicio:
+        query = query.filter(func.date(models.Respostas.data_resposta) >= data_inicio)
+    
+    if data_fim:
+        query = query.filter(func.date(models.Respostas.data_resposta) <= data_fim)
+        
+    resultados_db = query.group_by(models.Respostas.voto_valor).all()
 
+    return [(models.VotoValor(row[0]), row[1]) for row in resultados_db]
 
 def create_pesquisa(
     db: Session, pesquisa: schemas.PesquisaSociodemograficaCreate, usuario_id: int

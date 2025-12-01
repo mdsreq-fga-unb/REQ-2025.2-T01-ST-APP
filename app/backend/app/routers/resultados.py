@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 from .. import models, schemas, crud, dependencies
-import typing
+from datetime import date 
 
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML
@@ -14,12 +14,22 @@ router = APIRouter()
 @router.get("/respostas/{tema_nome}", response_model=list[schemas.ResultadoVoto])
 def get_resultados_por_tema(
     tema_nome: str,
+    # --- MUDANÇA AQUI: Adicione os parâmetros de data ---
+    data_inicio: date | None = None,
+    data_fim: date | None = None,
+    # ----------------------------------------------------
     db: Session = Depends(dependencies.get_db),
     current_user: models.User = Depends(dependencies.get_current_user),
 ):
 
     resultados_contados = crud.get_resultados_agregados_por_tema(
-        db, empresa_id=current_user.empresa_id, tema=tema_nome
+        db, 
+        empresa_id=current_user.empresa_id, 
+        tema=tema_nome,
+        # --- MUDANÇA AQUI: Repasse as datas para o CRUD ---
+        data_inicio=data_inicio,
+        data_fim=data_fim
+        # --------------------------------------------------
     )
 
     resultados_finais = []
@@ -35,12 +45,28 @@ def get_resultados_por_tema(
 @router.get("/relatorio-pdf/{tema_nome}")
 def get_relatorio_pdf(
     tema_nome: str,
+    # --- MUDANÇA 1: Novos parâmetros de Query ---
+    data_inicio: date | None = None,
+    data_fim: date | None = None,
+    # -------------------------------------------
     db: Session = Depends(dependencies.get_db),
     current_user: models.User = Depends(dependencies.get_current_user),
 ):
+    
+    # Formatando string do período para exibir no PDF (Ex: "01/10/2023 a 30/10/2023")
+    periodo_str = "Todo o período"
+    if data_inicio and data_fim:
+        periodo_str = f"{data_inicio.strftime('%d/%m/%Y')} a {data_fim.strftime('%d/%m/%Y')}"
+    elif data_inicio:
+        periodo_str = f"A partir de {data_inicio.strftime('%d/%m/%Y')}"
 
+    # --- MUDANÇA 2: Passando datas para o CRUD (Agregado) ---
     resultados_agregados_db = crud.get_resultados_agregados_por_tema(
-        db, empresa_id=current_user.empresa_id, tema=tema_nome
+        db, 
+        empresa_id=current_user.empresa_id, 
+        tema=tema_nome,
+        data_inicio=data_inicio, # Passando filtro
+        data_fim=data_fim        # Passando filtro
     )
 
     total_votos_tema = sum(total for _, total in resultados_agregados_db)
@@ -64,9 +90,12 @@ def get_relatorio_pdf(
     perguntas_com_breakdown = []
 
     for pergunta in perguntas:
-
+        # --- MUDANÇA 3: Passando datas para o CRUD (Por Pergunta) ---
         resultados_pergunta_db = crud.get_resultados_votacao(
-            db, pergunta_id=pergunta.id
+            db, 
+            pergunta_id=pergunta.id,
+            data_inicio=data_inicio, # Passando filtro
+            data_fim=data_fim        # Passando filtro
         )
 
         total_votos_pergunta = sum(total for _, total in resultados_pergunta_db)
@@ -93,6 +122,7 @@ def get_relatorio_pdf(
         template = env.get_template("relatorio_template.html")
         html_string = template.render(
             tema_nome=tema_nome,
+            periodo=periodo_str, # Enviando a string do período para o HTML
             resultados_agregados=resultados_agregados_formatados,
             total_votos_tema=total_votos_tema,
             perguntas_com_breakdown=perguntas_com_breakdown,
