@@ -21,6 +21,15 @@ Uma solução coleta de respostas de colaboradores e análise de resultados via 
 
 ---
 
+## Link Para download do Projeto
+
+https://drive.google.com/drive/folders/1prE8sjJq6jp55YORxODV-ABdSN0SstA5
+
+Login Gestor (ADMIN): georgegestor@gmail.com
+Senha Gestor (ADMIN): georgegestor
+Login Colaborador/Trabalhador: georgecolaborador@gmail.com
+Senha Colaborador/Trabalhador: georgecolaborador
+
 ## 1. Sobre o Projeto
 
 O **GenT** é uma aplicação cliente-servidor projetada para otimizar a coleta e análise de feedback interno em organizações. A solução é composta por:
