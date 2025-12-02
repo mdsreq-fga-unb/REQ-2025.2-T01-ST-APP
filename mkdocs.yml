@@ -53,6 +53,7 @@ nav:
   - Entregas: 
     - Unidade 1: pages/entregas/entrega1.md
     - Unidade 2: pages/entregas/entrega2.md
+    - Unidade 3: pages/entregas/entrega3.md
   - Reuniões:
     - Atas : pages/reunioes/atas.md
     - Reuniões: pages/reunioes/reunioes.md
