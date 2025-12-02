@@ -7,6 +7,9 @@ from . import models, schemas, security
 from .models import UserRole
 from sqlalchemy.exc import IntegrityError
 
+import os
+
+
 def get_user_email(db: Session, email: str) -> models.User | None:
     return db.query(models.User).filter(models.User.email == email).first()
 
