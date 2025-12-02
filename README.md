@@ -195,7 +195,7 @@ Terminal 2: Executar o Frontend (Flutter)
 flutter run
 ``` 
 
-## 6.  [Documentação da API (Swagger UI)](#6-documentação-da-api-swagger-ui)
+### 6. Documentação da API (Swagger UI)
 
 O projeto utiliza o FastAPI, que gera automaticamente uma documentação interativa baseada no padrão OpenAPI. Através dela, é possível visualizar todos os endpoints, ver os esquemas de dados (JSON) e testar as requisições diretamente pelo navegador.
 
