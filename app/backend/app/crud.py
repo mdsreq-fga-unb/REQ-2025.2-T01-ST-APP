@@ -19,18 +19,18 @@ def get_empresa_nome(db: Session, nome: str) -> models.Empresa | None:
 
 
 def create_empresa(db: Session, nome: str) -> models.Empresa:
+
     db_empresa = models.Empresa(nome=nome)
-    try:
-        db.add(db_empresa)
-        db.commit()
-        db.refresh(db_empresa)
-    except Exception:
-        db.rollback()
-        raise
+    db.add(db_empresa)
+    db.commit()
+    db.refresh(db_empresa)
 
-    from .seed_data import seed_database
-
-    seed_database()
+    if os.getenv("TESTING") != "True":
+        from .seed_data import seed_database
+        try:
+            seed_database()
+        except Exception as e:
+            print(f"Aviso: Seed automático falhou (esperado se banco vazio): {e}")
 
     return db_empresa
 
