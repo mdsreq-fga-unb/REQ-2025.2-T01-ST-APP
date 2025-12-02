@@ -43,4 +43,15 @@ Nesta unidade, a equipe aprofundou-se nas atividades centrais da Engenharia de R
 * **Como foi superado:** A equipe implementou duas práticas abordadas nos materiais de estudo. Primeiro, a escrita de Critérios de Aceitação para cada História de Usuário, servindo como uma forma de validação antecipada. Segundo, a formalização dos conceitos de DoR e DoD como "portões de qualidade".
 * **Ação de Melhoria:** A equipe se comprometeu a não iniciar o desenvolvimento de nenhuma história que não atenda à DoR, especialmente no que diz respeito à clareza de seus critérios de aceitação. Da mesma forma, nenhuma funcionalidade será considerada entregue sem cumprir todos os pontos da DoD, garantindo um processo de validação e verificação contínuo.
 
+## UNIDADE 3:
+
+### Desafios enfrentados:
+* **Gestão de tempo:** A equipe teve certa dificuldade em relação a tempo, muito por conta do fim do semestre.
+* **Comunicação com cliente:** Houve mudanças repentinas em relação a algumas páginas, o que afetou o ritmo de desenvolvimento do software (Conteúdo das respostas, layout de dasboard e conteúdo de questionário).
+* **Hospedagem:** Tentamos fazer a hospedagem pela hostgator, mas tivemos um problema com a porta de acesso com o servidor, fazendo com que o app ficasse obsoleto. 
+
+**Como foram superados:**
+* **Gestão de tempo e Comunicação com cliente:** Cada membro da equipe redobrou o tempo de desenvolvimento nas horas livres e/ou nos momentos dedicados à disciplina.
+* **Hospedagem:** Trocamos de host e fomos para o Render, uma opção gratuita e fácil de hostear usando uma integração direta com o GitHub
+
 ---
