@@ -18,6 +18,7 @@ Uma solução coleta de respostas de colaboradores e análise de resultados via 
     * [A. Backend (Python + FastAPI)](#a-backend-python--fastapi)
     * [B. Frontend (Flutter + Dart)](#b-frontend-flutter--dart)
 5.  [Como Executar a Aplicação](#5-como-executar-a-aplicação)
+6.  [Documentação da API (Swagger UI)](#6-documentação-da-api-swagger-ui)
 
 ---
 
@@ -193,5 +194,17 @@ Terminal 2: Executar o Frontend (Flutter)
 # Certifique-se que um emulador está aberto ou um dispositivo conectado
 flutter run
 ``` 
+
+6.  [Documentação da API (Swagger UI)](#6-documentação-da-api-swagger-ui)
+
+O projeto utiliza o FastAPI, que gera automaticamente uma documentação interativa baseada no padrão OpenAPI. Através dela, é possível visualizar todos os endpoints, ver os esquemas de dados (JSON) e testar as requisições diretamente pelo navegador.
+
+Com o backend em execução (passo anterior), acesse:
+
+Swagger UI (Interativo):
+
+    https://req-2025-2-t01-st-app.onrender.com/docs
+
+ Utilize esta interface para testar rotas de Login, Cadastro e envio de Respostas manualmente.
 
 

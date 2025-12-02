@@ -93,7 +93,7 @@ Mede o esforço, o tempo e o risco técnico necessários para implementar a func
 | US03 | RF07 | OE5 | Dicas de Autocuidado | Should have | Quadrante 4 | |
 | US04 | RF03 | OE1 | Visualizar Dashboard de Indicadores | Must have | Quadrante 1| X |
 | US05 | RF05 | OE2 | Filtrar e Comparar Dados no Dashboard | Must have | Quadrante 1 | X |
-| US06 | RF04 | OE6 | Exportar Relatório em PDF | Should have | Quadrante 2 | |
+| US06 | RF04 | OE6 | Exportar Relatório em PDF | Should have | Quadrante 2 | X |
 | US07 | RF06 | OE4 | Planos de Ação | Could have |Quadrante 2 | |
 | US08 | RF09 | OE3 | Cadastrar Usuários | Must have | Quadrante 1 | X |
 | US09 | RF09 | OE3 | Gerenciar Usuários | Must have| Quadrante 1 | X |
